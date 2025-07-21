@@ -1,6 +1,6 @@
 from data_provider.data_factory import data_provider
 from exp.exp_basic import Exp_Basic
-from models import Informer, Autoformer, Transformer, DLinear
+from models import Informer, Autoformer, Transformer, DLinear, DummyLinear
 from utils.tools import EarlyStopping, adjust_learning_rate, visual, test_params_flop
 from utils.metrics import metric
 
@@ -28,6 +28,7 @@ class Exp_Main(Exp_Basic):
             'Transformer': Transformer,
             'Informer': Informer,
             'DLinear': DLinear,
+            'DummyLinear': DummyLinear,
         }
         model = model_dict[self.args.model].Model(self.args).float()
 
@@ -44,7 +45,11 @@ class Exp_Main(Exp_Basic):
         return model_optim
 
     def _select_criterion(self):
-        criterion = nn.MSELoss()
+        # Import custom loss functions
+        from utils.losses import get_loss_function
+        
+        # Use the loss function specified in args
+        criterion = get_loss_function(self.args.loss)
         return criterion
 
     def vali(self, vali_data, vali_loader, criterion):
@@ -64,7 +69,7 @@ class Exp_Main(Exp_Basic):
                 # encoder - decoder
                 if self.args.use_amp:
                     with torch.cuda.amp.autocast():
-                        if 'DLinear' in self.args.model:
+                        if 'DLinear' in self.args.model or 'DummyLinear' in self.args.model:
                             outputs = self.model(batch_x)
                         else:
                             if self.args.output_attention:
@@ -72,7 +77,7 @@ class Exp_Main(Exp_Basic):
                             else:
                                 outputs = self.model(batch_x, batch_x_mark, dec_inp, batch_y_mark)
                 else:
-                    if 'DLinear' in self.args.model:
+                    if 'DLinear' in self.args.model or 'DummyLinear' in self.args.model:
                         outputs = self.model(batch_x)
                     else:
                         if self.args.output_attention:
@@ -86,7 +91,11 @@ class Exp_Main(Exp_Basic):
                 pred = outputs.detach().cpu()
                 true = batch_y.detach().cpu()
 
-                loss = criterion(pred, true)
+                # Handle custom losses that might need input sequence
+                if hasattr(criterion, 'forward') and 'input_seq' in criterion.forward.__code__.co_varnames:
+                    loss = criterion(pred, true, batch_x.detach().cpu())
+                else:
+                    loss = criterion(pred, true)
 
                 total_loss.append(loss)
         total_loss = np.average(total_loss)
@@ -135,7 +144,7 @@ class Exp_Main(Exp_Basic):
                 # encoder - decoder
                 if self.args.use_amp:
                     with torch.cuda.amp.autocast():
-                        if 'DLinear' in self.args.model:
+                        if 'DLinear' in self.args.model or 'DummyLinear' in self.args.model:
                             outputs = self.model(batch_x)
                         else:
                             if self.args.output_attention:
@@ -146,10 +155,15 @@ class Exp_Main(Exp_Basic):
                         f_dim = -1 if self.args.features == 'MS' else 0
                         outputs = outputs[:, -self.args.pred_len:, f_dim:]
                         batch_y = batch_y[:, -self.args.pred_len:, f_dim:].to(self.device)
-                        loss = criterion(outputs, batch_y)
+                        
+                        # Handle custom losses that might need input sequence
+                        if hasattr(criterion, 'forward') and 'input_seq' in criterion.forward.__code__.co_varnames:
+                            loss = criterion(outputs, batch_y, batch_x)
+                        else:
+                            loss = criterion(outputs, batch_y)
                         train_loss.append(loss.item())
                 else:
-                    if 'DLinear' in self.args.model:
+                    if 'DLinear' in self.args.model or 'DummyLinear' in self.args.model:
                             outputs = self.model(batch_x)
                     else:
                         if self.args.output_attention:
@@ -161,7 +175,12 @@ class Exp_Main(Exp_Basic):
                     f_dim = -1 if self.args.features == 'MS' else 0
                     outputs = outputs[:, -self.args.pred_len:, f_dim:]
                     batch_y = batch_y[:, -self.args.pred_len:, f_dim:].to(self.device)
-                    loss = criterion(outputs, batch_y)
+                    
+                    # Handle custom losses that might need input sequence
+                    if hasattr(criterion, 'forward') and 'input_seq' in criterion.forward.__code__.co_varnames:
+                        loss = criterion(outputs, batch_y, batch_x)
+                    else:
+                        loss = criterion(outputs, batch_y)
                     train_loss.append(loss.item())
 
                 if (i + 1) % 100 == 0:
@@ -228,7 +247,7 @@ class Exp_Main(Exp_Basic):
                 # encoder - decoder
                 if self.args.use_amp:
                     with torch.cuda.amp.autocast():
-                        if 'DLinear' in self.args.model:
+                        if 'DLinear' in self.args.model or 'DummyLinear' in self.args.model:
                             outputs = self.model(batch_x)
                         else:
                             if self.args.output_attention:
@@ -236,7 +255,7 @@ class Exp_Main(Exp_Basic):
                             else:
                                 outputs = self.model(batch_x, batch_x_mark, dec_inp, batch_y_mark)
                 else:
-                    if 'DLinear' in self.args.model:
+                    if 'DLinear' in self.args.model or 'DummyLinear' in self.args.model:
                             outputs = self.model(batch_x)
                     else:
                         if self.args.output_attention:
@@ -290,7 +309,7 @@ class Exp_Main(Exp_Basic):
         f.close()
 
         # np.save(folder_path + 'metrics.npy', np.array([mae, mse, rmse, mape, mspe,rse, corr]))
-        np.save(folder_path + 'pred.npy', preds)
+        # np.save(folder_path + 'pred.npy', preds)
         # np.save(folder_path + 'true.npy', trues)
         # np.save(folder_path + 'x.npy', inputx)
         return
@@ -319,7 +338,7 @@ class Exp_Main(Exp_Basic):
                 # encoder - decoder
                 if self.args.use_amp:
                     with torch.cuda.amp.autocast():
-                        if 'DLinear' in self.args.model:
+                        if 'DLinear' in self.args.model or 'DummyLinear' in self.args.model:
                             outputs = self.model(batch_x)
                         else:
                             if self.args.output_attention:

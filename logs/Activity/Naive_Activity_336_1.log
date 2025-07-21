@@ -1,0 +1,12 @@
+Args in experiment:
+Namespace(is_training=1, model_id='Activity_336_1', model='Naive', data='Activity', root_path='./dataset/', data_path='session_0.h5', features='M', target='OT', checkpoints='./checkpoints/', sample=1, embed='timeF', freq='h', seq_len=336, label_len=48, pred_len=96, num_workers=10, itr=1, batch_size=128, des='Exp', use_gpu=True, gpu=0, use_multi_gpu=False, devices='0,1,2,3', test_flop=False, output_attention=False)
+Use GPU: cuda:0
+>>>>>>>testing : Activity_336_1_Naive_Activity_ftM_sl336_pl96_Exp<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+Loaded preprocessed data: (19081, 6903)
+Original neurons: 7673, Processed neurons: 6903
+Data range: 0.000 to 1.000
+Selected top 1000 neurons out of 6903 preprocessed neurons
+Final dataset shape: (4153, 1000)
+Final data statistics - Mean: 0.264, Std: 0.158
+test 3722
+mse:0.022212238982319832, mae:0.09957197308540344, rse:0.949415385723114, corr:[]

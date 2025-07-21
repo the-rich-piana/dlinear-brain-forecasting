@@ -1,0 +1,45 @@
+Args in experiment:
+Namespace(is_training=1, model_id='Activity_336_96', model='DummyLinear', data='Activity', root_path='./dataset/', data_path='activity_raw.csv', features='M', target='OT', freq='h', checkpoints='./checkpoints/', seq_len=336, label_len=48, pred_len=8, individual=False, embed_type=0, enc_in=5000, dec_in=7, c_out=7, d_model=512, n_heads=8, e_layers=2, d_layers=1, d_ff=2048, moving_avg=25, factor=1, distil=True, dropout=0.05, embed='timeF', activation='gelu', output_attention=False, do_predict=False, num_workers=10, itr=1, train_epochs=1, batch_size=128, patience=3, learning_rate=0.0005, des='Exp', loss='mse', lradj='type1', use_amp=False, use_gpu=True, gpu=0, use_multi_gpu=False, devices='0,1,2,3', test_flop=False)
+Use GPU: cuda:0
+>>>>>>>start training : Activity_336_96_DummyLinear_Activity_ftM_sl336_ll48_pl8_dm512_nh8_el2_dl1_df2048_fc1_ebtimeF_dtTrue_Exp_0>>>>>>>>>>>>>>>>>>>>>>>>>>
+Raw fluorescence range: -501.0 to 28183.4
+ΔF/F range: -1.343 to 7191.000
+Active neuron filtering: 6901 active neurons out of 7673 total
+Selected top 5000 neurons out of 6901 active neurons
+Final data range after clipping: -1.000 to 10.000
+Final dataset shape: (13357, 5000)
+Final data statistics - Mean: 0.317, Std: 0.333
+train 13014
+Raw fluorescence range: -501.0 to 28183.4
+ΔF/F range: -1.343 to 7191.000
+Active neuron filtering: 6901 active neurons out of 7673 total
+Selected top 5000 neurons out of 6901 active neurons
+Final data range after clipping: -1.000 to 10.000
+Final dataset shape: (2244, 5000)
+Final data statistics - Mean: 0.444, Std: 0.354
+val 1901
+Raw fluorescence range: -501.0 to 28183.4
+ΔF/F range: -1.343 to 7191.000
+Active neuron filtering: 6901 active neurons out of 7673 total
+Selected top 5000 neurons out of 6901 active neurons
+Final data range after clipping: -1.000 to 10.000
+Final dataset shape: (4153, 5000)
+Final data statistics - Mean: 0.266, Std: 0.332
+test 3810
+	iters: 100, epoch: 1 | loss: 0.0968946
+	speed: 0.4095s/iter; left time: 0.8189s
+Epoch: 1 cost time: 39.6482470035553
+Epoch: 1, Steps: 101 | Train Loss: 0.1231704 Vali Loss: 0.1421620 Test Loss: 0.1240817
+Validation loss decreased (inf --> 0.142162).  Saving model ...
+Updating learning rate to 0.0005
+>>>>>>>testing : Activity_336_96_DummyLinear_Activity_ftM_sl336_ll48_pl8_dm512_nh8_el2_dl1_df2048_fc1_ebtimeF_dtTrue_Exp_0<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+Raw fluorescence range: -501.0 to 28183.4
+ΔF/F range: -1.343 to 7191.000
+Active neuron filtering: 6901 active neurons out of 7673 total
+Selected top 5000 neurons out of 6901 active neurons
+Final data range after clipping: -1.000 to 10.000
+Final dataset shape: (4153, 5000)
+Final data statistics - Mean: 0.266, Std: 0.332
+test 3810
+mse:0.12408190965652466, mae:0.23520608246326447, rse:1.0629788637161255, corr:[0.10475005 0.0993371  0.09437705 0.09007654 0.08661936 0.0838761
+ 0.08147728 0.07959737]

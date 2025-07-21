@@ -1,0 +1,109 @@
+Args in experiment:
+Namespace(is_training=1, model_id='DLinear_336_96', model='DLinear', data='Activity', root_path='./dataset/', data_path='session_0.h5', features='M', target='OT', freq='h', checkpoints='./checkpoints/', seq_len=336, label_len=48, pred_len=96, individual=False, embed_type=0, enc_in=5000, dec_in=7, c_out=7, d_model=512, n_heads=8, e_layers=2, d_layers=1, d_ff=2048, moving_avg=25, factor=1, distil=True, dropout=0.05, embed='timeF', activation='gelu', output_attention=False, do_predict=False, num_workers=10, itr=1, train_epochs=10, batch_size=32, patience=3, learning_rate=0.0005, des='Exp', loss='brain_activity', lradj='type1', use_amp=False, use_gpu=True, gpu=0, use_multi_gpu=False, devices='0,1,2,3', test_flop=False)
+Use GPU: cuda:0
+>>>>>>>start training : DLinear_336_96_DLinear_Activity_ftM_sl336_ll48_pl96_dm512_nh8_el2_dl1_df2048_fc1_ebtimeF_dtTrue_Exp_0>>>>>>>>>>>>>>>>>>>>>>>>>>
+Loaded preprocessed data: (19081, 6903)
+Original neurons: 7673, Processed neurons: 6903
+Data range: 0.000 to 1.000
+Selected top 5000 neurons out of 6903 preprocessed neurons
+Final dataset shape: (13356, 5000)
+Final data statistics - Mean: 0.347, Std: 0.149
+train 12925
+Loaded preprocessed data: (19081, 6903)
+Original neurons: 7673, Processed neurons: 6903
+Data range: 0.000 to 1.000
+Selected top 5000 neurons out of 6903 preprocessed neurons
+Final dataset shape: (2244, 5000)
+Final data statistics - Mean: 0.380, Std: 0.158
+val 1813
+Loaded preprocessed data: (19081, 6903)
+Original neurons: 7673, Processed neurons: 6903
+Data range: 0.000 to 1.000
+Selected top 5000 neurons out of 6903 preprocessed neurons
+Final dataset shape: (4153, 5000)
+Final data statistics - Mean: 0.326, Std: 0.144
+test 3722
+	iters: 100, epoch: 1 | loss: 0.1039360
+	speed: 0.0945s/iter; left time: 371.2836s
+	iters: 200, epoch: 1 | loss: 0.1034999
+	speed: 0.0791s/iter; left time: 302.9074s
+	iters: 300, epoch: 1 | loss: 0.1039120
+	speed: 0.0805s/iter; left time: 300.1852s
+	iters: 400, epoch: 1 | loss: 0.1038542
+	speed: 0.0793s/iter; left time: 288.0734s
+Epoch: 1 cost time: 32.60780668258667
+Epoch: 1, Steps: 403 | Train Loss: 0.1037219 Vali Loss: 0.1042165 Test Loss: 0.1026044
+Validation loss decreased (inf --> 0.104217).  Saving model ...
+Updating learning rate to 0.0005
+	iters: 100, epoch: 2 | loss: 0.1034642
+	speed: 0.5127s/iter; left time: 1808.7834s
+	iters: 200, epoch: 2 | loss: 0.1036706
+	speed: 0.0805s/iter; left time: 275.9122s
+	iters: 300, epoch: 2 | loss: 0.1038631
+	speed: 0.0815s/iter; left time: 271.3723s
+	iters: 400, epoch: 2 | loss: 0.1036985
+	speed: 0.0804s/iter; left time: 259.6048s
+Epoch: 2 cost time: 33.142738580703735
+Epoch: 2, Steps: 403 | Train Loss: 0.1034868 Vali Loss: 0.1041802 Test Loss: 0.1025506
+Validation loss decreased (0.104217 --> 0.104180).  Saving model ...
+Updating learning rate to 0.00025
+	iters: 100, epoch: 3 | loss: 0.1036874
+	speed: 0.5149s/iter; left time: 1608.9629s
+	iters: 200, epoch: 3 | loss: 0.1037320
+	speed: 0.0827s/iter; left time: 250.2992s
+	iters: 300, epoch: 3 | loss: 0.1031485
+	speed: 0.0829s/iter; left time: 242.4339s
+	iters: 400, epoch: 3 | loss: 0.1034537
+	speed: 0.0806s/iter; left time: 227.7140s
+Epoch: 3 cost time: 33.601038455963135
+Epoch: 3, Steps: 403 | Train Loss: 0.1034642 Vali Loss: 0.1041929 Test Loss: 0.1025380
+EarlyStopping counter: 1 out of 3
+Updating learning rate to 0.000125
+	iters: 100, epoch: 4 | loss: 0.1034881
+	speed: 0.4432s/iter; left time: 1206.4257s
+	iters: 200, epoch: 4 | loss: 0.1034556
+	speed: 0.0814s/iter; left time: 213.4234s
+	iters: 300, epoch: 4 | loss: 0.1032746
+	speed: 0.0826s/iter; left time: 208.2510s
+	iters: 400, epoch: 4 | loss: 0.1033270
+	speed: 0.0803s/iter; left time: 194.4690s
+Epoch: 4 cost time: 32.76596212387085
+Epoch: 4, Steps: 403 | Train Loss: 0.1034561 Vali Loss: 0.1041908 Test Loss: 0.1025321
+EarlyStopping counter: 2 out of 3
+Updating learning rate to 6.25e-05
+	iters: 100, epoch: 5 | loss: 0.1034691
+	speed: 0.5235s/iter; left time: 1213.9273s
+	iters: 200, epoch: 5 | loss: 0.1037266
+	speed: 0.0822s/iter; left time: 182.2922s
+	iters: 300, epoch: 5 | loss: 0.1036052
+	speed: 0.0826s/iter; left time: 174.9520s
+	iters: 400, epoch: 5 | loss: 0.1035647
+	speed: 0.0801s/iter; left time: 161.7562s
+Epoch: 5 cost time: 33.69145441055298
+Epoch: 5, Steps: 403 | Train Loss: 0.1034510 Vali Loss: 0.1041851 Test Loss: 0.1025275
+EarlyStopping counter: 3 out of 3
+Early stopping
+>>>>>>>testing : DLinear_336_96_DLinear_Activity_ftM_sl336_ll48_pl96_dm512_nh8_el2_dl1_df2048_fc1_ebtimeF_dtTrue_Exp_0<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+Loaded preprocessed data: (19081, 6903)
+Original neurons: 7673, Processed neurons: 6903
+Data range: 0.000 to 1.000
+Selected top 5000 neurons out of 6903 preprocessed neurons
+Final dataset shape: (4153, 5000)
+Final data statistics - Mean: 0.326, Std: 0.144
+test 3722
+mse:0.01515403762459755, mae:0.09794795513153076, rse:0.860518753528595, corr:[0.23135778 0.19135158 0.14955212 0.13054101 0.12396878 0.11941496
+ 0.11541168 0.11333498 0.11224968 0.11209536 0.11172157 0.11114243
+ 0.11057109 0.11007582 0.10951773 0.10880019 0.1081543  0.10744633
+ 0.10652684 0.10548575 0.10331786 0.1044018  0.1043108  0.10379312
+ 0.10332856 0.10294925 0.10253506 0.1022157  0.1018748  0.1015876
+ 0.10139932 0.10117202 0.10106104 0.10100746 0.1009561  0.10090604
+ 0.10083056 0.10071654 0.10063711 0.10052883 0.10044094 0.10035373
+ 0.1002051  0.1001249  0.09999094 0.09988322 0.0997999  0.09962638
+ 0.09944275 0.0992809  0.09907484 0.09893125 0.09877364 0.09862383
+ 0.09851994 0.0983834  0.09823531 0.09809662 0.09784666 0.09761273
+ 0.09739245 0.09722473 0.09707053 0.09691823 0.09675825 0.09660709
+ 0.09648427 0.09642878 0.09636941 0.09627659 0.09616645 0.09599734
+ 0.09579483 0.09565181 0.09542888 0.09524302 0.09509455 0.09496967
+ 0.09486655 0.09471959 0.09459267 0.09451959 0.0944066  0.09422006
+ 0.09409265 0.09396691 0.09383462 0.09372497 0.09364007 0.09359385
+ 0.09345508 0.09331555 0.0932837  0.09320785 0.09330526 0.09321397]

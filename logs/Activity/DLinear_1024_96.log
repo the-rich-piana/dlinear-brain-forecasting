@@ -1,0 +1,123 @@
+Args in experiment:
+Namespace(is_training=1, model_id='DLinear_1024_96', model='DLinear', data='Activity', root_path='./dataset/', data_path='session_0.h5', features='M', target='OT', freq='h', checkpoints='./checkpoints/', seq_len=1024, label_len=48, pred_len=96, individual=False, embed_type=0, enc_in=5000, dec_in=7, c_out=7, d_model=512, n_heads=8, e_layers=2, d_layers=1, d_ff=2048, moving_avg=25, factor=1, distil=True, dropout=0.1, embed='timeF', activation='gelu', output_attention=False, do_predict=False, num_workers=10, itr=1, train_epochs=10, batch_size=32, patience=3, learning_rate=0.0005, des='Exp', loss='mse', lradj='type1', use_amp=False, use_gpu=True, gpu=0, use_multi_gpu=False, devices='0,1,2,3', test_flop=False)
+Use GPU: cuda:0
+>>>>>>>start training : DLinear_1024_96_DLinear_Activity_ftM_sl1024_ll48_pl96_dm512_nh8_el2_dl1_df2048_fc1_ebtimeF_dtTrue_Exp_0>>>>>>>>>>>>>>>>>>>>>>>>>>
+Loaded preprocessed data: (19081, 6903)
+Original neurons: 7673, Processed neurons: 6903
+Data range: 0.000 to 1.000
+Selected top 5000 neurons out of 6903 preprocessed neurons
+Final dataset shape: (13356, 5000)
+Final data statistics - Mean: 0.347, Std: 0.149
+train 12237
+Loaded preprocessed data: (19081, 6903)
+Original neurons: 7673, Processed neurons: 6903
+Data range: 0.000 to 1.000
+Selected top 5000 neurons out of 6903 preprocessed neurons
+Final dataset shape: (2932, 5000)
+Final data statistics - Mean: 0.380, Std: 0.157
+val 1813
+Loaded preprocessed data: (19081, 6903)
+Original neurons: 7673, Processed neurons: 6903
+Data range: 0.000 to 1.000
+Selected top 5000 neurons out of 6903 preprocessed neurons
+Final dataset shape: (4841, 5000)
+Final data statistics - Mean: 0.333, Std: 0.147
+test 3722
+	iters: 100, epoch: 1 | loss: 0.0128986
+	speed: 0.1946s/iter; left time: 724.1248s
+	iters: 200, epoch: 1 | loss: 0.0128770
+	speed: 0.1687s/iter; left time: 610.8626s
+	iters: 300, epoch: 1 | loss: 0.0119789
+	speed: 0.1717s/iter; left time: 604.6498s
+Epoch: 1 cost time: 65.50868272781372
+Epoch: 1, Steps: 382 | Train Loss: 0.0130447 Vali Loss: 0.0138657 Test Loss: 0.0107238
+Validation loss decreased (inf --> 0.013866).  Saving model ...
+Updating learning rate to 0.0005
+	iters: 100, epoch: 2 | loss: 0.0124447
+	speed: 0.6728s/iter; left time: 2246.6405s
+	iters: 200, epoch: 2 | loss: 0.0130469
+	speed: 0.1718s/iter; left time: 556.5876s
+	iters: 300, epoch: 2 | loss: 0.0125945
+	speed: 0.1746s/iter; left time: 547.9946s
+Epoch: 2 cost time: 66.39009022712708
+Epoch: 2, Steps: 382 | Train Loss: 0.0125855 Vali Loss: 0.0138052 Test Loss: 0.0106903
+Validation loss decreased (0.013866 --> 0.013805).  Saving model ...
+Updating learning rate to 0.00025
+	iters: 100, epoch: 3 | loss: 0.0124119
+	speed: 0.6736s/iter; left time: 1991.8485s
+	iters: 200, epoch: 3 | loss: 0.0126889
+	speed: 0.1699s/iter; left time: 485.4168s
+	iters: 300, epoch: 3 | loss: 0.0123785
+	speed: 0.1733s/iter; left time: 477.8882s
+Epoch: 3 cost time: 65.9428243637085
+Epoch: 3, Steps: 382 | Train Loss: 0.0125241 Vali Loss: 0.0136576 Test Loss: 0.0106326
+Validation loss decreased (0.013805 --> 0.013658).  Saving model ...
+Updating learning rate to 0.000125
+	iters: 100, epoch: 4 | loss: 0.0120621
+	speed: 0.6712s/iter; left time: 1728.2520s
+	iters: 200, epoch: 4 | loss: 0.0132917
+	speed: 0.1711s/iter; left time: 423.3853s
+	iters: 300, epoch: 4 | loss: 0.0127141
+	speed: 0.1745s/iter; left time: 414.5040s
+Epoch: 4 cost time: 66.26699328422546
+Epoch: 4, Steps: 382 | Train Loss: 0.0124987 Vali Loss: 0.0136492 Test Loss: 0.0106195
+Validation loss decreased (0.013658 --> 0.013649).  Saving model ...
+Updating learning rate to 6.25e-05
+	iters: 100, epoch: 5 | loss: 0.0120963
+	speed: 0.6720s/iter; left time: 1473.6729s
+	iters: 200, epoch: 5 | loss: 0.0122009
+	speed: 0.1699s/iter; left time: 355.5973s
+	iters: 300, epoch: 5 | loss: 0.0124436
+	speed: 0.1721s/iter; left time: 342.9056s
+Epoch: 5 cost time: 65.89662003517151
+Epoch: 5, Steps: 382 | Train Loss: 0.0124898 Vali Loss: 0.0136552 Test Loss: 0.0106182
+EarlyStopping counter: 1 out of 3
+Updating learning rate to 3.125e-05
+	iters: 100, epoch: 6 | loss: 0.0119905
+	speed: 0.6725s/iter; left time: 1217.8868s
+	iters: 200, epoch: 6 | loss: 0.0129029
+	speed: 0.1725s/iter; left time: 295.1887s
+	iters: 300, epoch: 6 | loss: 0.0122059
+	speed: 0.1724s/iter; left time: 277.7657s
+Epoch: 6 cost time: 66.22168207168579
+Epoch: 6, Steps: 382 | Train Loss: 0.0124810 Vali Loss: 0.0136221 Test Loss: 0.0106112
+Validation loss decreased (0.013649 --> 0.013622).  Saving model ...
+Updating learning rate to 1.5625e-05
+	iters: 100, epoch: 7 | loss: 0.0120925
+	speed: 0.6704s/iter; left time: 957.9435s
+	iters: 200, epoch: 7 | loss: 0.0125725
+	speed: 0.1713s/iter; left time: 227.7176s
+	iters: 300, epoch: 7 | loss: 0.0128850
+	speed: 0.1736s/iter; left time: 213.4134s
+Epoch: 7 cost time: 66.17376470565796
+Epoch: 7, Steps: 382 | Train Loss: 0.0124783 Vali Loss: 0.0136588 Test Loss: 0.0106111
+EarlyStopping counter: 1 out of 3
+Updating learning rate to 7.8125e-06
+	iters: 100, epoch: 8 | loss: 0.0130268
+	speed: 0.6705s/iter; left time: 701.9702s
+	iters: 200, epoch: 8 | loss: 0.0120668
+	speed: 0.1715s/iter; left time: 162.3845s
+	iters: 300, epoch: 8 | loss: 0.0131533
+	speed: 0.1747s/iter; left time: 148.0034s
+Epoch: 8 cost time: 66.16361117362976
+Epoch: 8, Steps: 382 | Train Loss: 0.0124757 Vali Loss: 0.0136437 Test Loss: 0.0106085
+EarlyStopping counter: 2 out of 3
+Updating learning rate to 3.90625e-06
+	iters: 100, epoch: 9 | loss: 0.0122268
+	speed: 0.6700s/iter; left time: 445.5237s
+	iters: 200, epoch: 9 | loss: 0.0126066
+	speed: 0.1697s/iter; left time: 95.8819s
+	iters: 300, epoch: 9 | loss: 0.0127203
+	speed: 0.1721s/iter; left time: 80.0234s
+Epoch: 9 cost time: 65.64490795135498
+Epoch: 9, Steps: 382 | Train Loss: 0.0124753 Vali Loss: 0.0136466 Test Loss: 0.0106079
+EarlyStopping counter: 3 out of 3
+Early stopping
+>>>>>>>testing : DLinear_1024_96_DLinear_Activity_ftM_sl1024_ll48_pl96_dm512_nh8_el2_dl1_df2048_fc1_ebtimeF_dtTrue_Exp_0<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+Loaded preprocessed data: (19081, 6903)
+Original neurons: 7673, Processed neurons: 6903
+Data range: 0.000 to 1.000
+Selected top 5000 neurons out of 6903 preprocessed neurons
+Final dataset shape: (4841, 5000)
+Final data statistics - Mean: 0.333, Std: 0.147
+test 3722

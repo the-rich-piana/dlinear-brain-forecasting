@@ -24,9 +24,9 @@ class Exp_Main(Exp_Basic):
     def _build_model(self):
         model_dict = {
             'Naive': Naive_repeat,
-            'ARIMA': Arima,
-            'SARIMA': SArima,
-            'GBRT': GBRT,
+            # 'ARIMA': Arima,
+            # 'SARIMA': SArima,
+            # 'GBRT': GBRT,
         }
         model = model_dict[self.args.model](self.args).float()
 
@@ -96,8 +96,8 @@ class Exp_Main(Exp_Basic):
         f.write('\n')
         f.close()
 
-        np.save(folder_path + 'metrics.npy', np.array([mae, mse, rmse, mape, mspe,rse, corr]))
-        np.save(folder_path + 'pred.npy', preds)
-        np.save(folder_path + 'true.npy', trues)
+        # np.save(folder_path + 'metrics.npy', np.array([mae, mse, rmse, mape, mspe,rse, corr]))
+        # np.save(folder_path + 'pred.npy', preds)
+        # np.save(folder_path + 'true.npy', trues)
         # np.save(folder_path + 'x.npy', inputx)
         return
