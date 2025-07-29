@@ -86,11 +86,13 @@ def visual(true, preds=None, name='./pic/test.pdf'):
     Results visualization
     """
     plt.figure()
-    plt.plot(true, label='GroundTruth', linewidth=2)
+    true_mean = np.mean(true)
+    plt.plot(true, label=f'GroundTruth (mean: {true_mean:.3f})', linewidth=2)
     if preds is not None:
         plt.plot(preds, label='Prediction', linewidth=2)
     plt.legend()
     plt.savefig(name, bbox_inches='tight')
+    plt.close()  # Close figure to free memory
 
 def test_params_flop(model,x_shape):
     """

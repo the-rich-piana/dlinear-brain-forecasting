@@ -1,0 +1,49 @@
+Args in experiment:
+Namespace(is_training=1, model_id='Informer_128_5', model='Informer', data='Activity', root_path='./dataset/', data_path='session_0.h5', features='M', target='OT', freq='m', checkpoints='./checkpoints/', seq_len=128, label_len=48, pred_len=5, individual=False, embed_type=0, enc_in=5000, dec_in=5000, c_out=5000, d_model=512, n_heads=8, e_layers=2, d_layers=1, d_ff=2048, moving_avg=25, factor=1, distil=True, dropout=0.05, embed='timeF', activation='gelu', output_attention=False, do_predict=False, num_workers=10, itr=1, train_epochs=10, batch_size=64, patience=3, learning_rate=0.01, des='Exp', loss='mse', lradj='type1', use_amp=False, use_gpu=True, gpu=0, use_multi_gpu=False, devices='0,1,2,3', test_flop=False)
+Use GPU: cuda:0
+>>>>>>>start training : Informer_128_5_Informer_Activity_ftM_sl128_ll48_pl5_dm512_nh8_el2_dl1_df2048_fc1_ebtimeF_dtTrue_Exp_0>>>>>>>>>>>>>>>>>>>>>>>>>>
+Loaded preprocessed data: (19081, 6903)
+Original neurons: 7673, Processed neurons: 6903
+Data range: 0.000 to 1.000
+Selected top 5000 neurons out of 6903 preprocessed neurons
+Final dataset shape: (13356, 5000)
+Final data statistics - Mean: 0.347, Std: 0.149
+train 13224
+Loaded preprocessed data: (19081, 6903)
+Original neurons: 7673, Processed neurons: 6903
+Data range: 0.000 to 1.000
+Selected top 5000 neurons out of 6903 preprocessed neurons
+Final dataset shape: (2036, 5000)
+Final data statistics - Mean: 0.379, Std: 0.158
+val 1904
+Loaded preprocessed data: (19081, 6903)
+Original neurons: 7673, Processed neurons: 6903
+Data range: 0.000 to 1.000
+Selected top 5000 neurons out of 6903 preprocessed neurons
+Final dataset shape: (3945, 5000)
+Final data statistics - Mean: 0.325, Std: 0.143
+test 3813
+	iters: 100, epoch: 1 | loss: 36.2957344
+	speed: 0.1115s/iter; left time: 218.5902s
+	iters: 200, epoch: 1 | loss: 32.0350189
+	speed: 0.0922s/iter; left time: 171.6606s
+Epoch: 1 cost time: 20.090547561645508
+Epoch: 1, Steps: 206 | Train Loss: 462.0156670 Vali Loss: 0.0161842 Test Loss: 0.0157306
+Validation loss decreased (inf --> 0.016184).  Saving model ...
+Updating learning rate to 0.01
+	iters: 100, epoch: 2 | loss: 27.9822254
+	speed: 0.2031s/iter; left time: 356.3962s
+	iters: 200, epoch: 2 | loss: 23.3756409
+	speed: 0.0927s/iter; left time: 153.3368s
+Epoch: 2 cost time: 20.129526138305664
+Epoch: 2, Steps: 206 | Train Loss: 27.3561412 Vali Loss: 0.0171141 Test Loss: 0.0147327
+EarlyStopping counter: 1 out of 3
+Updating learning rate to 0.005
+	iters: 100, epoch: 3 | loss: 22.2005863
+	speed: 0.1906s/iter; left time: 295.1729s
+	iters: 200, epoch: 3 | loss: 21.1940594
+	speed: 0.0943s/iter; left time: 136.6154s
+Epoch: 3 cost time: 20.429912328720093
+Epoch: 3, Steps: 206 | Train Loss: 22.1082273 Vali Loss: 0.0167951 Test Loss: 0.0138746
+EarlyStopping counter: 2 out of 3
+Updating learning rate to 0.0025

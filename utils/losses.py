@@ -204,8 +204,12 @@ def get_loss_function(loss_name='mse'):
     """
     if loss_name == 'mse':
         return nn.MSELoss()
+    elif loss_name == 'huber':
+        return nn.HuberLoss(delta=1.0)  # Less sensitive to outliers
     elif loss_name == 'anti_mean':
         return AntiMeanLoss()
+    elif loss_name == 'mae':
+        return nn.L1Loss()
     elif loss_name == 'variance':
         return VarianceLoss()
     elif loss_name == 'pattern':

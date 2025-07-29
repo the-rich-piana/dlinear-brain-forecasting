@@ -3,6 +3,7 @@ from exp.exp_basic import Exp_Basic
 from models import Informer, Autoformer, Transformer, DLinear, DummyLinear
 from utils.tools import EarlyStopping, adjust_learning_rate, visual, test_params_flop
 from utils.metrics import metric
+from utils.losses import get_loss_function
 
 import numpy as np
 import torch
@@ -45,10 +46,6 @@ class Exp_Main(Exp_Basic):
         return model_optim
 
     def _select_criterion(self):
-        # Import custom loss functions
-        from utils.losses import get_loss_function
-        
-        # Use the loss function specified in args
         criterion = get_loss_function(self.args.loss)
         return criterion
 

@@ -204,6 +204,11 @@ class Dataset_Activity(Dataset):
             self.seq_len = size[0]
             self.label_len = size[1]
             self.pred_len = size[2]
+            
+        # Fix: label_len should not exceed seq_len for DLinear
+        if self.label_len > self.seq_len:
+            print(f"Warning: label_len ({self.label_len}) > seq_len ({self.seq_len}). Setting label_len = seq_len // 2 = {self.seq_len // 2}")
+            self.label_len = max(1, self.seq_len // 2)
         # init
         assert flag in ['train', 'test', 'val']
         type_map = {'train': 0, 'val': 1, 'test': 2}
@@ -226,6 +231,7 @@ class Dataset_Activity(Dataset):
         with h5py.File(file_path, 'r') as f:
             # Load the already preprocessed data (ΔF/F normalized and filtered)
             processed_data = f['processed_data'][:]
+            timestamps = f['timestamps'][:]
             
             # Load metadata
             n_original_neurons = f['metadata'].attrs['n_original_neurons']
@@ -250,7 +256,7 @@ class Dataset_Activity(Dataset):
         num_vali = int(len(processed_data) * 0.1)
         num_test = len(processed_data) - num_train - num_vali
         
-        border1s = [0, num_train - self.seq_len, len(processed_data) - num_test - self.seq_len]
+        border1s = [0, num_train, len(processed_data) - num_test - self.seq_len]
         border2s = [num_train, num_train + num_vali, len(processed_data)]
         border1 = border1s[self.set_type]
         border2 = border2s[self.set_type]
@@ -293,20 +299,35 @@ class Dataset_Activity(Dataset):
         r_begin = s_end - self.label_len
         r_end = r_begin + self.label_len + self.pred_len
 
+        # Bounds checking
+        if r_end > len(self.data_x):
+            raise IndexError(f"Sequence index {index} would exceed data bounds. Data length: {len(self.data_x)}, required end: {r_end}")
+
         seq_x = self.data_x[s_begin:s_end]
         seq_y = self.data_y[r_begin:r_end]
+        
+        # Ensure consistent shapes and dtypes
+        seq_x = np.array(seq_x, dtype=np.float32)
+        seq_y = np.array(seq_y, dtype=np.float32)
+        
+        # Verify expected shapes
+        if seq_x.shape[0] != self.seq_len:
+            raise ValueError(f"seq_x has wrong length: {seq_x.shape[0]}, expected: {self.seq_len}")
+        if seq_y.shape[0] != (self.label_len + self.pred_len):
+            raise ValueError(f"seq_y has wrong length: {seq_y.shape[0]}, expected: {self.label_len + self.pred_len}")
         
         # --- MODIFICATION 4: Return dummy tensors for time features ---
         # The training loop expects four return values. We provide zeros
         # for seq_x_mark and seq_y_mark, as DLinear will ignore them.
-        seq_x_mark = np.zeros((self.seq_len, 1))
-        seq_y_mark = np.zeros((self.label_len + self.pred_len, 1))
+        seq_x_mark = np.zeros((self.seq_len, 1), dtype=np.float32)
+        seq_y_mark = np.zeros((self.label_len + self.pred_len, 1), dtype=np.float32)
 
         return seq_x, seq_y, seq_x_mark, seq_y_mark
 
     def __len__(self):
-        # This logic remains correct
-        return len(self.data_x) - self.seq_len - self.pred_len + 1
+        # Ensure we have enough data for at least one sequence
+        available_length = len(self.data_x) - self.seq_len - self.pred_len + 1
+        return max(0, available_length)
 
     def inverse_transform(self, data):
         """Convert normalized predictions back to original scale"""
@@ -361,6 +382,7 @@ class Dataset_Activity_Ordered(Dataset):
         with h5py.File(file_path, 'r') as f:
             # Load preprocessed data
             processed_data = f['processed_data'][:]
+            timestamps = f['timestamps'][:]
             
             # Load metadata
             n_original_neurons = f['metadata'].attrs['n_original_neurons']
@@ -429,8 +451,8 @@ class Dataset_Activity_Ordered(Dataset):
             self.norm_q995 = self.norm_q995[:, top_indices]
             self.norm_range = self.norm_range[:, top_indices]
         
-        # Final data assignment
-        self.data_stamp = np.zeros((data_filtered.shape[0], 1))
+        # Use real timestamps for time features
+        self.data_stamp = timestamps.reshape(-1, 1)
         self.data_x = data_filtered[border1:border2]
         self.data_y = data_filtered[border1:border2]
         
@@ -447,19 +469,34 @@ class Dataset_Activity_Ordered(Dataset):
         s_end = s_begin + self.seq_len
         r_begin = s_end - self.label_len
         r_end = r_begin + self.label_len + self.pred_len
-        
+
+        # Bounds checking
+        if r_end > len(self.data_x):
+            raise IndexError(f"Sequence index {index} would exceed data bounds. Data length: {len(self.data_x)}, required end: {r_end}")
+
         seq_x = self.data_x[s_begin:s_end]
         seq_y = self.data_y[r_begin:r_end]
         
-        # Return dummy time features
-        seq_x_mark = np.zeros((self.seq_len, 1))
-        seq_y_mark = np.zeros((self.label_len + self.pred_len, 1))
+        # Ensure consistent shapes and dtypes
+        seq_x = np.array(seq_x, dtype=np.float32)
+        seq_y = np.array(seq_y, dtype=np.float32)
+        
+        # Verify expected shapes
+        if seq_x.shape[0] != self.seq_len:
+            raise ValueError(f"seq_x has wrong length: {seq_x.shape[0]}, expected: {self.seq_len}")
+        if seq_y.shape[0] != (self.label_len + self.pred_len):
+            raise ValueError(f"seq_y has wrong length: {seq_y.shape[0]}, expected: {self.label_len + self.pred_len}")
+        
+        # Return real time features
+        seq_x_mark = self.data_stamp[s_begin:s_end].astype(np.float32)
+        seq_y_mark = self.data_stamp[r_begin:r_end].astype(np.float32)
         
         return seq_x, seq_y, seq_x_mark, seq_y_mark
     
     def __len__(self):
         """Number of sequences available"""
-        return len(self.data_x) - self.seq_len - self.pred_len + 1
+        available_length = len(self.data_x) - self.seq_len - self.pred_len + 1
+        return max(0, available_length)
     
     def inverse_transform(self, data):
         """Convert normalized predictions back to original scale"""

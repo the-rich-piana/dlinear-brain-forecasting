@@ -1,0 +1,95 @@
+Args in experiment:
+Namespace(is_training=1, model_id='Activity_32_8', model='DummyLinear', data='Activity', root_path='./dataset/', data_path='session_0.h5', features='M', target='OT', freq='h', checkpoints='./checkpoints/', seq_len=32, label_len=32, pred_len=8, individual=False, embed_type=0, enc_in=5000, dec_in=7, c_out=7, d_model=512, n_heads=8, e_layers=2, d_layers=1, d_ff=2048, moving_avg=25, factor=1, distil=True, dropout=0.05, embed='timeF', activation='gelu', output_attention=False, do_predict=False, num_workers=10, itr=1, train_epochs=10, batch_size=128, patience=3, learning_rate=0.01, des='Exp', loss='mae', lradj='type1', use_amp=False, use_gpu=True, gpu=0, use_multi_gpu=False, devices='0,1,2,3', test_flop=False)
+Use GPU: cuda:0
+>>>>>>>start training : Activity_32_8_DummyLinear_Activity_ftM_sl32_ll32_pl8_dm512_nh8_el2_dl1_df2048_fc1_ebtimeF_dtTrue_Exp_0>>>>>>>>>>>>>>>>>>>>>>>>>>
+Loaded preprocessed data: (19081, 6903)
+Original neurons: 7673, Processed neurons: 6903
+Data range: 0.000 to 1.000
+Selected top 5000 neurons out of 6903 preprocessed neurons
+Final dataset shape: (13356, 5000)
+Final data statistics - Mean: 0.347, Std: 0.149
+train 13317
+Loaded preprocessed data: (19081, 6903)
+Original neurons: 7673, Processed neurons: 6903
+Data range: 0.000 to 1.000
+Selected top 5000 neurons out of 6903 preprocessed neurons
+Final dataset shape: (1908, 5000)
+Final data statistics - Mean: 0.378, Std: 0.158
+val 1869
+Loaded preprocessed data: (19081, 6903)
+Original neurons: 7673, Processed neurons: 6903
+Data range: 0.000 to 1.000
+Selected top 5000 neurons out of 6903 preprocessed neurons
+Final dataset shape: (3849, 5000)
+Final data statistics - Mean: 0.325, Std: 0.143
+test 3810
+	iters: 100, epoch: 1 | loss: 1.6006521
+	speed: 0.1075s/iter; left time: 101.1420s
+Epoch: 1 cost time: 7.910769701004028
+Epoch: 1, Steps: 104 | Train Loss: 2.1848796 Vali Loss: 1.7012947 Test Loss: 1.4502820
+Validation loss decreased (inf --> 1.701295).  Saving model ...
+Updating learning rate to 0.01
+	iters: 100, epoch: 2 | loss: 1.5134742
+	speed: 0.1360s/iter; left time: 113.8369s
+Epoch: 2 cost time: 7.716067314147949
+Epoch: 2, Steps: 104 | Train Loss: 1.5741344 Vali Loss: 1.5098860 Test Loss: 1.2733843
+Validation loss decreased (1.701295 --> 1.509886).  Saving model ...
+Updating learning rate to 0.005
+	iters: 100, epoch: 3 | loss: 0.7179810
+	speed: 0.1386s/iter; left time: 101.5598s
+Epoch: 3 cost time: 7.68367075920105
+Epoch: 3, Steps: 104 | Train Loss: 0.7160570 Vali Loss: 0.6972668 Test Loss: 0.5960339
+Validation loss decreased (1.509886 --> 0.697267).  Saving model ...
+Updating learning rate to 0.0025
+	iters: 100, epoch: 4 | loss: 0.2212264
+	speed: 0.1376s/iter; left time: 86.5659s
+Epoch: 4 cost time: 7.761647462844849
+Epoch: 4, Steps: 104 | Train Loss: 0.2692023 Vali Loss: 0.2552918 Test Loss: 0.2231527
+Validation loss decreased (0.697267 --> 0.255292).  Saving model ...
+Updating learning rate to 0.00125
+	iters: 100, epoch: 5 | loss: 0.0933747
+	speed: 0.1421s/iter; left time: 74.6060s
+Epoch: 5 cost time: 7.877928733825684
+Epoch: 5, Steps: 104 | Train Loss: 0.1080131 Vali Loss: 0.1067922 Test Loss: 0.0966909
+Validation loss decreased (0.255292 --> 0.106792).  Saving model ...
+Updating learning rate to 0.000625
+	iters: 100, epoch: 6 | loss: 0.0849293
+	speed: 0.1452s/iter; left time: 61.1284s
+Epoch: 6 cost time: 8.07637906074524
+Epoch: 6, Steps: 104 | Train Loss: 0.0870254 Vali Loss: 0.1001601 Test Loss: 0.0917090
+Validation loss decreased (0.106792 --> 0.100160).  Saving model ...
+Updating learning rate to 0.0003125
+	iters: 100, epoch: 7 | loss: 0.0823175
+	speed: 0.1400s/iter; left time: 44.3852s
+Epoch: 7 cost time: 7.802858591079712
+Epoch: 7, Steps: 104 | Train Loss: 0.0830924 Vali Loss: 0.0985823 Test Loss: 0.0904561
+Validation loss decreased (0.100160 --> 0.098582).  Saving model ...
+Updating learning rate to 0.00015625
+	iters: 100, epoch: 8 | loss: 0.0807733
+	speed: 0.1405s/iter; left time: 29.9254s
+Epoch: 8 cost time: 7.753134250640869
+Epoch: 8, Steps: 104 | Train Loss: 0.0813463 Vali Loss: 0.0979457 Test Loss: 0.0898191
+Validation loss decreased (0.098582 --> 0.097946).  Saving model ...
+Updating learning rate to 7.8125e-05
+	iters: 100, epoch: 9 | loss: 0.0802990
+	speed: 0.1421s/iter; left time: 15.4908s
+Epoch: 9 cost time: 7.895759105682373
+Epoch: 9, Steps: 104 | Train Loss: 0.0804568 Vali Loss: 0.0974580 Test Loss: 0.0896044
+Validation loss decreased (0.097946 --> 0.097458).  Saving model ...
+Updating learning rate to 3.90625e-05
+	iters: 100, epoch: 10 | loss: 0.0811312
+	speed: 0.1414s/iter; left time: 0.7069s
+Epoch: 10 cost time: 7.956933259963989
+Epoch: 10, Steps: 104 | Train Loss: 0.0799899 Vali Loss: 0.0973240 Test Loss: 0.0893769
+Validation loss decreased (0.097458 --> 0.097324).  Saving model ...
+Updating learning rate to 1.953125e-05
+>>>>>>>testing : Activity_32_8_DummyLinear_Activity_ftM_sl32_ll32_pl8_dm512_nh8_el2_dl1_df2048_fc1_ebtimeF_dtTrue_Exp_0<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+Loaded preprocessed data: (19081, 6903)
+Original neurons: 7673, Processed neurons: 6903
+Data range: 0.000 to 1.000
+Selected top 5000 neurons out of 6903 preprocessed neurons
+Final dataset shape: (3849, 5000)
+Final data statistics - Mean: 0.325, Std: 0.143
+test 3810
+mse:0.014280498959124088, mae:0.089376300573349, rse:0.8362331390380859, corr:[0.09946157 0.09250637 0.08608004 0.08146913 0.07803993 0.07527234
+ 0.07294197 0.07090962]

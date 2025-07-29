@@ -1,0 +1,175 @@
+Args in experiment:
+Namespace(is_training=1, model_id='Transformer_32_8', model='Transformer', data='ActivityOrdered', root_path='./dataset/', data_path='session_0.h5', features='M', target='OT', freq='m', checkpoints='./checkpoints/', seq_len=32, label_len=32, pred_len=8, individual=False, embed_type=0, enc_in=5000, dec_in=5000, c_out=5000, d_model=512, n_heads=8, e_layers=2, d_layers=1, d_ff=2048, moving_avg=25, factor=1, distil=True, dropout=0.05, embed='timeF', activation='gelu', output_attention=False, do_predict=False, num_workers=10, itr=1, train_epochs=10, batch_size=32, patience=3, learning_rate=0.01, des='Exp', loss='mae', lradj='type1', use_amp=False, use_gpu=True, gpu=0, use_multi_gpu=False, devices='0,1,2,3', test_flop=False)
+Use GPU: cuda:0
+>>>>>>>start training : Transformer_32_8_Transformer_ActivityOrdered_ftM_sl32_ll32_pl8_dm512_nh8_el2_dl1_df2048_fc1_ebtimeF_dtTrue_Exp_0>>>>>>>>>>>>>>>>>>>>>>>>>>
+Brain data loaded: (19081, 6903)
+Original neurons: 7673, Processed neurons: 6903
+Data range: 0.000 to 1.000
+Temporal split - Total time: 19081
+Train: 0 to 16218 (85.0%)
+Val: 16218 to 18126 (10.0%)
+Test: 18126 to 19081 (5.0%)
+Current split (train): 0 to 16218
+Selected top 5000 neurons out of 6903 total
+Selected neuron std range: 0.105 to 0.267
+Final dataset shape: (16218, 5000)
+Final data stats - Mean: 0.350, Std: 0.150
+Sequences available: 16179
+train 16179
+Brain data loaded: (19081, 6903)
+Original neurons: 7673, Processed neurons: 6903
+Data range: 0.000 to 1.000
+Temporal split - Total time: 19081
+Train: 0 to 16218 (85.0%)
+Val: 16218 to 18126 (10.0%)
+Test: 18126 to 19081 (5.0%)
+Current split (val): 16186 to 18126
+Selected top 5000 neurons out of 6903 total
+Selected neuron std range: 0.105 to 0.267
+Final dataset shape: (1940, 5000)
+Final data stats - Mean: 0.323, Std: 0.141
+Sequences available: 1901
+val 1901
+Brain data loaded: (19081, 6903)
+Original neurons: 7673, Processed neurons: 6903
+Data range: 0.000 to 1.000
+Temporal split - Total time: 19081
+Train: 0 to 16218 (85.0%)
+Val: 16218 to 18126 (10.0%)
+Test: 18126 to 19081 (5.0%)
+Current split (test): 18094 to 19081
+Selected top 5000 neurons out of 6903 total
+Selected neuron std range: 0.105 to 0.267
+Final dataset shape: (987, 5000)
+Final data stats - Mean: 0.356, Std: 0.150
+Sequences available: 948
+test 948
+	iters: 100, epoch: 1 | loss: 0.1137161
+	speed: 0.0620s/iter; left time: 306.9795s
+	iters: 200, epoch: 1 | loss: 0.0999841
+	speed: 0.0334s/iter; left time: 161.8447s
+	iters: 300, epoch: 1 | loss: 0.0925906
+	speed: 0.0329s/iter; left time: 156.1839s
+	iters: 400, epoch: 1 | loss: 0.0893859
+	speed: 0.0331s/iter; left time: 154.0777s
+	iters: 500, epoch: 1 | loss: 0.0889809
+	speed: 0.0334s/iter; left time: 152.1515s
+Epoch: 1 cost time: 17.550514936447144
+Epoch: 1, Steps: 505 | Train Loss: 0.1861662 Vali Loss: 0.0890419 Test Loss: 0.0844720
+Validation loss decreased (inf --> 0.089042).  Saving model ...
+Updating learning rate to 0.01
+	iters: 100, epoch: 2 | loss: 0.0860708
+	speed: 0.0830s/iter; left time: 368.9270s
+	iters: 200, epoch: 2 | loss: 0.0880343
+	speed: 0.0339s/iter; left time: 147.4722s
+	iters: 300, epoch: 2 | loss: 0.0919131
+	speed: 0.0339s/iter; left time: 143.8871s
+	iters: 400, epoch: 2 | loss: 0.0900463
+	speed: 0.0329s/iter; left time: 136.5836s
+	iters: 500, epoch: 2 | loss: 0.0843046
+	speed: 0.0341s/iter; left time: 138.0054s
+Epoch: 2 cost time: 17.511070489883423
+Epoch: 2, Steps: 505 | Train Loss: 0.0870197 Vali Loss: 0.0840817 Test Loss: 0.0848264
+Validation loss decreased (0.089042 --> 0.084082).  Saving model ...
+Updating learning rate to 0.005
+	iters: 100, epoch: 3 | loss: 0.0821902
+	speed: 0.0825s/iter; left time: 324.9621s
+	iters: 200, epoch: 3 | loss: 0.0855811
+	speed: 0.0328s/iter; left time: 125.9134s
+	iters: 300, epoch: 3 | loss: 0.0865681
+	speed: 0.0336s/iter; left time: 125.6219s
+	iters: 400, epoch: 3 | loss: 0.0860562
+	speed: 0.0341s/iter; left time: 124.1318s
+	iters: 500, epoch: 3 | loss: 0.0848713
+	speed: 0.0337s/iter; left time: 119.2541s
+Epoch: 3 cost time: 17.326213836669922
+Epoch: 3, Steps: 505 | Train Loss: 0.0862987 Vali Loss: 0.0873833 Test Loss: 0.0837451
+EarlyStopping counter: 1 out of 3
+Updating learning rate to 0.0025
+	iters: 100, epoch: 4 | loss: 0.0844198
+	speed: 0.0704s/iter; left time: 241.9317s
+	iters: 200, epoch: 4 | loss: 0.0853924
+	speed: 0.0333s/iter; left time: 111.0559s
+	iters: 300, epoch: 4 | loss: 0.0843948
+	speed: 0.0334s/iter; left time: 108.2326s
+	iters: 400, epoch: 4 | loss: 0.0886857
+	speed: 0.0339s/iter; left time: 106.3446s
+	iters: 500, epoch: 4 | loss: 0.0862636
+	speed: 0.0329s/iter; left time: 99.8600s
+Epoch: 4 cost time: 17.27048420906067
+Epoch: 4, Steps: 505 | Train Loss: 0.0860617 Vali Loss: 0.0894130 Test Loss: 0.0846466
+EarlyStopping counter: 2 out of 3
+Updating learning rate to 0.00125
+	iters: 100, epoch: 5 | loss: 0.0846690
+	speed: 0.0713s/iter; left time: 208.9135s
+	iters: 200, epoch: 5 | loss: 0.0853526
+	speed: 0.0331s/iter; left time: 93.6325s
+	iters: 300, epoch: 5 | loss: 0.0865043
+	speed: 0.0337s/iter; left time: 92.0623s
+	iters: 400, epoch: 5 | loss: 0.0873717
+	speed: 0.0330s/iter; left time: 86.7477s
+	iters: 500, epoch: 5 | loss: 0.0835352
+	speed: 0.0330s/iter; left time: 83.5844s
+Epoch: 5 cost time: 17.267028331756592
+Epoch: 5, Steps: 505 | Train Loss: 0.0859277 Vali Loss: 0.0839311 Test Loss: 0.0833754
+Validation loss decreased (0.084082 --> 0.083931).  Saving model ...
+Updating learning rate to 0.000625
+	iters: 100, epoch: 6 | loss: 0.0869528
+	speed: 0.0830s/iter; left time: 201.3217s
+	iters: 200, epoch: 6 | loss: 0.0868386
+	speed: 0.0343s/iter; left time: 79.8278s
+	iters: 300, epoch: 6 | loss: 0.0844249
+	speed: 0.0325s/iter; left time: 72.3895s
+	iters: 400, epoch: 6 | loss: 0.0833550
+	speed: 0.0354s/iter; left time: 75.2250s
+	iters: 500, epoch: 6 | loss: 0.0872888
+	speed: 0.0335s/iter; left time: 67.9494s
+Epoch: 6 cost time: 17.57653021812439
+Epoch: 6, Steps: 505 | Train Loss: 0.0858288 Vali Loss: 0.0853429 Test Loss: 0.0836468
+EarlyStopping counter: 1 out of 3
+Updating learning rate to 0.0003125
+	iters: 100, epoch: 7 | loss: 0.0860600
+	speed: 0.0696s/iter; left time: 133.6698s
+	iters: 200, epoch: 7 | loss: 0.0847644
+	speed: 0.0335s/iter; left time: 60.9897s
+	iters: 300, epoch: 7 | loss: 0.0885690
+	speed: 0.0345s/iter; left time: 59.4436s
+	iters: 400, epoch: 7 | loss: 0.0849734
+	speed: 0.0342s/iter; left time: 55.4068s
+	iters: 500, epoch: 7 | loss: 0.0856134
+	speed: 0.0326s/iter; left time: 49.6412s
+Epoch: 7 cost time: 17.331238269805908
+Epoch: 7, Steps: 505 | Train Loss: 0.0857886 Vali Loss: 0.0867231 Test Loss: 0.0836164
+EarlyStopping counter: 2 out of 3
+Updating learning rate to 0.00015625
+	iters: 100, epoch: 8 | loss: 0.0862814
+	speed: 0.0714s/iter; left time: 101.1101s
+	iters: 200, epoch: 8 | loss: 0.0885442
+	speed: 0.0341s/iter; left time: 44.9071s
+	iters: 300, epoch: 8 | loss: 0.0859580
+	speed: 0.0338s/iter; left time: 41.1588s
+	iters: 400, epoch: 8 | loss: 0.0844984
+	speed: 0.0345s/iter; left time: 38.4558s
+	iters: 500, epoch: 8 | loss: 0.0870784
+	speed: 0.0341s/iter; left time: 34.6398s
+Epoch: 8 cost time: 17.700036764144897
+Epoch: 8, Steps: 505 | Train Loss: 0.0857603 Vali Loss: 0.0868551 Test Loss: 0.0838065
+EarlyStopping counter: 3 out of 3
+Early stopping
+>>>>>>>testing : Transformer_32_8_Transformer_ActivityOrdered_ftM_sl32_ll32_pl8_dm512_nh8_el2_dl1_df2048_fc1_ebtimeF_dtTrue_Exp_0<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+Brain data loaded: (19081, 6903)
+Original neurons: 7673, Processed neurons: 6903
+Data range: 0.000 to 1.000
+Temporal split - Total time: 19081
+Train: 0 to 16218 (85.0%)
+Val: 16218 to 18126 (10.0%)
+Test: 18126 to 19081 (5.0%)
+Current split (test): 18094 to 19081
+Selected top 5000 neurons out of 6903 total
+Selected neuron std range: 0.105 to 0.267
+Final dataset shape: (987, 5000)
+Final data stats - Mean: 0.356, Std: 0.150
+Sequences available: 948
+test 948
+mse:0.01417976338416338, mae:0.08337534219026566, rse:0.7937072515487671, corr:[0.00079879 0.00094099 0.00093783 0.00092531 0.00091483 0.00093463
+ 0.00096358 0.0007906 ]
