@@ -4,3 +4,5 @@
 *.pdf
 CLAUDE.md
 *.csv
+*.pyc
+.DS_Store
