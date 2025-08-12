@@ -173,6 +173,7 @@ class Dataset_ETT_minute(Dataset):
     def __getitem__(self, index):
         s_begin = index
         s_end = s_begin + self.seq_len
+        #We subtract the label length so we have some overlapping.
         r_begin = s_end - self.label_len
         r_end = r_begin + self.label_len + self.pred_len
 
@@ -193,7 +194,7 @@ class Dataset_ETT_minute(Dataset):
 class Dataset_Activity(Dataset):
     def __init__(self, root_path, flag='train', size=None,
                  features='M', data_path='activity_raw.csv', # Changed default data_path
-                 target='OT', scale=True, timeenc=0, freq='h'): # Target is now a placeholder
+                 target='OT', scale=True, timeenc=0, freq='h', train_only=False): # Target is now a placeholder
         
         # size [seq_len, label_len, pred_len]
         if size == None:
@@ -219,6 +220,7 @@ class Dataset_Activity(Dataset):
         self.scale = scale
         self.timeenc = timeenc # This will be ignored but is kept for API compatibility
         self.freq = freq # This will be ignored but is kept for API compatibility
+        self.train_only = train_only # This will be ignored but is kept for API compatibility
 
         self.root_path = root_path
         self.data_path = data_path
@@ -344,7 +346,7 @@ class Dataset_Activity_Ordered(Dataset):
     def __init__(self, root_path, flag='train', size=None,
                  features='M', data_path='session_0.h5', 
                  target='OT', scale=True, timeenc=0, freq='h',
-                 n_neurons=5000):
+                 n_neurons=5000, train_only=False):
         
         # Sequence parameters
         if size is None:
@@ -367,6 +369,7 @@ class Dataset_Activity_Ordered(Dataset):
         self.timeenc = timeenc
         self.freq = freq
         self.n_neurons = n_neurons
+        self.train_only = train_only
         
         self.root_path = root_path
         self.data_path = data_path
