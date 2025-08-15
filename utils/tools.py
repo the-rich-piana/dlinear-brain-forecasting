@@ -81,17 +81,49 @@ class StandardScaler():
         return (data * self.std) + self.mean
 
 
-def visual(true, preds=None, name='./pic/test.pdf'):
+def visual(true, preds=None, name='./pic/test.jpg', model_name=None, pred_len=None, seq_len=None):
     """
     Results visualization
     """
-    plt.figure()
-    true_mean = np.mean(true)
-    plt.plot(true, label=f'GroundTruth (mean: {true_mean:.3f})', linewidth=2)
-    if preds is not None:
-        plt.plot(preds, label='Prediction', linewidth=2)
+    plt.figure(figsize=(12, 6))
+    
+    # Split true into input and target portions based on prediction length
+    if preds is not None and pred_len is not None:
+        input_len = len(true) - pred_len
+        
+        # Plot full ground truth line
+        plt.plot(range(len(true)), true, label='Ground Truth', linewidth=2, color='green')
+        
+        # Plot predictions starting from the last historical point for visual connection
+        pred_x_range = range(input_len - 1, len(true))
+        pred_y_values = [true[input_len - 1]] + list(preds[-pred_len:])
+        plt.plot(pred_x_range, pred_y_values, label='Prediction', linewidth=2, color='red')
+        
+        # Add vertical line to separate input from prediction
+        plt.axvline(x=input_len, color='gray', linestyle=':', alpha=0.7, label='Prediction Start')
+    else:
+        # Fallback to original behavior
+        true_mean = np.mean(true)
+        plt.plot(true, label=f'GroundTruth (mean: {true_mean:.3f})', linewidth=2)
+        if preds is not None:
+            plt.plot(preds, label='Prediction', linewidth=2)
+    
+    # Create title with model info
+    title_parts = []
+    if model_name:
+        title_parts.append(f'Model: {model_name}')
+    if seq_len:
+        title_parts.append(f'Seq Len: {seq_len}')
+    if pred_len:
+        title_parts.append(f'Pred Len: {pred_len}')
+    
+    if title_parts:
+        plt.title(' | '.join(title_parts))
+    
     plt.legend()
-    plt.savefig(name, bbox_inches='tight')
+    plt.grid(True, alpha=0.3)
+    plt.tight_layout()
+    plt.savefig(name, bbox_inches='tight', dpi=150)
     plt.close()  # Close figure to free memory
 
 def test_params_flop(model,x_shape):

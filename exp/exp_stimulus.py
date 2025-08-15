@@ -70,23 +70,32 @@ class Exp_Main(Exp_Basic):
                 # encoder - decoder
                 if self.args.use_amp:
                     with torch.cuda.amp.autocast():
+                        # Concatenate covariates for ALL models in stimulus experiment
+                        batch_x_combined = torch.cat([batch_x, batch_x_mark], dim=-1)
+                        
                         if 'Linear' in self.args.model or self.args.model == 'TSMixer':
-                            outputs = self.model(batch_x)
+                            outputs = self.model(batch_x_combined)
                         else:
                             if self.args.output_attention:
-                                outputs = self.model(batch_x, batch_x_mark, dec_inp, batch_y_mark)[0]
+                                outputs = self.model(batch_x_combined, batch_x_mark, dec_inp, batch_y_mark)[0]
                             else:
-                                outputs = self.model(batch_x, batch_x_mark, dec_inp, batch_y_mark)
+                                outputs = self.model(batch_x_combined, batch_x_mark, dec_inp, batch_y_mark)
                 else:
+                    # Concatenate covariates for ALL models in stimulus experiment
+                    batch_x_combined = torch.cat([batch_x, batch_x_mark], dim=-1)
+                    
                     if 'Linear' in self.args.model or self.args.model == 'TSMixer':
-                        outputs = self.model(batch_x)
+                        outputs = self.model(batch_x_combined)
                     else:
                         if self.args.output_attention:
-                            outputs = self.model(batch_x, batch_x_mark, dec_inp, batch_y_mark)[0]
+                            outputs = self.model(batch_x_combined, batch_x_mark, dec_inp, batch_y_mark)[0]
                         else:
-                            outputs = self.model(batch_x, batch_x_mark, dec_inp, batch_y_mark)
+                            outputs = self.model(batch_x_combined, batch_x_mark, dec_inp, batch_y_mark)
                 f_dim = -1 if self.args.features == 'MS' else 0
                 outputs = outputs[:, -self.args.pred_len:, f_dim:]
+                # For stimulus experiment: only predict neurons (first 5000 channels), not covariates
+                if outputs.shape[-1] > self.args.c_out:
+                    outputs = outputs[:, :, :self.args.c_out]
                 batch_y = batch_y[:, -self.args.pred_len:, f_dim:].to(self.device)
 
                 pred = outputs.detach().cpu()
@@ -94,7 +103,7 @@ class Exp_Main(Exp_Basic):
 
                 # Handle custom losses that might need input sequence
                 if hasattr(criterion, 'forward') and 'input_seq' in criterion.forward.__code__.co_varnames:
-                    loss = criterion(pred, true, batch_x.detach().cpu())
+                    loss = criterion(pred, true, batch_x_combined.detach().cpu())
                 else:
                     loss = criterion(pred, true)
 
@@ -146,52 +155,63 @@ class Exp_Main(Exp_Basic):
                 # encoder - decoder
                 if self.args.use_amp:
                     with torch.cuda.amp.autocast():
+                        # Concatenate covariates for ALL models in stimulus experiment
+                        batch_x_combined = torch.cat([batch_x, batch_x_mark], dim=-1)
+                        
                         if 'Linear' in self.args.model or self.args.model == 'TSMixer':
-                            outputs = self.model(batch_x)
+                            outputs = self.model(batch_x_combined)
                         else:
                             if self.args.output_attention:
-                                outputs = self.model(batch_x, batch_x_mark, dec_inp, batch_y_mark)[0]
+                                outputs = self.model(batch_x_combined, batch_x_mark, dec_inp, batch_y_mark)[0]
                             else:
-                                outputs = self.model(batch_x, batch_x_mark, dec_inp, batch_y_mark)
+                                outputs = self.model(batch_x_combined, batch_x_mark, dec_inp, batch_y_mark)
 
                         f_dim = -1 if self.args.features == 'MS' else 0
                         outputs = outputs[:, -self.args.pred_len:, f_dim:]
+                        # For stimulus experiment: only predict neurons (first 5000 channels), not covariates
+                        if outputs.shape[-1] > self.args.c_out:
+                            outputs = outputs[:, :, :self.args.c_out]
                         batch_y = batch_y[:, -self.args.pred_len:, f_dim:].to(self.device)
                         
                         # Handle custom losses that might need input sequence
                         if hasattr(criterion, 'forward') and 'input_seq' in criterion.forward.__code__.co_varnames:
-                            loss = criterion(outputs, batch_y, batch_x)
+                            loss = criterion(outputs, batch_y, batch_x_combined)
                         else:
                             loss = criterion(outputs, batch_y)
                         train_loss.append(loss.item())
                 else:
+                    # Concatenate covariates for ALL models in stimulus experiment
+                    batch_x_combined = torch.cat([batch_x, batch_x_mark], dim=-1)
+                    
                     if 'Linear' in self.args.model or self.args.model == 'TSMixer':
-                            outputs = self.model(batch_x)
+                        outputs = self.model(batch_x_combined)
                     else:
                         if self.args.output_attention:
-                            outputs = self.model(batch_x, batch_x_mark, dec_inp, batch_y_mark)[0]
-                            
+                            outputs = self.model(batch_x_combined, batch_x_mark, dec_inp, batch_y_mark)[0]
                         else:
-                            outputs = self.model(batch_x, batch_x_mark, dec_inp, batch_y_mark, batch_y)
+                            outputs = self.model(batch_x_combined, batch_x_mark, dec_inp, batch_y_mark)
                     # print(outputs.shape,batch_y.shape)
                     f_dim = -1 if self.args.features == 'MS' else 0
                     outputs = outputs[:, -self.args.pred_len:, f_dim:]
+                    # For stimulus experiment: only predict neurons (first 5000 channels), not covariates
+                    if outputs.shape[-1] > self.args.c_out:
+                        outputs = outputs[:, :, :self.args.c_out]
                     batch_y = batch_y[:, -self.args.pred_len:, f_dim:].to(self.device)
                     
                     # Handle custom losses that might need input sequence
                     if hasattr(criterion, 'forward') and 'input_seq' in criterion.forward.__code__.co_varnames:
-                        loss = criterion(outputs, batch_y, batch_x)
+                        loss = criterion(outputs, batch_y, batch_x_combined)
                     else:
                         loss = criterion(outputs, batch_y)
                     train_loss.append(loss.item())
 
-                # if (i + 1) % 100 == 0:
-                #     print("\titers: {0}, epoch: {1} | loss: {2:.7f}".format(i + 1, epoch + 1, loss.item()))
-                #     speed = (time.time() - time_now) / iter_count
-                #     left_time = speed * ((self.args.train_epochs - epoch) * train_steps - i)
-                #     print('\tspeed: {:.4f}s/iter; left time: {:.4f}s'.format(speed, left_time))
-                #     iter_count = 0
-                #     time_now = time.time()
+                if (i + 1) % 100 == 0:
+                    print("\titers: {0}, epoch: {1} | loss: {2:.7f}".format(i + 1, epoch + 1, loss.item()))
+                    speed = (time.time() - time_now) / iter_count
+                    left_time = speed * ((self.args.train_epochs - epoch) * train_steps - i)
+                    print('\tspeed: {:.4f}s/iter; left time: {:.4f}s'.format(speed, left_time))
+                    iter_count = 0
+                    time_now = time.time()
 
                 if self.args.use_amp:
                     scaler.scale(loss).backward()
@@ -236,10 +256,7 @@ class Exp_Main(Exp_Basic):
         preds = []
         trues = []
         inputx = []
-        if hasattr(self.args, 'experiment_name') and self.args.experiment_name:
-            folder_path = './test_results/' + self.args.experiment_name + '/' + setting + '/'
-        else:
-            folder_path = './test_results/' + setting + '/'
+        folder_path = './test_results/' + setting + '/'
         if not os.path.exists(folder_path):
             os.makedirs(folder_path)
 
@@ -258,26 +275,34 @@ class Exp_Main(Exp_Basic):
                 # encoder - decoder
                 if self.args.use_amp:
                     with torch.cuda.amp.autocast():
+                        # Concatenate covariates for ALL models in stimulus experiment
+                        batch_x_combined = torch.cat([batch_x, batch_x_mark], dim=-1)
+                        
                         if 'Linear' in self.args.model or self.args.model == 'TSMixer':
-                            outputs = self.model(batch_x)
+                            outputs = self.model(batch_x_combined)
                         else:
                             if self.args.output_attention:
-                                outputs = self.model(batch_x, batch_x_mark, dec_inp, batch_y_mark)[0]
+                                outputs = self.model(batch_x_combined, batch_x_mark, dec_inp, batch_y_mark)[0]
                             else:
-                                outputs = self.model(batch_x, batch_x_mark, dec_inp, batch_y_mark)
+                                outputs = self.model(batch_x_combined, batch_x_mark, dec_inp, batch_y_mark)
                 else:
+                    # Concatenate covariates for ALL models in stimulus experiment
+                    batch_x_combined = torch.cat([batch_x, batch_x_mark], dim=-1)
+                    
                     if 'Linear' in self.args.model or self.args.model == 'TSMixer':
-                            outputs = self.model(batch_x)
+                        outputs = self.model(batch_x_combined)
                     else:
                         if self.args.output_attention:
-                            outputs = self.model(batch_x, batch_x_mark, dec_inp, batch_y_mark)[0]
-
+                            outputs = self.model(batch_x_combined, batch_x_mark, dec_inp, batch_y_mark)[0]
                         else:
-                            outputs = self.model(batch_x, batch_x_mark, dec_inp, batch_y_mark)
+                            outputs = self.model(batch_x_combined, batch_x_mark, dec_inp, batch_y_mark)
 
                 f_dim = -1 if self.args.features == 'MS' else 0
                 # print(outputs.shape,batch_y.shape)
                 outputs = outputs[:, -self.args.pred_len:, f_dim:]
+                # For stimulus experiment: only predict neurons (first 5000 channels), not covariates
+                if outputs.shape[-1] > self.args.c_out:
+                    outputs = outputs[:, :, :self.args.c_out]
                 batch_y = batch_y[:, -self.args.pred_len:, f_dim:].to(self.device)
                 outputs = outputs.detach().cpu().numpy()
                 batch_y = batch_y.detach().cpu().numpy()
@@ -287,16 +312,15 @@ class Exp_Main(Exp_Basic):
 
                 preds.append(pred)
                 trues.append(true)
-                inputx.append(batch_x.detach().cpu().numpy())
+                inputx.append(batch_x_combined.detach().cpu().numpy())
                 if i % 20 == 0:
-                    input = batch_x.detach().cpu().numpy()
+                    input = batch_x_combined.detach().cpu().numpy()
                     gt = np.concatenate((input[0, :, -1], true[0, :, -1]), axis=0)
                     pd = np.concatenate((input[0, :, -1], pred[0, :, -1]), axis=0)
-                    visual(gt, pd, os.path.join(folder_path, str(i) + '.jpg'), 
-                          model_name=self.args.model, pred_len=self.args.pred_len, seq_len=self.args.seq_len)
+                    visual(gt, pd, os.path.join(folder_path, str(i) + '.pdf'))
 
         if self.args.test_flop:
-            test_params_flop((batch_x.shape[1],batch_x.shape[2]))
+            test_params_flop((batch_x_combined.shape[1],batch_x_combined.shape[2]))
             exit()
             
         preds = np.concatenate(preds, axis=0)
@@ -347,21 +371,42 @@ class Exp_Main(Exp_Basic):
                 # encoder - decoder
                 if self.args.use_amp:
                     with torch.cuda.amp.autocast():
+                        # Concatenate covariates for ALL models in stimulus experiment
+                        batch_x_combined = torch.cat([batch_x, batch_x_mark], dim=-1)
+                        
                         if 'Linear' in self.args.model or self.args.model == 'TSMixer':
-                            outputs = self.model(batch_x)
+                            outputs = self.model(batch_x_combined)
                         else:
                             if self.args.output_attention:
-                                outputs = self.model(batch_x, batch_x_mark, dec_inp, batch_y_mark)[0]
+                                outputs = self.model(batch_x_combined, batch_x_mark, dec_inp, batch_y_mark)[0]
                             else:
-                                outputs = self.model(batch_x, batch_x_mark, dec_inp, batch_y_mark)
+                                outputs = self.model(batch_x_combined, batch_x_mark, dec_inp, batch_y_mark)
+                        
+                        # Apply same slicing as in other methods
+                        f_dim = -1 if self.args.features == 'MS' else 0
+                        outputs = outputs[:, -self.args.pred_len:, f_dim:]
+                        # For stimulus experiment: only predict neurons (first 5000 channels), not covariates
+                        if outputs.shape[-1] > self.args.c_out:
+                            outputs = outputs[:, :, :self.args.c_out]
                 else:
+                    # Concatenate covariates for ALL models in stimulus experiment
+                    batch_x_combined = torch.cat([batch_x, batch_x_mark], dim=-1)
+                    
                     if 'Linear' in self.args.model or self.args.model == 'TSMixer':
-                        outputs = self.model(batch_x)
+                        outputs = self.model(batch_x_combined)
                     else:
                         if self.args.output_attention:
-                            outputs = self.model(batch_x, batch_x_mark, dec_inp, batch_y_mark)[0]
+                            outputs = self.model(batch_x_combined, batch_x_mark, dec_inp, batch_y_mark)[0]
                         else:
-                            outputs = self.model(batch_x, batch_x_mark, dec_inp, batch_y_mark)
+                            outputs = self.model(batch_x_combined, batch_x_mark, dec_inp, batch_y_mark)
+                
+                # Apply same slicing as in other methods
+                f_dim = -1 if self.args.features == 'MS' else 0
+                outputs = outputs[:, -self.args.pred_len:, f_dim:]
+                # For stimulus experiment: only predict neurons (first 5000 channels), not covariates
+                if outputs.shape[-1] > self.args.c_out:
+                    outputs = outputs[:, :, :self.args.c_out]
+                    
                 pred = outputs.detach().cpu().numpy()  # .squeeze()
                 preds.append(pred)
 
