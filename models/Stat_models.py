@@ -14,8 +14,52 @@ class Naive_repeat(nn.Module):
         
     def forward(self, x):
         B,L,D = x.shape
-        x = x[:,-1,:].reshape(B,1,D).repeat(self.pred_len,axis=1)
-        return x # [B, L, D]
+        x = x[:,-1,:].reshape(B,1,D)
+        x = x.repeat(1, self.pred_len, 1)
+        return x # [B, pred_len, D]
+
+class Mean_repeat(nn.Module):
+    """
+    Mean baseline model that predicts by repeating the mean of the input sequence.
+    
+    This is a PyTorch implementation following the JAX MeanBaseline model structure.
+    The model computes the mean across the time dimension of the input sequence
+    and repeats it for the prediction length.
+    """
+    
+    def __init__(self, configs):
+        super(Mean_repeat, self).__init__()
+        self.pred_len = configs.pred_len
+        
+        # Create an unused parameter to match the JAX implementation
+        # This ensures compatibility with existing training code that expects parameters
+        self.unused_param = nn.Parameter(torch.zeros(1))
+        
+    def forward(self, x: torch.Tensor):
+        """
+        Forward pass for mean baseline model.
+        
+        Args:
+            x: Input tensor of shape [B, L, D] where:
+                B = batch size
+                L = sequence length (time steps)
+                D = number of features/channels
+                
+        Returns:
+            Output tensor of shape [B, pred_len, D] where each time step
+            contains the mean of the input sequence across the time dimension.
+        """
+        batch_size, seq_len, num_features = x.shape
+        
+        # Compute mean across time dimension (dim=1), keeping dimensions
+        # Shape: [batch_size, 1, num_features]
+        mean_values = torch.mean(x, dim=1, keepdim=True)
+        
+        # Repeat the mean values for pred_len time steps
+        # Shape: [batch_size, pred_len, num_features]
+        predictions = mean_values.repeat(1, self.pred_len, 1)
+        
+        return predictions
 
 # class Naive_thread(threading.Thread):
 #     def __init__(self,func,args=()):

@@ -24,6 +24,7 @@ class Exp_Main(Exp_Basic):
     def _build_model(self):
         model_dict = {
             'Naive': Naive_repeat,
+            'Mean': Mean_repeat
             # 'ARIMA': Arima,
             # 'SARIMA': SArima,
             # 'GBRT': GBRT,
@@ -45,14 +46,18 @@ class Exp_Main(Exp_Basic):
         preds = []
         trues = []
         inputx = []
-        folder_path = './test_results/' + setting + '/'
+        if hasattr(self.args, 'experiment_name') and self.args.experiment_name:
+            folder_path = './test_results/' + self.args.experiment_name + '/' + setting + '/'
+        else:
+            folder_path = './test_results/' + setting + '/'
         if not os.path.exists(folder_path):
             os.makedirs(folder_path)
 
+
         with torch.no_grad():
             for i, (batch_x, batch_y, batch_x_mark, batch_y_mark) in enumerate(test_loader):
-                batch_x = batch_x.float().to(self.device).cpu().numpy()
-                batch_y = batch_y.float().to(self.device).cpu().numpy()
+                batch_x = batch_x.float().to(self.device)
+                batch_y = batch_y.float().to(self.device)
 
                 batch_x = batch_x[:samples]
                 outputs = self.model(batch_x)
@@ -72,7 +77,9 @@ class Exp_Main(Exp_Basic):
                     input = batch_x
                     gt = np.concatenate((input[0, :, -1], true[0, :, -1]), axis=0)
                     pd = np.concatenate((input[0, :, -1], pred[0, :, -1]), axis=0)
-                    visual(gt, pd, os.path.join(folder_path, str(i) + '.pdf'))
+                    visual(gt, pd, os.path.join(folder_path, str(i) + '.jpg'), 
+                          model_name=self.args.model, pred_len=self.args.pred_len, seq_len=self.args.seq_len)
+
 
         preds = np.concatenate(preds, axis=0)
         trues = np.concatenate(trues, axis=0)
@@ -85,12 +92,10 @@ class Exp_Main(Exp_Basic):
         mae, mse, rmse, mape, mspe, rse, corr = metric(preds, trues)
         corr = []
         print('mse:{}, mae:{}, rse:{}, corr:{}'.format(mse, mae, rse, corr))
-        f = open("result.txt", 'a')
-        f.write(setting + "  \n")
-        f.write('mse:{}, mae:{}, rse:{}, corr:{}'.format(mse, mae, rse, corr))
-        f.write('\n')
-        f.write('\n')
-        f.close()
+        
+        # Output results to CSV
+        from utils.tools import output_results
+        output_results(self.args, setting, mse, mae, rmse, mape, mspe, rse, corr)
 
         # np.save(folder_path + 'metrics.npy', np.array([mae, mse, rmse, mape, mspe,rse, corr]))
         # np.save(folder_path + 'pred.npy', preds)

@@ -44,6 +44,7 @@ parser.add_argument('--num_workers', type=int, default=10, help='Not implemented
 parser.add_argument('--itr', type=int, default=2, help='experiments times')
 parser.add_argument('--batch_size', type=int, default=100, help='batch size of train input data')
 parser.add_argument('--des', type=str, default='test', help='exp description')
+parser.add_argument('--experiment_name', type=str, default=None, help='experiment name for organizing output directories')
 
 # GPU
 parser.add_argument('--use_gpu', type=bool, default=True, help='use gpu')

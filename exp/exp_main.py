@@ -1,6 +1,6 @@
 from data_provider.data_factory import data_provider
 from exp.exp_basic import Exp_Basic
-from models import Informer, Autoformer, Transformer, DLinear, Linear, NLinear, DummyLinear, TSMixer
+from models import Informer, Autoformer, Transformer, DLinear, Linear, NLinear, DummyLinear, TSMixer, POCO
 from utils.tools import EarlyStopping, adjust_learning_rate, visual, test_params_flop
 from utils.metrics import metric
 from utils.losses import get_loss_function
@@ -34,6 +34,7 @@ class Exp_Main(Exp_Basic):
             'Linear': Linear,
             'DummyLinear': DummyLinear,
             'TSMixer': TSMixer,
+            'POCO': POCO,
         }
         model = model_dict[self.args.model].Model(self.args).float()
 
@@ -109,7 +110,11 @@ class Exp_Main(Exp_Basic):
             vali_data, vali_loader = self._get_data(flag='val')
             test_data, test_loader = self._get_data(flag='test')
 
-        path = os.path.join(self.args.checkpoints, setting)
+        # Include experiment_name in checkpoint path if available
+        if hasattr(self.args, 'experiment_name') and self.args.experiment_name:
+            path = os.path.join(self.args.checkpoints, self.args.experiment_name, setting)
+        else:
+            path = os.path.join(self.args.checkpoints, setting)
         if not os.path.exists(path):
             os.makedirs(path)
 
@@ -231,7 +236,12 @@ class Exp_Main(Exp_Basic):
         
         if test:
             print('loading model')
-            self.model.load_state_dict(torch.load(os.path.join('./checkpoints/' + setting, 'checkpoint.pth')))
+            # Include experiment_name in checkpoint path if available
+            if hasattr(self.args, 'experiment_name') and self.args.experiment_name:
+                checkpoint_path = os.path.join(self.args.checkpoints, self.args.experiment_name, setting, 'checkpoint.pth')
+            else:
+                checkpoint_path = os.path.join(self.args.checkpoints, setting, 'checkpoint.pth')
+            self.model.load_state_dict(torch.load(checkpoint_path))
 
         preds = []
         trues = []
@@ -310,12 +320,10 @@ class Exp_Main(Exp_Basic):
 
         mae, mse, rmse, mape, mspe, rse, corr = metric(preds, trues)
         print('mse:{}, mae:{}'.format(mse, mae))
-        f = open("result.txt", 'a')
-        f.write(setting + "  \n")
-        f.write('mse:{}, mae:{}, rse:{}, corr:{}'.format(mse, mae, rse, corr))
-        f.write('\n')
-        f.write('\n')
-        f.close()
+        
+        # Output results to CSV
+        from utils.tools import output_results
+        output_results(self.args, setting, mse, mae, rmse, mape, mspe, rse, corr)
 
         # np.save(folder_path + 'metrics.npy', np.array([mae, mse, rmse, mape, mspe,rse, corr]))
         # np.save(folder_path + 'pred.npy', preds)
@@ -327,7 +335,11 @@ class Exp_Main(Exp_Basic):
         pred_data, pred_loader = self._get_data(flag='pred')
 
         if load:
-            path = os.path.join(self.args.checkpoints, setting)
+            # Include experiment_name in checkpoint path if available
+            if hasattr(self.args, 'experiment_name') and self.args.experiment_name:
+                path = os.path.join(self.args.checkpoints, self.args.experiment_name, setting)
+            else:
+                path = os.path.join(self.args.checkpoints, setting)
             best_model_path = path + '/' + 'checkpoint.pth'
             self.model.load_state_dict(torch.load(best_model_path))
 

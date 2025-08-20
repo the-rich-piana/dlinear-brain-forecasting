@@ -249,14 +249,36 @@ class Dataset_Activity(Dataset):
             print(f"Original neurons: {n_original_neurons}, current: {processed_data.shape[1]}")
             print(f"Data range: {processed_data.min():.3f} to {processed_data.max():.3f}")
         
-        num_train = int(len(processed_data) * 0.7)
-        num_vali = int(len(processed_data) * 0.1)
-        num_test = len(processed_data) - num_train - num_vali
+        # TEMPORAL SPLITS FOR ACTIVITY DATA
+        # Train: first 70%, Val: next 20%, Test: last 10%
+        total_time = len(processed_data)
+        train_end = int(total_time * 0.7)
+        val_end = int(total_time * 0.9)
         
-        # Final data assignment (data is already normalized from preprocessing)
-        self.data_stamp = np.zeros((processed_data.shape[0], 1))
-        self.data_x = processed_data[0:1000]
-        self.data_y = processed_data[0:1000]
+        # Calculate borders for each split
+        border1s = [
+            0,                           # Train start
+            train_end - self.seq_len,    # Val start (overlap for sequences)
+            val_end - self.seq_len       # Test start (overlap for sequences)
+        ]
+        border2s = [
+            train_end,                   # Train end
+            val_end,                     # Val end
+            total_time                   # Test end
+        ]
+        
+        border1 = border1s[self.set_type]
+        border2 = border2s[self.set_type]
+        
+        print(f"Temporal split - Total time: {total_time}")
+        print(f"Train: 0 to {train_end} ({train_end/total_time*100:.1f}%)")
+        print(f"Val: {train_end} to {val_end} ({(val_end-train_end)/total_time*100:.1f}%)")
+        print(f"Test: {val_end} to {total_time} ({(total_time-val_end)/total_time*100:.1f}%)")
+        print(f"Current split ({['train', 'val', 'test'][self.set_type]}): {border1} to {border2}")
+        
+        # Data assignment for current split
+        self.data_x = processed_data[border1:border2]
+        self.data_y = processed_data[border1:border2]
         
         print(f"Using pre-selected top {self.data_x.shape[1]} neurons from HDF5 file.")
         print(f"Full dataset shape: {self.data_x.shape}")
@@ -295,7 +317,8 @@ class Dataset_Activity(Dataset):
 
     def __len__(self):
         # Ensure we have enough data for at least one sequence
-        return len(self.data_x) - self.seq_len - self.pred_len + 1
+        available_length = len(self.data_x) - self.seq_len - self.pred_len + 1
+        return max(0, available_length)
 
     def inverse_transform(self, data):
         """Convert normalized predictions back to original scale"""

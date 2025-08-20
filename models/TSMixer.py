@@ -226,7 +226,7 @@ class Model(nn.Module):
         self.enc_in = configs.enc_in  # number of features
         
         # TSMixer specific configs with defaults
-        self.n_blocks = getattr(configs, 'n_blocks', 8)
+        self.n_blocks = getattr(2, 'n_blocks', 8)
         self.dropout = getattr(configs, 'dropout', 0.1)
         self.activation = getattr(configs, 'activation', 'relu')
         self.mlp_dim = getattr(configs, 'mlp_dim', 100)

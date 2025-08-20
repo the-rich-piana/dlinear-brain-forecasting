@@ -1,6 +1,8 @@
 import numpy as np
 import torch
 import matplotlib.pyplot as plt
+import pandas as pd
+import os
 import time
 
 plt.switch_backend('agg')
@@ -83,32 +85,40 @@ class StandardScaler():
 
 def visual(true, preds=None, name='./pic/test.jpg', model_name=None, pred_len=None, seq_len=None):
     """
-    Results visualization
+    Results visualization with a clearer history/future split and ground truth mean.
     """
     plt.figure(figsize=(12, 6))
     
-    # Split true into input and target portions based on prediction length
-    if preds is not None and pred_len is not None:
-        input_len = len(true) - pred_len
-        
-        # Plot full ground truth line
-        plt.plot(range(len(true)), true, label='Ground Truth', linewidth=2, color='green')
-        
-        # Plot predictions starting from the last historical point for visual connection
-        pred_x_range = range(input_len - 1, len(true))
-        pred_y_values = [true[input_len - 1]] + list(preds[-pred_len:])
+    # Define the point where the prediction begins
+    prediction_start_index = len(true) - pred_len
+    true_mean = np.mean(true)
+
+    # 1. Plot the historical data that the model used as input
+    # --- MODIFIED: Added the mean to the label ---
+    plt.plot(range(0, prediction_start_index), 
+             true[:prediction_start_index], 
+             label=f'Ground Truth (History) | Mean: {true_mean:.3f}', 
+             linewidth=2, 
+             color='green')
+
+    # 2. Plot the future ground truth that the model is trying to predict
+    plt.plot(range(prediction_start_index - 1, len(true)), 
+             true[prediction_start_index-1:], 
+             label='Ground Truth (Future)', 
+             linewidth=2, 
+             color='mediumseagreen',
+             linestyle='--')
+
+    # 3. Plot the prediction, also starting from the last historical point
+    if preds is not None:
+        pred_x_range = range(prediction_start_index - 1, len(true))
+        pred_y_values = [true[prediction_start_index - 1]] + list(preds[-pred_len:])
         plt.plot(pred_x_range, pred_y_values, label='Prediction', linewidth=2, color='red')
-        
-        # Add vertical line to separate input from prediction
-        plt.axvline(x=input_len, color='gray', linestyle=':', alpha=0.7, label='Prediction Start')
-    else:
-        # Fallback to original behavior
-        true_mean = np.mean(true)
-        plt.plot(true, label=f'GroundTruth (mean: {true_mean:.3f})', linewidth=2)
-        if preds is not None:
-            plt.plot(preds, label='Prediction', linewidth=2)
     
-    # Create title with model info
+    # 4. The vertical line now correctly marks the start of the future/prediction period
+    plt.axvline(x=prediction_start_index, color='gray', linestyle=':', alpha=0.7, label='Prediction Start')
+
+    # --- Title and other settings remain the same ---
     title_parts = []
     if model_name:
         title_parts.append(f'Model: {model_name}')
@@ -124,7 +134,8 @@ def visual(true, preds=None, name='./pic/test.jpg', model_name=None, pred_len=No
     plt.grid(True, alpha=0.3)
     plt.tight_layout()
     plt.savefig(name, bbox_inches='tight', dpi=150)
-    plt.close()  # Close figure to free memory
+    plt.close()
+
 
 def test_params_flop(model,x_shape):
     """
@@ -141,3 +152,42 @@ def test_params_flop(model,x_shape):
         # print('Params:' + params)
         print('{:<30}  {:<8}'.format('Computational complexity: ', macs))
         print('{:<30}  {:<8}'.format('Number of parameters: ', params))
+
+
+def output_results(args, setting, mse, mae, rmse, mape, mspe, rse, corr):
+    """
+    Outputs experiment results to CSV file with structured format
+    
+    Args:
+        args: experiment arguments containing model, seq_len, pred_len, label_len
+        setting: experiment setting string
+        mse, mae, rmse, mape, mspe, rse, corr: metric values
+    """
+    # Create results dataframe
+    result_data = {
+        'model': [args.model],
+        'setting': [setting],
+        'experiment_name': [getattr(args, 'experiment_name', None)],
+        'seq_len': [args.seq_len],
+        'pred_len': [args.pred_len], 
+        'label_len': [args.label_len],
+        'mse': [mse],
+        'mae': [mae],
+        'rmse': [rmse],
+        'mape': [mape],
+        'mspe': [mspe],
+        'rse': [rse],
+        'corr': [corr]
+    }
+    
+    df = pd.DataFrame(result_data)
+    
+    # Use experiment name for CSV filename, fallback to results.csv
+    experiment_name = getattr(args, 'experiment_name', None)
+    csv_filename = f"{experiment_name}.csv" if experiment_name else "results.csv"
+    
+    # Append to CSV file (create header if file doesn't exist)
+    if os.path.exists(csv_filename):
+        df.to_csv(csv_filename, mode='a', header=False, index=False)
+    else:
+        df.to_csv(csv_filename, mode='w', header=True, index=False)
