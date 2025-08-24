@@ -300,8 +300,9 @@ class Exp_Main(Exp_Basic):
                 inputx.append(batch_x.detach().cpu().numpy())
                 if i % 20 == 0:
                     input = batch_x.detach().cpu().numpy()
-                    gt = np.concatenate((input[0, :, -1], true[0, :, -1]), axis=0)
-                    pd = np.concatenate((input[0, :, -1], pred[0, :, -1]), axis=0)
+                    feature_idx = getattr(self.args, 'feature_idx', -1)
+                    gt = np.concatenate((input[0, :, feature_idx], true[0, :, feature_idx]), axis=0)
+                    pd = np.concatenate((input[0, :, feature_idx], pred[0, :, feature_idx]), axis=0)
                     visual(gt, pd, os.path.join(folder_path, str(i) + '.jpg'), 
                           model_name=self.args.model, pred_len=self.args.pred_len, seq_len=self.args.seq_len)
 

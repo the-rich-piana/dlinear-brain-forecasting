@@ -1,4 +1,4 @@
-#  sh scripts/EXP_Activity/activity_short_70_700_7000_neurons_parallel.sh
+#  sh scripts/EXP_Activity/visualize/activity_long_70_700_7000_neurons_parallel_visualize.sh
 # Parallel experiment to understand the number of neuronal variates and how it effects model performance on a held out test set. 
 
 # Signal handler for Ctrl+C
@@ -14,14 +14,14 @@ if [ ! -d "./logs" ]; then
 fi
 
 # Arrays for different datasets
-experiment_names=("ActivityShort70N" "ActivityShort700N" "ActivityShort7000N")
+experiment_names=("ActivityLong70N" "ActivityLong700N" "ActivityLong7000N")
 data_paths=("session_5ea6bb9b-6163-4e8a-816b-efe7002666b0_70.h5" "session_5ea6bb9b-6163-4e8a-816b-efe7002666b0_700.h5" "session_5ea6bb9b-6163-4e8a-816b-efe7002666b0_7000.h5")
 neuron_counts=(70 700 7000)
 
 batch_size=8
-pred_len=8
-seq_len=16
-label_len=8
+pred_len=16
+seq_len=48
+label_len=16
 root_path=/cs/student/projects1/aibh/2024/gcosta/mpci_data/
 
 # Create log directories for all experiments
@@ -32,57 +32,7 @@ for i in {0..2}; do
     fi
 done
 
-echo "Starting parallel training experiments..."
-
-# Run Naive baseline for all datasets in parallel
-echo "Running Naive models..."
-for i in {0..2}; do
-    experiment_name=${experiment_names[$i]}
-    data_path=${data_paths[$i]}
-    
-    python -u run_stat.py \
-      --is_training 1 \
-      --model Naive \
-      --data Activity \
-      --root_path $root_path \
-      --data_path $data_path \
-      --model_id Naive_$seq_len'_'$pred_len \
-      --features M \
-      --label_len $label_len \
-      --seq_len $seq_len \
-      --pred_len $pred_len \
-      --des 'Exp' \
-      --experiment_name $experiment_name \
-      --batch_size $batch_size \
-      --itr 1  | tee logs/$experiment_name/Naive'_'$seq_len'_'$pred_len.log &
-done
-wait
-echo "Naive models completed."
-
-# Run Mean baseline for all datasets in parallel
-echo "Running Mean models..."
-for i in {0..2}; do
-    experiment_name=${experiment_names[$i]}
-    data_path=${data_paths[$i]}
-    
-    python -u run_stat.py \
-      --is_training 1 \
-      --model Mean \
-      --data Activity \
-      --root_path $root_path \
-      --data_path $data_path \
-      --model_id Mean_$seq_len'_'$pred_len \
-      --features M \
-      --label_len $label_len \
-      --seq_len $seq_len \
-      --pred_len $pred_len \
-      --des 'Exp' \
-      --experiment_name $experiment_name \
-      --batch_size $batch_size \
-      --itr 1  | tee logs/$experiment_name/Mean'_'$seq_len'_'$pred_len.log &
-done
-wait
-echo "Mean models completed."
+echo "Starting visualizing and testing of experiments..."
 
 # Run TSMixer for all datasets in parallel
 echo "Running TSMixer models..."
@@ -93,7 +43,7 @@ for i in {0..2}; do
     c_out=${neuron_counts[$i]}
     
     python -u run_longExp.py \
-      --is_training 1 \
+      --is_training 0 \
       --model TSMixer \
       --data Activity \
       --root_path $root_path \
@@ -112,6 +62,7 @@ for i in {0..2}; do
       --train_epochs 10 \
       --patience 3 \
       --batch_size $batch_size \
+      --feature_idx 69 \
       --itr 1  | tee logs/$experiment_name/TSMixer'_'$seq_len'_'$pred_len.log &
 done
 wait
@@ -126,7 +77,7 @@ for i in {0..2}; do
     c_out=${neuron_counts[$i]}
     
     python -u run_longExp.py \
-      --is_training 1 \
+      --is_training 0 \
       --model POCO \
       --data Activity \
       --root_path $root_path \
@@ -145,6 +96,7 @@ for i in {0..2}; do
       --train_epochs 10 \
       --patience 1 \
       --batch_size $batch_size \
+      --feature_idx 69 \
       --itr 1  | tee logs/$experiment_name/POCO'_'$seq_len'_'$pred_len.log &
 done
 wait
@@ -159,7 +111,7 @@ for i in {0..2}; do
     c_out=${neuron_counts[$i]}
     
     python -u run_longExp.py \
-      --is_training 1 \
+      --is_training 0 \
       --model Linear \
       --data Activity \
       --root_path $root_path \
@@ -178,6 +130,7 @@ for i in {0..2}; do
       --train_epochs 10 \
       --patience 3 \
       --batch_size $batch_size \
+      --feature_idx 69 \
       --itr 1  | tee logs/$experiment_name/Linear'_'$seq_len'_'$pred_len.log &
 done
 wait
@@ -192,7 +145,7 @@ for i in {0..2}; do
     c_out=${neuron_counts[$i]}
     
     python -u run_longExp.py \
-      --is_training 1 \
+      --is_training 0 \
       --model DLinear \
       --data Activity \
       --root_path $root_path \
@@ -211,6 +164,7 @@ for i in {0..2}; do
       --train_epochs 10 \
       --patience 3 \
       --batch_size $batch_size \
+      --feature_idx 69 \
       --itr 1  | tee logs/$experiment_name/DLinear'_'$seq_len'_'$pred_len.log &
 done
 wait
@@ -225,7 +179,7 @@ for i in {0..2}; do
     c_out=${neuron_counts[$i]}
     
     python -u run_longExp.py \
-      --is_training 1 \
+      --is_training 0 \
       --model Informer \
       --data Activity \
       --root_path $root_path \
@@ -244,6 +198,7 @@ for i in {0..2}; do
       --train_epochs 10 \
       --batch_size $batch_size \
       --freq m \
+      --feature_idx 69 \
       --itr 1  | tee logs/$experiment_name/Informer'_'$seq_len'_'$pred_len.log &
 done
 wait
@@ -258,7 +213,7 @@ for i in {0..2}; do
     c_out=${neuron_counts[$i]}
     
     python -u run_longExp.py \
-      --is_training 1 \
+      --is_training 0 \
       --model Transformer \
       --data Activity \
       --root_path $root_path \
@@ -276,6 +231,7 @@ for i in {0..2}; do
       --des 'Exp' \
       --experiment_name $experiment_name \
       --batch_size $batch_size \
+      --feature_idx 69 \
       --itr 1  | tee logs/$experiment_name/Transformer'_'$seq_len'_'$pred_len.log &
 done
 wait

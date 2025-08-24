@@ -79,6 +79,7 @@ parser.add_argument('--gpu', type=int, default=0, help='gpu')
 parser.add_argument('--use_multi_gpu', action='store_true', help='use multiple gpus', default=False)
 parser.add_argument('--devices', type=str, default='0,1,2,3', help='device ids of multile gpus')
 parser.add_argument('--test_flop', action='store_true', default=False, help='See utils/tools for usage')
+parser.add_argument('--feature_idx', type=int, default=-1, help='feature index to visualize in test plots (default: -1 for last feature)')
 
 args = parser.parse_args()
 
