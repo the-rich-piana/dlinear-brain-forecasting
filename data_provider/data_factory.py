@@ -1,4 +1,4 @@
-from data_provider.data_loader import Dataset_Activity, Dataset_Activity_Ordered, Dataset_ETT_hour, Dataset_ETT_minute, Dataset_Custom, Dataset_Pred, Dataset_Activity_Stimulus
+from data_provider.data_loader import Dataset_Activity, Dataset_Activity_Ordered, Dataset_ETT_hour, Dataset_ETT_minute, Dataset_Custom, Dataset_Pred, Dataset_Activity_Stimulus, Dataset_Activity_Behavioral
 from torch.utils.data import DataLoader
 
 data_dict = {
@@ -8,6 +8,7 @@ data_dict = {
     'ETTm2': Dataset_ETT_minute,
     'custom': Dataset_Custom,
     'Activity': Dataset_Activity,
+    'ActivityBehavioral': Dataset_Activity_Behavioral,    
     'ActivityOrdered': Dataset_Activity_Ordered,
     'ActivityStimulus': Dataset_Activity_Stimulus
 }

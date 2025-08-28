@@ -64,10 +64,8 @@ class Dataset_Activity(Dataset):
                 self.norm_q995 = f['normalization']['q995'][:]
                 self.norm_range = f['normalization']['data_range'][:]
             else:
-                print("WARNING: no normalization parameters")
-                self.norm_q005 = None
-                self.norm_q995 = None
-                self.norm_range = None
+                raise ValueError(f"Error: no normalization parameters")
+
             
             print(f"Loaded preprocessed data: {processed_data.shape}")
             print(f"Original neurons: {n_original_neurons}, current: {processed_data.shape[1]}")
@@ -150,6 +148,93 @@ class Dataset_Activity(Dataset):
             # Reverse the robust normalization: unnormalized = (normalized * range) + q005
             return (data * self.norm_range) + self.norm_q005
         return data
+    
+    
+class Dataset_Activity_Behavioral(Dataset_Activity):
+    """Passive Activity dataloader where we create two pools of data, one for active behavioral, one for pass behavorial."""
+    def __init__(self, root_path, flag='train', size=None,
+                 features='M', data_path='activity_raw.csv', # Changed default data_path
+                 target='OT', scale=True, timeenc=0, freq='h', train_only=False): # Target is now a placeholder
+        super().__init__(root_path, flag, size, features, data_path, target, scale, timeenc, freq, train_only)
+
+
+    def __read_data__(self):
+        # Read preprocessed HDF5 data
+        file_path = os.path.join(self.root_path, self.data_path)
+        
+        with h5py.File(file_path, 'r') as f:
+            # Load the already preprocessed data (ΔF/F normalized and filtered)
+            activity: np.ndarray = f['activity'][:]
+            timestamps: np.ndarray = f['timestamps'][:]
+            stimoff_times: np.ndarray = f['trial_data/stimOff_times'][:]
+            
+            # Load metadata
+            n_original_neurons = f['metadata'].attrs['n_original_neurons']
+            # Load normalization parameters for inverse transform
+            if 'normalization' in f:
+                self.norm_q005 = f['normalization']['q005'][:]
+                self.norm_q995 = f['normalization']['q995'][:]
+                self.norm_range = f['normalization']['data_range'][:]
+            else:
+                raise ValueError(f"Error: no normalization parameters")
+
+            print(f"Loaded preprocessed data: {activity.shape}")
+            print(f"Original neurons: {n_original_neurons}, current: {activity.shape[1]}")
+            print(f"Data range: {activity.min():.3f} to {activity.max():.3f}")
+
+        # Validate stimOff times
+        if np.any(np.isnan(stimoff_times)):
+            raise ValueError(f"Error: stimOff times contains NaNs")
+        
+        # Find the behavioral split point (last stimOff time)
+        # Convert from timestamp to timestep index
+        last_stimoff_timestamp = stimoff_times[-1]
+        last_stimoff_timestep_idx = int(np.searchsorted(timestamps, last_stimoff_timestamp))
+        
+        # Calculate split points dynamically
+        active_pool_size = last_stimoff_timestep_idx
+        train_split_idx = int(active_pool_size * 0.8)  # 80% of active data for training
+        
+        # Calculate timing information
+        total_duration = timestamps[-1] - timestamps[0]
+        active_duration = timestamps[last_stimoff_timestep_idx] - timestamps[0]
+        passive_duration = timestamps[-1] - timestamps[last_stimoff_timestep_idx]
+        
+        if self.set_type == 0:            
+            print(f"=== BEHAVIORAL SPLIT ANALYSIS ===")
+            print(f"Total recording: {len(activity)} timesteps ({total_duration:.1f} seconds)")
+            print(f"Active period: 0 to {last_stimoff_timestep_idx} ({active_duration:.1f} seconds)")
+            print(f"Passive period: {last_stimoff_timestep_idx} to {len(activity)} ({passive_duration:.1f} seconds)")
+            print(f"Active/Passive ratio: {active_duration/total_duration*100:.1f}% / {passive_duration/total_duration*100:.1f}%")
+            print(f"Train split within active: 0 to {train_split_idx}")
+            print(f"Val split within active: {train_split_idx} to {last_stimoff_timestep_idx}")
+        
+        # CRITICAL: Assign only the data for the current split
+        if self.set_type == 0:  # train - first 80% of active period
+            self.data_x = activity[0:train_split_idx]
+            self.data_y = activity[0:train_split_idx]
+            split_name = "TRAIN"
+            split_range = f"0 to {train_split_idx}"
+        elif self.set_type == 1:  # val - last 20% of active period  
+            self.data_x = activity[train_split_idx:last_stimoff_timestep_idx]
+            self.data_y = activity[train_split_idx:last_stimoff_timestep_idx]
+            split_name = "VALIDATION"
+            split_range = f"{train_split_idx} to {last_stimoff_timestep_idx}"
+        else:  # test - entire passive period
+            self.data_x = activity[last_stimoff_timestep_idx:]
+            self.data_y = activity[last_stimoff_timestep_idx:]
+            split_name = "TEST (PASSIVE)"
+            split_range = f"{last_stimoff_timestep_idx} to {len(activity)}"
+        
+        print(f"=== {split_name} SPLIT DATA ===")
+        print(f"Split range: timesteps {split_range}")
+        print(f"Split data shape: {self.data_x.shape}")
+        print(f"Data statistics - Mean: {self.data_x.mean():.3f}, Std: {self.data_x.std():.3f}")
+        print(f"Available sequences: {len(self)}")
+        
+        # Double-check: verify we only have data for this split
+        assert self.data_x.shape == self.data_y.shape, "data_x and data_y must have same shape"
+        assert len(self.data_x.shape) == 2, "data should be 2D (timesteps, neurons)"
 
 class Dataset_Activity_Stimulus(Dataset_Activity):
     def __init__(self, root_path, flag='train', size=None,
@@ -181,10 +266,7 @@ class Dataset_Activity_Stimulus(Dataset_Activity):
                 self.norm_q995 = f['normalization']['q995'][:]
                 self.norm_range = f['normalization']['data_range'][:]
             else:
-                print("WARNING: no normalization parameters")                
-                self.norm_q005 = None
-                self.norm_q995 = None
-                self.norm_range = None
+                raise ValueError(f"Error: no normalization parameters")
             
             print(f"Loaded preprocessed data: {processed_data.shape}")
             print(f"Loaded covariate matrix: {covariate_matrix.shape}")
@@ -197,8 +279,15 @@ class Dataset_Activity_Stimulus(Dataset_Activity):
         print("\nCreating stimulus-based splits...")
         # Define which stimulus type to hold out for out-of-distribution testing.
         # Type 1 corresponds to Left 100% contrast.
-        held_out_stimulus = [1] 
-        print(f"Designating stimulus type(s) {held_out_stimulus} as the held-out test set.")
+        held_out_stimulus = [5]
+        stimulus_names = {
+            0: "Catch Trials", 1: "Left 100%", 2: "Left 25%", 3: "Left 12.5%", 4: "Left 6.25%",
+            5: "Right 100%", 6: "Right 25%", 7: "Right 12.5%", 8: "Right 6.25%"
+        }
+        held_out_names = [f"{stimulus_names[idx]} (Type {idx})" for idx in held_out_stimulus]
+        print(f"\n{'='*60}")
+        print(f"🎯 HELD-OUT TEST SET: {', '.join(held_out_names)}")
+        print(f"{'='*60}")
 
         split_map = TimeSeriesSplitter.create_stimulus_based_splits(
             covariate_matrix=covariate_matrix,

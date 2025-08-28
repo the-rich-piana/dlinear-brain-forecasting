@@ -6,3 +6,4 @@ from .Stat_models import *
 from .Transformer import *
 from .TSMixer import *
 from . import POCO
+from . import SPOCO

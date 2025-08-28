@@ -1,6 +1,6 @@
 from data_provider.data_factory import data_provider
 from exp.exp_basic import Exp_Basic
-from models import Informer, Autoformer, Transformer, DLinear, Linear, NLinear, DummyLinear, TSMixer, POCO
+from models import Informer, Autoformer, Transformer, DLinear, Linear, NLinear, DummyLinear, TSMixer, POCO, SPOCO
 from utils.tools import EarlyStopping, adjust_learning_rate, visual, test_params_flop
 from utils.metrics import metric
 from utils.losses import get_loss_function
@@ -35,6 +35,7 @@ class Exp_Main(Exp_Basic):
             'DummyLinear': DummyLinear,
             'TSMixer': TSMixer,
             'POCO': POCO,
+            'SPOCO': SPOCO,            
         }
         model = model_dict[self.args.model].Model(self.args).float()
 

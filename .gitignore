@@ -3,7 +3,6 @@
 *.pth
 *.pdf
 CLAUDE.md
-*.csv
 *.pyc
 .DS_Store
 /test_results

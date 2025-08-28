@@ -1,132 +1,229 @@
-# Are Transformers Effective for Time Series Forecasting? (AAAI 2023)
+# Neural Population Activity Forecasting with Linear and Transformer Models
 
-This repo is the official Pytorch implementation of LTSF-Linear: "[Are Transformers Effective for Time Series Forecasting?](https://arxiv.org/pdf/2205.13504.pdf)". 
-
-
-## Updates
-- [2024/01/28] Our model has been included in [NeuralForecast](https://github.com/Nixtla/neuralforecast). Special thanks to the contributor [@cchallu](https://github.com/cchallu)!
-- [2022/11/23] Accepted to AAAI 2023 with three strong accept! We also release a **[benchmark for long-term time series forecasting](LTSF-Benchmark.md)** for further research.
-- [2022/08/25] We update our [paper](https://arxiv.org/pdf/2205.13504.pdf) with comprehensive analyses on why existing LTSF-Transformers do not work well on the LTSF problem!
-- [2022/08/25] Besides DLinear, we're excited to add two Linear models to the paper and this repo. Now we have an LTSF-Linear family!
-  - Linear: Just one linear layer.
-  - DLinear: Decomposition Linear to handle data with trend and seasonality patterns.
-  - NLinear: A Normalized Linear to deal with train-test set distribution shifts. See section 'LTSF-Linear' for more details. 
-
-- [2022/08/25] We update some scripts of LTSF-Linear. 
-  - Linear, NLinear, and DLinear use the same scripts.
-  - Some results of DLinear are slightly different now.
+This repository contains a PyTorch implementation for forecasting neural population activity in mice, originally forked from the DLinear LTSF-Linear project but now completely diverged into an experimental framework for neuroscience applications. The codebase includes DLinear and multiple transformer-based models adapted for neural time series forecasting. 
 
 
+## Project Overview
 
-## Features
-- [x] Add a [benchmark](LTSF-Benchmark.md) for long-term time series forecasting.
-- [x] Support both [Univariate](https://github.com/cure-lab/DLinear/tree/main/scripts/EXP-LongForecasting/DLinear/univariate) and [Multivariate](https://github.com/cure-lab/DLinear/tree/main/scripts/EXP-LongForecasting/DLinear) long-term time series forecasting.
-- [x] Support visualization of weights.
-- [x] Support scripts on different [look-back window size](https://github.com/cure-lab/DLinear/tree/main/scripts/EXP-LookBackWindow).
+This experimental framework evaluates the effectiveness of different forecasting models on neural population activity data from mice. The project compares linear models (Linear, DLinear) against transformer architectures (Informer, Transformer) and specialized models (POCO, TSMixer) for predicting neural firing patterns.
 
-Besides LTSF-Linear, we provide five significant forecasting Transformers to re-implement the results in the paper.
-- [x] [Transformer](https://arxiv.org/abs/1706.03762) (NeuIPS 2017)
-- [x] [Informer](https://arxiv.org/abs/2012.07436) (AAAI 2021 Best paper)
-- [x] [Autoformer](https://arxiv.org/abs/2106.13008) (NeuIPS 2021)
-- [x] [Pyraformer](https://openreview.net/pdf?id=0EXmFzUn5I) (ICLR 2022 Oral)
-- [x] [FEDformer](https://arxiv.org/abs/2201.12740) (ICML 2022)
+### Key Features
+- **Neural Activity Forecasting**: Specialized for mouse neural population data with 70-7000 neurons
+- **Behavioral Context Analysis**: Compares model performance across Active vs Passive behavioral states
+- **Multiple Model Types**: Linear models, Transformers, and population-specific architectures
+- **Parallel Training Infrastructure**: Efficient model comparison with concurrent training
+- **Comprehensive Analysis**: Performance metrics, visualization tools, and statistical comparisons
 
-
-## Detailed Description
-We provide all experiment script files in `./scripts`:
-| Files      |                              Interpretation                          |
-| ------------- | -------------------------------------------------------| 
-| EXP-LongForecasting      | Long-term Time Series Forecasting Task                    |
-| EXP-LookBackWindow      | Study the impact of different look-back window sizes   | 
-| EXP-Embedding        | Study the effects of different embedding strategies      |
+### Recent Developments
+- **Activity Dataset Integration**: Custom data loaders for neural population time series (`.h5` format)
+- **Behavioral Data Analysis**: Active vs Passive behavioral state prediction comparison
+- **POCO Model Integration**: Population-Conditioned Forecaster with memory-efficient attention
+- **Parallel Training Scripts**: Model-pair parallelization for efficient experimentation
+- **Performance Metrics Framework**: Three-metric evaluation system relative to Naive baseline
 
 
-This code is simply built on the code base of Autoformer. We appreciate the following GitHub repos a lot for their valuable code base or datasets:
 
-The implementation of Autoformer, Informer, and Transformer is from https://github.com/thuml/Autoformer
+## Implemented Models
 
-The implementation of FEDformer is from https://github.com/MAZiqing/FEDformer
+### Linear Models
+- [x] **Linear**: Single linear layer for neural activity prediction
+- [x] **DLinear**: Decomposition Linear with separate trend/seasonal components
+- [x] **Mean**: Statistical baseline using historical mean
+- [x] **Naive**: Statistical baseline using last observation
 
-The implementation of Pyraformer is from https://github.com/alipay/Pyraformer
+### Transformer Models  
+- [x] **Transformer**: Standard transformer architecture adapted for neural forecasting
+- [x] **Informer**: Sparse attention mechanism for long-sequence neural data
+- [x] **TSMixer**: MLP-based mixer architecture for multivariate neural time series
 
-## LTSF-Linear
-### LTSF-Linear family
-![image](pics/Linear.png)
-LTSF-Linear is a set of linear models. 
-- Linear: It is just a one-layer linear model, but it outperforms Transformers.
-- NLinear: **To boost the performance of Linear when there is a distribution shift in the dataset**, NLinear first subtracts the input by the last value of the sequence. Then, the input goes through a linear layer, and the subtracted part is added back before making the final prediction. The subtraction and addition in NLinear are a simple normalization for the input sequence.
-- DLinear: It is a combination of a Decomposition scheme used in Autoformer and FEDformer with linear layers. It first decomposes a raw data input into a trend component by a moving average kernel and a remainder (seasonal) component. Then, two one-layer linear layers are applied to each component and we sum up the two features to get the final prediction. By explicitly handling trend, **DLinear enhances the performance of a vanilla linear when there is a clear trend in the data.** 
+### Specialized Models
+- [x] **POCO**: Population-Conditioned Forecaster with memory-efficient attention
+  - Designed specifically for neural population dynamics
+  - Supports variable population sizes (70-7000 neurons)
+  - Integrated with xformers for efficient attention computation
 
-Although LTSF-Linear is simple, it has some compelling characteristics:
-- An O(1) maximum signal traversing path length: The shorter the path, the better the dependencies are captured, making LTSF-Linear capable of capturing both short-range and long-range temporal relations.
-- High-efficiency: As each branch has only one linear layer, it costs much lower memory and fewer parameters and has a faster inference speed than existing Transformers.
-- Interpretability: After training, we can visualize weights to have some insights into the predicted values.
-- Easy-to-use: LTSF-Linear can be obtained easily without tuning model hyper-parameters.
+### Experimental Configurations
+- [x] **Short Forecasting**: Context=16, Prediction=8 timesteps
+- [x] **Long Forecasting**: Context=48, Prediction=16 timesteps  
+- [x] **Multiple Population Sizes**: 70, 700, 7000 neuron experiments
+- [x] **Behavioral Context**: Active vs Passive behavioral state analysis
 
-### Comparison with Transformers
-Univariate Forecasting:
-![image](pics/Uni-results.png)
-Multivariate Forecasting:
-![image](pics/Mul-results.png)
-LTSF-Linear outperforms all transformer-based methods by a large margin.
 
-### Efficiency
-![image](pics/efficiency.png)
-Comparison of method efficiency with Look-back window size 96 and Forecasting steps 720 on Electricity. MACs are the number of multiply-accumulate operations. We use DLinear for comparison since it has the double cost in LTSF-Linear. The inference time averages 5 runs.
+## Experiment Structure
+
+Neural activity forecasting experiments are organized in `./scripts/`:
+
+| Directory | Description |
+|-----------|-------------|
+| **EXP_Activity/** | Core neural activity forecasting experiments |
+| **EXP_Activity_Behavioral/** | Active vs Passive behavioral state analysis |
+| **EXP-LongForecasting/DLinear/** | Original long-term forecasting (legacy) |
+| **EXP-LookBackWindow/** | Context window size studies |
+
+### Key Script Types
+- **Parallel Training**: `*_parallel.sh` - Concurrent model training for efficiency
+- **Sequential Training**: Standard single-threaded model training
+- **Behavioral Analysis**: Comparison across Active/Passive behavioral contexts
+- **Population Scaling**: Experiments across different neuron counts (70/700/7000)
+
+## Data Pipeline
+
+### Neural Activity Dataset
+- **Format**: HDF5 files (`.h5`) containing neural population time series
+- **Structure**: `[timepoints, neurons]` matrices with neural firing rates
+- **Population Sizes**: 70, 700, 7000 neurons from the same recording session
+- **Behavioral States**: Active and Passive behavioral task contexts
+
+### Data Splits
+- **Training**: First 70% of time series (chronologically)  
+- **Validation**: Next 10% for hyperparameter tuning
+- **Test**: Last 20% for final evaluation
+- **Windowing**: Sliding window approach with 1-timestep stride
+
+## Performance Analysis
+
+### Evaluation Metrics
+The framework uses a three-metric evaluation system relative to Naive baseline:
+
+1. **MAE Improvement %**: `((Naive_MAE - Model_MAE) / Naive_MAE) × 100`
+2. **MSE Improvement %**: `((Naive_MSE - Model_MSE) / Naive_MSE) × 100`  
+3. **Prediction Score**: `1 - L(model)/L(naive)` where L = MSE loss
+
+### Key Findings for Neural Activity Forecasting
+- **Linear models** often outperform complex Transformers on neural population data
+- **DLinear** effectively captures trend components in neural firing patterns
+- **POCO** shows promise for population-specific neural dynamics modeling
+- **Population size** significantly impacts model performance and computational requirements
+- **Behavioral context** (Active vs Passive) affects model generalization
+
+### Analysis Tools
+- **Training Curves**: Automatic visualization of loss progression (`utils/plots.py`)
+- **Performance Comparison**: Jupyter notebooks for comprehensive model analysis
+- **Weight Visualization**: Interpretability tools for linear model weights
+- **Statistical Analysis**: Cross-behavioral state performance comparisons
 
 ## Getting Started
-### Environment Requirements
 
-First, please make sure you have installed Conda. Then, our environment can be installed by:
-```
-conda create -n LTSF_Linear python=3.6.9
-conda activate LTSF_Linear
-pip install -r requirements.txt
+### Environment Requirements
+The framework requires Python 3.10+ with PyTorch and specialized neuroscience dependencies:
+
+```bash
+# Create virtual environment
+python -m venv venv
+source venv/bin/activate  # Linux/Mac
+# or
+venv\Scripts\activate     # Windows
+
+# Install dependencies
+pip install torch torchvision torchaudio
+pip install pandas numpy matplotlib seaborn
+pip install h5py scikit-learn
+
+# For POCO model support
+pip install torchtyping xformers einops
 ```
 
 ### Data Preparation
+Neural activity data should be in HDF5 format and placed in the `./dataset/` directory:
 
-You can obtain all the nine benchmarks from [Google Drive](https://drive.google.com/drive/folders/1ZOYpTUa82_jCcxIdTmyr0LXQfvaM9vIy) provided in Autoformer. All the datasets are well pre-processed and can be used easily.
-
-```
+```bash
 mkdir dataset
-```
-**Please put them in the `./dataset` directory**
-
-### Training Example
-- In `scripts/ `, we provide the model implementation *Dlinear/Autoformer/Informer/Transformer*
-- In `FEDformer/scripts/`, we provide the *FEDformer* implementation
-- In `Pyraformer/scripts/`, we provide the *Pyraformer* implementation
-
-For example:
-
-To train the **LTSF-Linear** on **Exchange-Rate dataset**, you can use the script `scripts/EXP-LongForecasting/Linear/exchange_rate.sh`:
-```
-sh scripts/EXP-LongForecasting/Linear/exchange_rate.sh
-```
-It will start to train DLinear by default, the results will be shown in `logs/LongForecasting`. You can specify the name of the model in the script. (Linear, DLinear, NLinear)
-
-All scripts about using LTSF-Linear on long forecasting task is in `scripts/EXP-LongForecasting/Linear/`, you can run them in a similar way. The default look-back window in scripts is 336, LTSF-Linear generally achieves better results with longer look-back window as dicussed in the paper. 
-
-Scripts about look-back window size and long forecasting of FEDformer and Pyraformer are in `FEDformer/scripts` and `Pyraformer/scripts`, respectively. To run them, you need to first `cd FEDformer` or `cd Pyraformer`. Then, you can use sh to run them in a similar way. Logs will be stored in `logs/`.
-
-Each experiment in `scripts/EXP-LongForecasting/Linear/` takes 5min-20min. For other Transformer scripts, since we put all related experiments in one script file, directly running them will take 8 hours per day. You can keep the experiments you are interested in and comment on the others. 
-
-### Weights Visualization
-As shown in our paper, the weights of LTSF-Linear can reveal some characteristics of the data, i.e., the periodicity. As an example, we provide the weight visualization of DLinear in `weight_plot.py`. To run the visualization, you need to input the model path (model_name) of DLinear (the model directory in `./checkpoint` by default). To obtain smooth and clear patterns, you can use the initialization we provided in the file of linear models.  
-
-![image](pics/Visualization_DLinear.png)
-## Citing
-
-If you find this repository useful for your work, please consider citing it as follows:
-
-```BibTeX
-@inproceedings{Zeng2022AreTE,
-  title={Are Transformers Effective for Time Series Forecasting?},
-  author={Ailing Zeng and Muxi Chen and Lei Zhang and Qiang Xu},
-  journal={Proceedings of the AAAI Conference on Artificial Intelligence},
-  year={2023}
-}
+# Place your neural activity .h5 files here
+# Format: [timepoints, neurons] matrices
 ```
 
-Please remember to cite all the datasets and compared methods if you use them in your experiments.
+### Dataset Structure
+```
+dataset/
+├── session_5ea6bb9b-6163-4e8a-816b-efe7002666b0_70.h5    # 70 neurons
+├── session_5ea6bb9b-6163-4e8a-816b-efe7002666b0_700.h5   # 700 neurons  
+├── session_5ea6bb9b-6163-4e8a-816b-efe7002666b0_7000.h5  # 7000 neurons
+└── ...
+```
+
+### Training Examples
+
+#### Single Model Training
+Train a specific model on neural activity data:
+
+```bash
+# Train DLinear on 7000 neuron dataset
+python run_longExp.py \
+  --is_training 1 \
+  --model DLinear \
+  --data ActivityBehavioral \
+  --data_path session_5ea6bb9b-6163-4e8a-816b-efe7002666b0_7000.h5 \
+  --seq_len 48 \
+  --pred_len 16 \
+  --enc_in 7000 \
+  --c_out 7000 \
+  --experiment_name MyExperiment
+
+# Train statistical baseline
+python run_stat.py \
+  --model Naive \
+  --data ActivityBehavioral \
+  --data_path session_5ea6bb9b-6163-4e8a-816b-efe7002666b0_7000.h5 \
+  --seq_len 48 \
+  --pred_len 16
+```
+
+#### Parallel Training (Recommended)
+Use parallel scripts for efficient model comparison:
+
+```bash
+# Run all models on 7000 neurons with behavioral analysis
+sh scripts/EXP_Activity_Behavioral/activity_long_behavorial_7000_neurons_parallel.sh
+
+# Run short forecasting experiments
+sh scripts/EXP_Activity/activity_short_70_700_7000_neurons_parallel.sh
+```
+
+#### Background Training with Screen
+For long-running experiments:
+
+```bash
+# Start screen session
+screen -S neural_training
+
+# Run training script
+sh scripts/EXP_Activity_Behavioral/activity_long_behavorial_7000_neurons_parallel.sh
+
+# Detach: Ctrl+A, then D
+# Reattach later: screen -r neural_training
+``` 
+
+### Results Analysis
+After training, results are stored in structured directories:
+
+```
+./logs/{experiment_name}/           # Training logs
+./checkpoints/{experiment_name}/    # Model checkpoints  
+./results/                          # Prediction outputs
+```
+
+Use the provided Jupyter notebooks for comprehensive analysis:
+- `results_plot_long_7000_behavioral.ipynb`: Active vs Passive behavioral comparison
+- `results_tables_short_long_7N.ipynb`: Performance metrics across neuron counts
+
+### Weight Visualization  
+Linear model weights can reveal neural population dynamics patterns:
+
+```bash
+python weight_plot.py
+# Set model_name variable to your checkpoint path
+```
+
+## Output Structure
+- **Logs**: Training progress in `./logs/{experiment_name}/`
+- **Checkpoints**: Model weights in `./checkpoints/{experiment_name}/`  
+- **Results**: Predictions and metrics in `./results/`
+- **Visualizations**: Training curves and analysis plots
+
+## Acknowledgments
+This codebase was originally forked from the DLinear LTSF-Linear project and has been extensively adapted for neural population forecasting. We acknowledge the original implementations:
+
+- **Autoformer, Informer, Transformer**: https://github.com/thuml/Autoformer
+- **Original DLinear**: https://github.com/cure-lab/DLinear
+- **POCO Model**: Population-Conditioned Forecaster architecture  
+- **TSMixer**: MLP-based mixer for time series
