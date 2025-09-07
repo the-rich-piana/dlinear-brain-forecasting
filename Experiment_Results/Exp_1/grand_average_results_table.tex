@@ -1,0 +1,23 @@
+\begin{table}[h!]
+\centering
+\caption{Grand Average Results by Population Size and Context Length}
+\label{tab:grand_average_results}
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+\multirow{2}{*}{Population} & \multirow{2}{*}{Context} & {Naive} & \multicolumn{2}{c|}{Mean} & \multicolumn{2}{c|}{DLinear} & \multicolumn{2}{c|}{Linear} & \multicolumn{2}{c|}{POCO} & \multicolumn{2}{c|}{TSMixer} & \multicolumn{2}{c|}{Informer} & \multicolumn{2}{c|}{Transformer} \\
+ & & MAE & MAE & PredScore & MAE & PredScore & MAE & PredScore & MAE & PredScore & MAE & PredScore & MAE & PredScore & MAE & PredScore \\
+\hline
+\multirow{3}{*}{70} & 16,8 & 0.065 & 0.082 & -0.569 & 0.059 & 0.032 & 0.063 & -0.058 & \textbf{0.057} & \textbf{0.068} & 0.060 & 0.042 & 0.074 & -0.546 & 0.068 & -0.217 \\
+ & 48,16 & 0.083 & 0.104 & -0.414 & 0.073 & 0.107 & 0.075 & 0.063 & \textbf{0.070} & \textbf{0.114} & 0.074 & 0.096 & 0.093 & -0.320 & 0.085 & -0.109 \\
+ & 96,32 & 0.103 & 0.116 & -0.103 & 0.089 & \textbf{0.200} & 0.089 & 0.170 & \textbf{0.085} & 0.176 & 0.089 & 0.150 & 0.108 & -0.138 & 0.100 & 0.021 \\
+\hline
+\multirow{3}{*}{700} & 16,8 & 0.111 & 0.100 & 0.126 & 0.092 & 0.268 & 0.094 & 0.232 & \textbf{0.087} & \textbf{0.321} & 0.090 & 0.284 & 0.100 & 0.054 & 0.099 & 0.078 \\
+ & 48,16 & 0.121 & 0.107 & 0.175 & 0.097 & 0.309 & 0.098 & 0.300 & \textbf{0.092} & \textbf{0.327} & 0.095 & 0.317 & 0.104 & 0.165 & 0.103 & 0.167 \\
+ & 96,32 & 0.130 & 0.110 & 0.269 & 0.102 & 0.351 & 0.103 & 0.346 & \textbf{0.097} & \textbf{0.366} & 0.099 & 0.355 & 0.106 & 0.251 & 0.104 & 0.281 \\
+\hline
+\multirow{3}{*}{7000} & 16,8 & 0.152 & 0.120 & 0.348 & 0.117 & 0.383 & 0.120 & 0.353 & \textbf{0.113} & \textbf{0.419} & 0.116 & 0.389 & 0.118 & 0.344 & 0.118 & 0.350 \\
+ & 48,16 & 0.156 & 0.121 & 0.384 & 0.118 & 0.412 & 0.119 & 0.408 & \textbf{0.115} & \textbf{0.431} & 0.116 & 0.425 & 0.119 & 0.383 & 0.118 & 0.388 \\
+ & 96,32 & 0.161 & 0.121 & 0.419 & 0.119 & 0.435 & 0.119 & 0.433 & \textbf{0.116} & \textbf{0.446} & 0.118 & 0.441 & 0.119 & 0.415 & 0.119 & 0.423 \\
+\hline
+\end{tabular}
+\end{table}

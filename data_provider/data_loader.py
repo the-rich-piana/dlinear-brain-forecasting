@@ -59,12 +59,12 @@ class Dataset_Activity(Dataset):
             # Load metadata
             n_original_neurons = f['metadata'].attrs['n_original_neurons']
             # Load normalization parameters for inverse transform
-            if 'normalization' in f:
-                self.norm_q005 = f['normalization']['q005'][:]
-                self.norm_q995 = f['normalization']['q995'][:]
-                self.norm_range = f['normalization']['data_range'][:]
-            else:
-                raise ValueError(f"Error: no normalization parameters")
+            # if 'normalization' in f:
+            #     self.norm_q005 = f['normalization']['q005'][:]
+            #     self.norm_q995 = f['normalization']['q995'][:]
+            #     self.norm_range = f['normalization']['data_range'][:]
+            # else:
+            #     raise ValueError(f"Error: no normalization parameters")
 
             
             print(f"Loaded preprocessed data: {processed_data.shape}")
@@ -73,7 +73,7 @@ class Dataset_Activity(Dataset):
         
         # TEMPORAL SPLITS FOR ACTIVITY DATA
         # Train: first 70%, Val: next 20%, Test: last 10%
-        total_time = len(processed_data)
+        total_time = len(processed_data)    
         train_end = int(total_time * 0.7)
         val_end = int(total_time * 0.9)
         
@@ -142,12 +142,12 @@ class Dataset_Activity(Dataset):
         available_length = len(self.data_x) - self.seq_len - self.pred_len + 1
         return max(0, available_length)
 
-    def inverse_transform(self, data):
-        """Convert normalized predictions back to original scale"""
-        if hasattr(self, 'norm_q005') and self.norm_q005 is not None:
-            # Reverse the robust normalization: unnormalized = (normalized * range) + q005
-            return (data * self.norm_range) + self.norm_q005
-        return data
+    # def inverse_transform(self, data):
+    #     """Convert normalized predictions back to original scale. Basically unused as it's only used in the predict method in exp_main.py"""
+    #     if hasattr(self, 'norm_q005') and self.norm_q005 is not None:
+    #         # Reverse the robust normalization: unnormalized = (normalized * range) + q005
+    #         return (data * self.norm_range) + self.norm_q005
+    #     return data
     
     
 class Dataset_Activity_Behavioral(Dataset_Activity):
@@ -171,12 +171,12 @@ class Dataset_Activity_Behavioral(Dataset_Activity):
             # Load metadata
             n_original_neurons = f['metadata'].attrs['n_original_neurons']
             # Load normalization parameters for inverse transform
-            if 'normalization' in f:
-                self.norm_q005 = f['normalization']['q005'][:]
-                self.norm_q995 = f['normalization']['q995'][:]
-                self.norm_range = f['normalization']['data_range'][:]
-            else:
-                raise ValueError(f"Error: no normalization parameters")
+            # if 'normalization' in f:
+            #     self.norm_q005 = f['normalization']['q005'][:]
+            #     self.norm_q995 = f['normalization']['q995'][:]
+            #     self.norm_range = f['normalization']['data_range'][:]
+            # else:
+            #     raise ValueError(f"Error: no normalization parameters")
 
             print(f"Loaded preprocessed data: {activity.shape}")
             print(f"Original neurons: {n_original_neurons}, current: {activity.shape[1]}")

@@ -1,0 +1,17 @@
+Args in experiment:
+Namespace(is_training=1, train_only=False, embed='timeF', model_id='Naive_48_16', model='Naive', data='Activity', root_path='/cs/student/projects1/aibh/2024/gcosta/mpci_data/', data_path='session_5ea6bb9b-6163-4e8a-816b-efe7002666b0_7000.h5', features='M', target='OT', checkpoints='./checkpoints/', sample=1, freq='h', seq_len=48, label_len=16, pred_len=16, num_workers=10, itr=1, batch_size=8, des='Exp', experiment_name='ActivityLong7000N_MSE', use_gpu=False, gpu=0, use_multi_gpu=False, devices='0,1,2,3', test_flop=False)
+Use CPU
+>>>>>>>testing : Naive_48_16_Naive_Activity_ftM_sl48_pl16_Exp<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+Loaded preprocessed data: (18309, 7000)
+Original neurons: 11393, current: 7000
+Data range: -0.250 to 1.500
+Temporal split - Total time: 18309
+Train: 0 to 12816 (70.0%)
+Val: 12816 to 16478 (20.0%)
+Test: 16478 to 18309 (10.0%)
+Current split (test): 16430 to 18309
+Using pre-selected top 7000 neurons from HDF5 file.
+Full dataset shape: (1879, 7000)
+Data statistics - Mean: 0.321, Std: 0.193
+test 1816
+mse:0.044829342514276505, mae:0.15644656121730804, rse:1.0976680517196655, corr:[]

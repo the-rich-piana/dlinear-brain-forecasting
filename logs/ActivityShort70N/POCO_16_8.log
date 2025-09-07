@@ -1,0 +1,78 @@
+Args in experiment:
+Namespace(is_training=1, train_only=False, model_id='POCO_16_8', model='POCO', data='Activity', root_path='/cs/student/projects1/aibh/2024/gcosta/mpci_data/', data_path='session_5ea6bb9b-6163-4e8a-816b-efe7002666b0_70.h5', features='M', target='OT', freq='h', checkpoints='./checkpoints/', seq_len=16, label_len=8, pred_len=8, individual=False, embed_type=0, enc_in=70, dec_in=7, c_out=70, d_model=512, n_heads=8, e_layers=2, d_layers=1, d_ff=2048, moving_avg=25, factor=1, distil=True, dropout=0.05, embed='timeF', activation='gelu', output_attention=False, do_predict=False, num_workers=5, itr=1, train_epochs=10, batch_size=8, patience=1, learning_rate=0.0001, des='Exp', experiment_name='ActivityShort70N', loss='mae', lradj='type1', use_amp=False, use_gpu=True, gpu=0, use_multi_gpu=False, devices='0,1,2,3', test_flop=False)
+Use GPU: cuda:0
+>>>>>>>start training : POCO_16_8_POCO_Activity_ftM_sl16_ll8_pl8_dm512_nh8_el2_dl1_df2048_fc1_ebtimeF_dtTrue_Exp_0>>>>>>>>>>>>>>>>>>>>>>>>>>
+Loaded preprocessed data: (18309, 70)
+Original neurons: 11393, current: 70
+Data range: -0.100 to 1.500
+Temporal split - Total time: 18309
+Train: 0 to 12816 (70.0%)
+Val: 12816 to 16478 (20.0%)
+Test: 16478 to 18309 (10.0%)
+Current split (train): 0 to 12816
+Using pre-selected top 70 neurons from HDF5 file.
+Full dataset shape: (12816, 70)
+Data statistics - Mean: 0.153, Std: 0.177
+train 12793
+Loaded preprocessed data: (18309, 70)
+Original neurons: 11393, current: 70
+Data range: -0.100 to 1.500
+Temporal split - Total time: 18309
+Train: 0 to 12816 (70.0%)
+Val: 12816 to 16478 (20.0%)
+Test: 16478 to 18309 (10.0%)
+Current split (val): 12800 to 16478
+Using pre-selected top 70 neurons from HDF5 file.
+Full dataset shape: (3678, 70)
+Data statistics - Mean: 0.167, Std: 0.196
+val 3655
+Loaded preprocessed data: (18309, 70)
+Original neurons: 11393, current: 70
+Data range: -0.100 to 1.500
+Temporal split - Total time: 18309
+Train: 0 to 12816 (70.0%)
+Val: 12816 to 16478 (20.0%)
+Test: 16478 to 18309 (10.0%)
+Current split (test): 16462 to 18309
+Using pre-selected top 70 neurons from HDF5 file.
+Full dataset shape: (1847, 70)
+Data statistics - Mean: 0.159, Std: 0.204
+test 1824
+Epoch: 1 cost time: 28.17108416557312
+Epoch: 1, Steps: 1599 | Train Loss: 0.0565456 Vali Loss: 0.0597572 Test Loss: 0.0588720
+Validation loss decreased (inf --> 0.059757).  Saving model ...
+Updating learning rate to 0.0001
+Epoch: 2 cost time: 71.17814183235168
+Epoch: 2, Steps: 1599 | Train Loss: 0.0536844 Vali Loss: 0.0584170 Test Loss: 0.0572072
+Validation loss decreased (0.059757 --> 0.058417).  Saving model ...
+Updating learning rate to 5e-05
+Epoch: 3 cost time: 71.92582321166992
+Epoch: 3, Steps: 1599 | Train Loss: 0.0533367 Vali Loss: 0.0582917 Test Loss: 0.0573771
+Validation loss decreased (0.058417 --> 0.058292).  Saving model ...
+Updating learning rate to 2.5e-05
+Epoch: 4 cost time: 65.99278712272644
+Epoch: 4, Steps: 1599 | Train Loss: 0.0531691 Vali Loss: 0.0579198 Test Loss: 0.0569883
+Validation loss decreased (0.058292 --> 0.057920).  Saving model ...
+Updating learning rate to 1.25e-05
+Epoch: 5 cost time: 51.51412320137024
+Epoch: 5, Steps: 1599 | Train Loss: 0.0530687 Vali Loss: 0.0578064 Test Loss: 0.0566300
+Validation loss decreased (0.057920 --> 0.057806).  Saving model ...
+Updating learning rate to 6.25e-06
+Epoch: 6 cost time: 52.52389860153198
+Epoch: 6, Steps: 1599 | Train Loss: 0.0530083 Vali Loss: 0.0578370 Test Loss: 0.0567680
+EarlyStopping counter: 1 out of 1
+Early stopping
+>>>>>>>testing : POCO_16_8_POCO_Activity_ftM_sl16_ll8_pl8_dm512_nh8_el2_dl1_df2048_fc1_ebtimeF_dtTrue_Exp_0<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+Loaded preprocessed data: (18309, 70)
+Original neurons: 11393, current: 70
+Data range: -0.100 to 1.500
+Temporal split - Total time: 18309
+Train: 0 to 12816 (70.0%)
+Val: 12816 to 16478 (20.0%)
+Test: 16478 to 18309 (10.0%)
+Current split (test): 16462 to 18309
+Using pre-selected top 70 neurons from HDF5 file.
+Full dataset shape: (1847, 70)
+Data statistics - Mean: 0.159, Std: 0.204
+test 1824
+mse:0.012632105499505997, mae:0.056629981845617294

@@ -1,0 +1,94 @@
+Args in experiment:
+Namespace(is_training=1, train_only=False, model_id='DLinear_16_8', model='DLinear', data='Activity', root_path='/cs/student/projects1/aibh/2024/gcosta/mpci_data/', data_path='session_5ea6bb9b-6163-4e8a-816b-efe7002666b0_7000.h5', features='M', target='OT', freq='h', checkpoints='./checkpoints/', seq_len=16, label_len=8, pred_len=8, individual=False, embed_type=0, enc_in=7000, dec_in=7, c_out=7000, d_model=512, n_heads=8, e_layers=2, d_layers=1, d_ff=2048, moving_avg=25, factor=1, distil=True, dropout=0.05, embed='timeF', activation='gelu', output_attention=False, do_predict=False, num_workers=5, itr=1, train_epochs=10, batch_size=8, patience=3, learning_rate=0.0001, des='Exp', experiment_name='ActivityShort7000N', loss='mae', lradj='type1', use_amp=False, use_gpu=True, gpu=0, use_multi_gpu=False, devices='0,1,2,3', test_flop=False)
+Use GPU: cuda:0
+>>>>>>>start training : DLinear_16_8_DLinear_Activity_ftM_sl16_ll8_pl8_dm512_nh8_el2_dl1_df2048_fc1_ebtimeF_dtTrue_Exp_0>>>>>>>>>>>>>>>>>>>>>>>>>>
+Loaded preprocessed data: (18309, 7000)
+Original neurons: 11393, current: 7000
+Data range: -0.250 to 1.500
+Temporal split - Total time: 18309
+Train: 0 to 12816 (70.0%)
+Val: 12816 to 16478 (20.0%)
+Test: 16478 to 18309 (10.0%)
+Current split (train): 0 to 12816
+Using pre-selected top 7000 neurons from HDF5 file.
+Full dataset shape: (12816, 7000)
+Data statistics - Mean: 0.345, Std: 0.198
+train 12793
+Loaded preprocessed data: (18309, 7000)
+Original neurons: 11393, current: 7000
+Data range: -0.250 to 1.500
+Temporal split - Total time: 18309
+Train: 0 to 12816 (70.0%)
+Val: 12816 to 16478 (20.0%)
+Test: 16478 to 18309 (10.0%)
+Current split (val): 12800 to 16478
+Using pre-selected top 7000 neurons from HDF5 file.
+Full dataset shape: (3678, 7000)
+Data statistics - Mean: 0.353, Std: 0.200
+val 3655
+Loaded preprocessed data: (18309, 7000)
+Original neurons: 11393, current: 7000
+Data range: -0.250 to 1.500
+Temporal split - Total time: 18309
+Train: 0 to 12816 (70.0%)
+Val: 12816 to 16478 (20.0%)
+Test: 16478 to 18309 (10.0%)
+Current split (test): 16462 to 18309
+Using pre-selected top 7000 neurons from HDF5 file.
+Full dataset shape: (1847, 7000)
+Data statistics - Mean: 0.320, Std: 0.193
+test 1824
+Epoch: 1 cost time: 9.57482361793518
+Epoch: 1, Steps: 1599 | Train Loss: 0.1759798 Vali Loss: 0.1307318 Test Loss: 0.1250407
+Validation loss decreased (inf --> 0.130732).  Saving model ...
+Updating learning rate to 0.0001
+Epoch: 2 cost time: 9.504756927490234
+Epoch: 2, Steps: 1599 | Train Loss: 0.1249298 Vali Loss: 0.1247936 Test Loss: 0.1186921
+Validation loss decreased (0.130732 --> 0.124794).  Saving model ...
+Updating learning rate to 5e-05
+Epoch: 3 cost time: 9.469177722930908
+Epoch: 3, Steps: 1599 | Train Loss: 0.1219230 Vali Loss: 0.1237817 Test Loss: 0.1175697
+Validation loss decreased (0.124794 --> 0.123782).  Saving model ...
+Updating learning rate to 2.5e-05
+Epoch: 4 cost time: 8.977026462554932
+Epoch: 4, Steps: 1599 | Train Loss: 0.1214075 Vali Loss: 0.1236476 Test Loss: 0.1174189
+Validation loss decreased (0.123782 --> 0.123648).  Saving model ...
+Updating learning rate to 1.25e-05
+Epoch: 5 cost time: 8.824972867965698
+Epoch: 5, Steps: 1599 | Train Loss: 0.1213407 Vali Loss: 0.1236375 Test Loss: 0.1174016
+Validation loss decreased (0.123648 --> 0.123638).  Saving model ...
+Updating learning rate to 6.25e-06
+Epoch: 6 cost time: 8.034796237945557
+Epoch: 6, Steps: 1599 | Train Loss: 0.1213322 Vali Loss: 0.1236190 Test Loss: 0.1173956
+Validation loss decreased (0.123638 --> 0.123619).  Saving model ...
+Updating learning rate to 3.125e-06
+Epoch: 7 cost time: 8.098441123962402
+Epoch: 7, Steps: 1599 | Train Loss: 0.1213304 Vali Loss: 0.1236182 Test Loss: 0.1173962
+Validation loss decreased (0.123619 --> 0.123618).  Saving model ...
+Updating learning rate to 1.5625e-06
+Epoch: 8 cost time: 7.952722072601318
+Epoch: 8, Steps: 1599 | Train Loss: 0.1213300 Vali Loss: 0.1236232 Test Loss: 0.1173911
+EarlyStopping counter: 1 out of 3
+Updating learning rate to 7.8125e-07
+Epoch: 9 cost time: 8.212437629699707
+Epoch: 9, Steps: 1599 | Train Loss: 0.1213303 Vali Loss: 0.1236279 Test Loss: 0.1173910
+EarlyStopping counter: 2 out of 3
+Updating learning rate to 3.90625e-07
+Epoch: 10 cost time: 8.151639938354492
+Epoch: 10, Steps: 1599 | Train Loss: 0.1213303 Vali Loss: 0.1236324 Test Loss: 0.1173915
+EarlyStopping counter: 3 out of 3
+Early stopping
+>>>>>>>testing : DLinear_16_8_DLinear_Activity_ftM_sl16_ll8_pl8_dm512_nh8_el2_dl1_df2048_fc1_ebtimeF_dtTrue_Exp_0<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+Loaded preprocessed data: (18309, 7000)
+Original neurons: 11393, current: 7000
+Data range: -0.250 to 1.500
+Temporal split - Total time: 18309
+Train: 0 to 12816 (70.0%)
+Val: 12816 to 16478 (20.0%)
+Test: 16478 to 18309 (10.0%)
+Current split (test): 16462 to 18309
+Using pre-selected top 7000 neurons from HDF5 file.
+Full dataset shape: (1847, 7000)
+Data statistics - Mean: 0.320, Std: 0.193
+test 1824
+mse:0.02570994198322296, mae:0.11739592254161835

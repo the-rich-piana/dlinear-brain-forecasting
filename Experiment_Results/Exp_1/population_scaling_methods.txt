@@ -1,0 +1,21 @@
+\section{Methods}
+
+To systematically evaluate the effects of population size and temporal context on neural activity forecasting, we designed a comprehensive experimental framework employing a 3×3 factorial design. This approach allows us to disentangle the individual and interactive effects of neuronal population scale and forecasting horizon length on model performance.
+
+\subsection{Experimental Design}
+
+We partitioned our complete dataset of 11,393 neurons into three population subsets: 70, 700, and 7,000 neurons, representing approximately 0.6\%, 6.1\%, and 61.5\% of the total population, respectively. This logarithmic scaling provides insight into how model performance scales with population size across multiple orders of magnitude. For each population subset, we evaluated three distinct temporal configurations:
+
+\begin{itemize}
+\item \textbf{Short}: Context length (C) = 16 timesteps, Prediction length (P) = 8 timesteps
+\item \textbf{Medium}: Context length (C) = 48 timesteps, Prediction length (P) = 16 timesteps  
+\item \textbf{Long}: Context length (C) = 96 timesteps, Prediction length (P) = 32 timesteps
+\end{itemize}
+
+These configurations follow standard time-series forecasting methodology, with context-to-prediction ratios of 2:1, 3:1, and 3:1 respectively, allowing models to leverage varying amounts of historical information for future predictions.
+
+\subsection{Model Selection and Training}
+
+We select the same models as described in the Methodology chapter, that is: Naive, Mean, Linear, DLinear, TSMixer, POCO, Informer, and Transformer. All models were trained using identical hyperparameters across conditions to ensure fair comparison: batch size of 8, 10 training epochs, and mean absolute error (MAE) loss function. Statistical baseline models (Naive and Mean) were implemented using dedicated statistical routines, while deep learning models employed standard neural network training procedures.
+
+To maximize computational efficiency, we implemented parallel training protocols where multiple models were trained simultaneously across different population sizes. This approach reduced total experiment runtime while maintaining identical training conditions across all experimental cells. Each model-population-context combination was trained independently, generating a total of 72 unique model instances (8 models × 3 populations × 3 contexts) for comprehensive performance evaluation.

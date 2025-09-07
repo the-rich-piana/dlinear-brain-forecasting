@@ -1,0 +1,69 @@
+Args in experiment:
+Namespace(is_training=1, train_only=False, model_id='POCO_48_16', model='POCO', data='ActivityBehavioral', root_path='/cs/student/projects1/aibh/2024/gcosta/mpci_data/', data_path='session_5ea6bb9b-6163-4e8a-816b-efe7002666b0_7000_fluor_zscore_passive.h5', features='M', target='OT', freq='h', checkpoints='./checkpoints/', seq_len=48, label_len=16, pred_len=16, individual=False, embed_type=0, enc_in=7000, dec_in=7, c_out=7000, d_model=512, n_heads=8, e_layers=2, d_layers=1, d_ff=2048, moving_avg=25, factor=1, distil=True, dropout=0.05, embed='timeF', activation='gelu', output_attention=False, do_predict=False, num_workers=5, itr=1, train_epochs=10, batch_size=8, patience=1, learning_rate=0.0001, des='Exp', experiment_name='ActivityLongBehavioral7000NZScored', loss='mae', lradj='type1', use_amp=False, use_gpu=True, gpu=0, use_multi_gpu=False, devices='0,1,2,3', test_flop=False, feature_idx=69)
+Use GPU: cuda:0
+>>>>>>>start training : POCO_48_16_POCO_ActivityBehavioral_ftM_sl48_ll16_pl16_dm512_nh8_el2_dl1_df2048_fc1_ebtimeF_dtTrue_Exp_0>>>>>>>>>>>>>>>>>>>>>>>>>>
+Loaded preprocessed data: (22074, 7000)
+Original neurons: 11393, current: 7000
+Data range: -3.924 to 5.000
+=== BEHAVIORAL SPLIT ANALYSIS ===
+Total recording: 22074 timesteps (4513.4 seconds)
+Active period: 0 to 18309 (3665.3 seconds)
+Passive period: 18309 to 22074 (848.1 seconds)
+Active/Passive ratio: 81.2% / 18.8%
+Train split within active: 0 to 14647
+Val split within active: 14647 to 18309
+=== TRAIN SPLIT DATA ===
+Split range: timesteps 0 to 14647
+Split data shape: (14647, 7000)
+Data statistics - Mean: -0.074, Std: 0.893
+Available sequences: 14584
+train 14584
+Loaded preprocessed data: (22074, 7000)
+Original neurons: 11393, current: 7000
+Data range: -3.924 to 5.000
+=== VALIDATION SPLIT DATA ===
+Split range: timesteps 14647 to 18309
+Split data shape: (3662, 7000)
+Data statistics - Mean: -0.067, Std: 0.920
+Available sequences: 3599
+val 3599
+Loaded preprocessed data: (22074, 7000)
+Original neurons: 11393, current: 7000
+Data range: -3.924 to 5.000
+=== TEST (PASSIVE) SPLIT DATA ===
+Split range: timesteps 18309 to 22074
+Split data shape: (3765, 7000)
+Data statistics - Mean: 0.316, Std: 1.119
+Available sequences: 3702
+test 3702
+Epoch: 1 cost time: 180.8660876750946
+Epoch: 1, Steps: 1823 | Train Loss: 0.5678259 Vali Loss: 0.5738462 Test Loss: 0.6691028
+Validation loss decreased (inf --> 0.573846).  Saving model ...
+Updating learning rate to 0.0001
+Epoch: 2 cost time: 169.92096424102783
+Epoch: 2, Steps: 1823 | Train Loss: 0.5625503 Vali Loss: 0.5719114 Test Loss: 0.6666165
+Validation loss decreased (0.573846 --> 0.571911).  Saving model ...
+Updating learning rate to 5e-05
+Epoch: 3 cost time: 96.86571168899536
+Epoch: 3, Steps: 1823 | Train Loss: 0.5612712 Vali Loss: 0.5713769 Test Loss: 0.6654685
+Validation loss decreased (0.571911 --> 0.571377).  Saving model ...
+Updating learning rate to 2.5e-05
+Epoch: 4 cost time: 96.79465866088867
+Epoch: 4, Steps: 1823 | Train Loss: 0.5605267 Vali Loss: 0.5702961 Test Loss: 0.6653292
+Validation loss decreased (0.571377 --> 0.570296).  Saving model ...
+Updating learning rate to 1.25e-05
+Epoch: 5 cost time: 96.70553040504456
+Epoch: 5, Steps: 1823 | Train Loss: 0.5601261 Vali Loss: 0.5703169 Test Loss: 0.6688755
+EarlyStopping counter: 1 out of 1
+Early stopping
+>>>>>>>testing : POCO_48_16_POCO_ActivityBehavioral_ftM_sl48_ll16_pl16_dm512_nh8_el2_dl1_df2048_fc1_ebtimeF_dtTrue_Exp_0<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+Loaded preprocessed data: (22074, 7000)
+Original neurons: 11393, current: 7000
+Data range: -3.924 to 5.000
+=== TEST (PASSIVE) SPLIT DATA ===
+Split range: timesteps 18309 to 22074
+Split data shape: (3765, 7000)
+Data statistics - Mean: 0.316, Std: 1.119
+Available sequences: 3702
+test 3702
+mse:0.8860821723937988, mae:0.665383517742157

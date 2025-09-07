@@ -1,0 +1,81 @@
+Args in experiment:
+Namespace(is_training=1, train_only=False, model_id='DLinear_48_16', model='DLinear', data='ActivityBehavioral', root_path='/cs/student/projects1/aibh/2024/gcosta/mpci_data/', data_path='session_5ea6bb9b-6163-4e8a-816b-efe7002666b0_7000_passive.h5', features='M', target='OT', freq='h', checkpoints='./checkpoints/', seq_len=48, label_len=16, pred_len=16, individual=False, embed_type=0, enc_in=7000, dec_in=7, c_out=7000, d_model=512, n_heads=8, e_layers=2, d_layers=1, d_ff=2048, moving_avg=25, factor=1, distil=True, dropout=0.05, embed='timeF', activation='gelu', output_attention=False, do_predict=False, num_workers=5, itr=1, train_epochs=10, batch_size=8, patience=3, learning_rate=0.0001, des='Exp', experiment_name='ActivityLongBehavioral7000N', loss='mae', lradj='type1', use_amp=False, use_gpu=True, gpu=0, use_multi_gpu=False, devices='0,1,2,3', test_flop=False, feature_idx=69)
+Use GPU: cuda:0
+>>>>>>>start training : DLinear_48_16_DLinear_ActivityBehavioral_ftM_sl48_ll16_pl16_dm512_nh8_el2_dl1_df2048_fc1_ebtimeF_dtTrue_Exp_0>>>>>>>>>>>>>>>>>>>>>>>>>>
+Loaded preprocessed data: (22074, 7000)
+Original neurons: 11393, current: 7000
+Data range: -0.250 to 1.500
+=== BEHAVIORAL SPLIT ANALYSIS ===
+Total recording: 22074 timesteps (4513.4 seconds)
+Active period: 0 to 18309 (3665.3 seconds)
+Passive period: 18309 to 22074 (848.1 seconds)
+Active/Passive ratio: 81.2% / 18.8%
+Train split within active: 0 to 14647
+Val split within active: 14647 to 18309
+=== TRAIN SPLIT DATA ===
+Split range: timesteps 0 to 14647
+Split data shape: (14647, 7000)
+Data statistics - Mean: 0.316, Std: 0.187
+Available sequences: 14584
+train 14584
+Loaded preprocessed data: (22074, 7000)
+Original neurons: 11393, current: 7000
+Data range: -0.250 to 1.500
+=== VALIDATION SPLIT DATA ===
+Split range: timesteps 14647 to 18309
+Split data shape: (3662, 7000)
+Data statistics - Mean: 0.316, Std: 0.189
+Available sequences: 3599
+val 3599
+Loaded preprocessed data: (22074, 7000)
+Original neurons: 11393, current: 7000
+Data range: -0.250 to 1.500
+=== TEST (PASSIVE) SPLIT DATA ===
+Split range: timesteps 18309 to 22074
+Split data shape: (3765, 7000)
+Data statistics - Mean: 0.343, Std: 0.216
+Available sequences: 3702
+test 3702
+Epoch: 1 cost time: 20.48600482940674
+Epoch: 1, Steps: 1823 | Train Loss: 0.1304169 Vali Loss: 0.1135547 Test Loss: 0.1282061
+Validation loss decreased (inf --> 0.113555).  Saving model ...
+Updating learning rate to 0.0001
+Epoch: 2 cost time: 20.937269926071167
+Epoch: 2, Steps: 1823 | Train Loss: 0.1113836 Vali Loss: 0.1126551 Test Loss: 0.1271136
+Validation loss decreased (0.113555 --> 0.112655).  Saving model ...
+Updating learning rate to 5e-05
+Epoch: 3 cost time: 20.909247398376465
+Epoch: 3, Steps: 1823 | Train Loss: 0.1111948 Vali Loss: 0.1126419 Test Loss: 0.1271448
+Validation loss decreased (0.112655 --> 0.112642).  Saving model ...
+Updating learning rate to 2.5e-05
+Epoch: 4 cost time: 21.069652795791626
+Epoch: 4, Steps: 1823 | Train Loss: 0.1111920 Vali Loss: 0.1126435 Test Loss: 0.1271345
+EarlyStopping counter: 1 out of 3
+Updating learning rate to 1.25e-05
+Epoch: 5 cost time: 20.802748203277588
+Epoch: 5, Steps: 1823 | Train Loss: 0.1111912 Vali Loss: 0.1126241 Test Loss: 0.1271120
+Validation loss decreased (0.112642 --> 0.112624).  Saving model ...
+Updating learning rate to 6.25e-06
+Epoch: 6 cost time: 21.00711727142334
+Epoch: 6, Steps: 1823 | Train Loss: 0.1111908 Vali Loss: 0.1126320 Test Loss: 0.1270952
+EarlyStopping counter: 1 out of 3
+Updating learning rate to 3.125e-06
+Epoch: 7 cost time: 21.18795084953308
+Epoch: 7, Steps: 1823 | Train Loss: 0.1111903 Vali Loss: 0.1126320 Test Loss: 0.1271063
+EarlyStopping counter: 2 out of 3
+Updating learning rate to 1.5625e-06
+Epoch: 8 cost time: 20.63328242301941
+Epoch: 8, Steps: 1823 | Train Loss: 0.1111902 Vali Loss: 0.1126275 Test Loss: 0.1271050
+EarlyStopping counter: 3 out of 3
+Early stopping
+>>>>>>>testing : DLinear_48_16_DLinear_ActivityBehavioral_ftM_sl48_ll16_pl16_dm512_nh8_el2_dl1_df2048_fc1_ebtimeF_dtTrue_Exp_0<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+Loaded preprocessed data: (22074, 7000)
+Original neurons: 11393, current: 7000
+Data range: -0.250 to 1.500
+=== TEST (PASSIVE) SPLIT DATA ===
+Split range: timesteps 18309 to 22074
+Split data shape: (3765, 7000)
+Data statistics - Mean: 0.343, Std: 0.216
+Available sequences: 3702
+test 3702
+mse:0.032641611993312836, mae:0.12712126970291138

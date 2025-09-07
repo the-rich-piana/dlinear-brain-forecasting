@@ -1,0 +1,178 @@
+Args in experiment:
+Namespace(is_training=1, train_only=False, model_id='SPOCO_48_16', model='SPOCO', data='ActivityStimulus', root_path='/cs/student/projects1/aibh/2024/gcosta/mpci_data/', data_path='session_5ea6bb9b-6163-4e8a-816b-efe7002666b0_7000.h5', features='M', target='OT', freq='h', checkpoints='./checkpoints/', seq_len=48, label_len=16, pred_len=16, individual=False, embed_type=0, enc_in=7000, dec_in=7, c_out=7000, d_model=512, n_heads=8, e_layers=2, d_layers=1, d_ff=2048, moving_avg=25, factor=1, distil=True, dropout=0.05, embed='timeF', activation='gelu', output_attention=False, do_predict=False, num_workers=5, itr=1, train_epochs=10, batch_size=8, patience=1, learning_rate=0.0001, des='Exp', experiment_name='ActivityLongSPOCO7000N', loss='mae', lradj='type1', use_amp=False, use_gpu=True, gpu=0, use_multi_gpu=False, devices='0,1,2,3', test_flop=False, feature_idx=69)
+Use GPU: cuda:0
+>>>>>>>start training : SPOCO_48_16_SPOCO_ActivityStimulus_ftM_sl48_ll16_pl16_dm512_nh8_el2_dl1_df2048_fc1_ebtimeF_dtTrue_Exp_0>>>>>>>>>>>>>>>>>>>>>>>>>>
+Loaded preprocessed data: (18309, 7000)
+Loaded covariate matrix: (18309, 11)
+Original neurons: 11393, current: 7000
+Data range: -0.250 to 1.500
+Covariate features: ['wheel_velocity', 'stimulus_catch_trial', 'stimulus_left_100pct', 'stimulus_left_25pct', 'stimulus_left_12.5pct', 'stimulus_left_6.25pct', 'stimulus_right_100pct', 'stimulus_right_25pct', 'stimulus_right_12.5pct', 'stimulus_right_6.25pct', 'trial_phase']
+
+Creating stimulus-based splits...
+
+============================================================
+🎯 HELD-OUT TEST SET: Right 100% (Type 5)
+============================================================
+Stimulus type 0: 3347 pts -> 2342 train, 334 val, 671 test
+Stimulus type 1: 316 pts -> 221 train, 31 val, 64 test
+Stimulus type 2: 359 pts -> 251 train, 35 val, 73 test
+Stimulus type 3: 672 pts -> 470 train, 67 val, 135 test
+Stimulus type 4: 666 pts -> 466 train, 66 val, 134 test
+Held out stimulus type 5 for testing: 1675 timepoints
+Stimulus type 6: 2096 pts -> 1467 train, 209 val, 420 test
+Stimulus type 7: 2113 pts -> 1479 train, 211 val, 423 test
+Stimulus type 8: 2493 pts -> 1745 train, 249 val, 499 test
+Generating safe, leak-free sample indices...
+Found 1643 valid training samples.
+Found 179 valid validation samples.
+Found 361 valid test samples.
+Split summary:
+  train_samples: 1643
+  val_samples: 179
+  test_samples: 361
+  total_samples: 2183
+  train_pct: 75.3%
+  val_pct: 8.2%
+  test_pct: 16.5%
+Using pre-selected top 7000 neurons from HDF5 file.
+Full dataset shape: (18309, 7000)
+Full covariate shape: (18309, 11)
+Valid train samples: 1643
+Data statistics - Mean: 0.344, Std: 0.198
+train 1643
+Loaded preprocessed data: (18309, 7000)
+Loaded covariate matrix: (18309, 11)
+Original neurons: 11393, current: 7000
+Data range: -0.250 to 1.500
+Covariate features: ['wheel_velocity', 'stimulus_catch_trial', 'stimulus_left_100pct', 'stimulus_left_25pct', 'stimulus_left_12.5pct', 'stimulus_left_6.25pct', 'stimulus_right_100pct', 'stimulus_right_25pct', 'stimulus_right_12.5pct', 'stimulus_right_6.25pct', 'trial_phase']
+
+Creating stimulus-based splits...
+
+============================================================
+🎯 HELD-OUT TEST SET: Right 100% (Type 5)
+============================================================
+Stimulus type 0: 3347 pts -> 2342 train, 334 val, 671 test
+Stimulus type 1: 316 pts -> 221 train, 31 val, 64 test
+Stimulus type 2: 359 pts -> 251 train, 35 val, 73 test
+Stimulus type 3: 672 pts -> 470 train, 67 val, 135 test
+Stimulus type 4: 666 pts -> 466 train, 66 val, 134 test
+Held out stimulus type 5 for testing: 1675 timepoints
+Stimulus type 6: 2096 pts -> 1467 train, 209 val, 420 test
+Stimulus type 7: 2113 pts -> 1479 train, 211 val, 423 test
+Stimulus type 8: 2493 pts -> 1745 train, 249 val, 499 test
+Generating safe, leak-free sample indices...
+Found 1643 valid training samples.
+Found 179 valid validation samples.
+Found 361 valid test samples.
+Split summary:
+  train_samples: 1643
+  val_samples: 179
+  test_samples: 361
+  total_samples: 2183
+  train_pct: 75.3%
+  val_pct: 8.2%
+  test_pct: 16.5%
+Using pre-selected top 7000 neurons from HDF5 file.
+Full dataset shape: (18309, 7000)
+Full covariate shape: (18309, 11)
+Valid val samples: 179
+Data statistics - Mean: 0.344, Std: 0.198
+val 179
+Loaded preprocessed data: (18309, 7000)
+Loaded covariate matrix: (18309, 11)
+Original neurons: 11393, current: 7000
+Data range: -0.250 to 1.500
+Covariate features: ['wheel_velocity', 'stimulus_catch_trial', 'stimulus_left_100pct', 'stimulus_left_25pct', 'stimulus_left_12.5pct', 'stimulus_left_6.25pct', 'stimulus_right_100pct', 'stimulus_right_25pct', 'stimulus_right_12.5pct', 'stimulus_right_6.25pct', 'trial_phase']
+
+Creating stimulus-based splits...
+
+============================================================
+🎯 HELD-OUT TEST SET: Right 100% (Type 5)
+============================================================
+Stimulus type 0: 3347 pts -> 2342 train, 334 val, 671 test
+Stimulus type 1: 316 pts -> 221 train, 31 val, 64 test
+Stimulus type 2: 359 pts -> 251 train, 35 val, 73 test
+Stimulus type 3: 672 pts -> 470 train, 67 val, 135 test
+Stimulus type 4: 666 pts -> 466 train, 66 val, 134 test
+Held out stimulus type 5 for testing: 1675 timepoints
+Stimulus type 6: 2096 pts -> 1467 train, 209 val, 420 test
+Stimulus type 7: 2113 pts -> 1479 train, 211 val, 423 test
+Stimulus type 8: 2493 pts -> 1745 train, 249 val, 499 test
+Generating safe, leak-free sample indices...
+Found 1643 valid training samples.
+Found 179 valid validation samples.
+Found 361 valid test samples.
+Split summary:
+  train_samples: 1643
+  val_samples: 179
+  test_samples: 361
+  total_samples: 2183
+  train_pct: 75.3%
+  val_pct: 8.2%
+  test_pct: 16.5%
+Using pre-selected top 7000 neurons from HDF5 file.
+Full dataset shape: (18309, 7000)
+Full covariate shape: (18309, 11)
+Valid test samples: 361
+Data statistics - Mean: 0.344, Std: 0.198
+test 361
+Epoch: 1 cost time: 16.770461559295654
+Epoch: 1, Steps: 205 | Train Loss: 0.1355282 Vali Loss: 0.1249092 Test Loss: 0.1283189
+Validation loss decreased (inf --> 0.124909).  Saving model ...
+Updating learning rate to 0.0001
+Epoch: 2 cost time: 11.508171319961548
+Epoch: 2, Steps: 205 | Train Loss: 0.1196559 Vali Loss: 0.1225395 Test Loss: 0.1254441
+Validation loss decreased (0.124909 --> 0.122540).  Saving model ...
+Updating learning rate to 5e-05
+Epoch: 3 cost time: 11.50479793548584
+Epoch: 3, Steps: 205 | Train Loss: 0.1191327 Vali Loss: 0.1207153 Test Loss: 0.1238067
+Validation loss decreased (0.122540 --> 0.120715).  Saving model ...
+Updating learning rate to 2.5e-05
+Epoch: 4 cost time: 11.49661374092102
+Epoch: 4, Steps: 205 | Train Loss: 0.1189222 Vali Loss: 0.1205746 Test Loss: 0.1238914
+Validation loss decreased (0.120715 --> 0.120575).  Saving model ...
+Updating learning rate to 1.25e-05
+Epoch: 5 cost time: 11.50059461593628
+Epoch: 5, Steps: 205 | Train Loss: 0.1188444 Vali Loss: 0.1208753 Test Loss: 0.1242770
+EarlyStopping counter: 1 out of 1
+Early stopping
+>>>>>>>testing : SPOCO_48_16_SPOCO_ActivityStimulus_ftM_sl48_ll16_pl16_dm512_nh8_el2_dl1_df2048_fc1_ebtimeF_dtTrue_Exp_0<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+Loaded preprocessed data: (18309, 7000)
+Loaded covariate matrix: (18309, 11)
+Original neurons: 11393, current: 7000
+Data range: -0.250 to 1.500
+Covariate features: ['wheel_velocity', 'stimulus_catch_trial', 'stimulus_left_100pct', 'stimulus_left_25pct', 'stimulus_left_12.5pct', 'stimulus_left_6.25pct', 'stimulus_right_100pct', 'stimulus_right_25pct', 'stimulus_right_12.5pct', 'stimulus_right_6.25pct', 'trial_phase']
+
+Creating stimulus-based splits...
+
+============================================================
+🎯 HELD-OUT TEST SET: Right 100% (Type 5)
+============================================================
+Stimulus type 0: 3347 pts -> 2342 train, 334 val, 671 test
+Stimulus type 1: 316 pts -> 221 train, 31 val, 64 test
+Stimulus type 2: 359 pts -> 251 train, 35 val, 73 test
+Stimulus type 3: 672 pts -> 470 train, 67 val, 135 test
+Stimulus type 4: 666 pts -> 466 train, 66 val, 134 test
+Held out stimulus type 5 for testing: 1675 timepoints
+Stimulus type 6: 2096 pts -> 1467 train, 209 val, 420 test
+Stimulus type 7: 2113 pts -> 1479 train, 211 val, 423 test
+Stimulus type 8: 2493 pts -> 1745 train, 249 val, 499 test
+Generating safe, leak-free sample indices...
+Found 1643 valid training samples.
+Found 179 valid validation samples.
+Found 361 valid test samples.
+Split summary:
+  train_samples: 1643
+  val_samples: 179
+  test_samples: 361
+  total_samples: 2183
+  train_pct: 75.3%
+  val_pct: 8.2%
+  test_pct: 16.5%
+Using pre-selected top 7000 neurons from HDF5 file.
+Full dataset shape: (18309, 7000)
+Full covariate shape: (18309, 11)
+Valid test samples: 361
+Data statistics - Mean: 0.344, Std: 0.198
+test 361
+mse:0.028813187032938004, mae:0.12400007247924805

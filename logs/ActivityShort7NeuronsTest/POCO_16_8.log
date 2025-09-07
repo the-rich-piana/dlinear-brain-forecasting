@@ -1,0 +1,86 @@
+Args in experiment:
+Namespace(is_training=1, train_only=False, model_id='POCO_16_8', model='POCO', data='Activity', root_path='/cs/student/projects1/aibh/2024/gcosta/mpci_data/', data_path='session_5ea6bb9b-6163-4e8a-816b-efe7002666b0_7.h5', features='M', target='OT', freq='h', checkpoints='./checkpoints/', seq_len=16, label_len=8, pred_len=8, individual=False, embed_type=0, enc_in=7, dec_in=7, c_out=7, d_model=512, n_heads=8, e_layers=2, d_layers=1, d_ff=2048, moving_avg=25, factor=1, distil=True, dropout=0.05, embed='timeF', activation='gelu', output_attention=False, do_predict=False, num_workers=5, itr=1, train_epochs=10, batch_size=8, patience=3, learning_rate=0.0001, des='Exp', experiment_name='ActivityShort7NeuronsTest', loss='mae', lradj='type1', use_amp=False, use_gpu=True, gpu=0, use_multi_gpu=False, devices='0,1,2,3', test_flop=False)
+Use GPU: cuda:0
+>>>>>>>start training : POCO_16_8_POCO_Activity_ftM_sl16_ll8_pl8_dm512_nh8_el2_dl1_df2048_fc1_ebtimeF_dtTrue_Exp_0>>>>>>>>>>>>>>>>>>>>>>>>>>
+Loaded preprocessed data: (18309, 7)
+Original neurons: 11393, current: 7
+Data range: -0.032 to 1.362
+Temporal split - Total time: 18309
+Train: 0 to 12816 (70.0%)
+Val: 12816 to 16478 (20.0%)
+Test: 16478 to 18309 (10.0%)
+Current split (train): 0 to 12816
+Using pre-selected top 7 neurons from HDF5 file.
+Full dataset shape: (12816, 7)
+Data statistics - Mean: 0.181, Std: 0.222
+train 12793
+Loaded preprocessed data: (18309, 7)
+Original neurons: 11393, current: 7
+Data range: -0.032 to 1.362
+Temporal split - Total time: 18309
+Train: 0 to 12816 (70.0%)
+Val: 12816 to 16478 (20.0%)
+Test: 16478 to 18309 (10.0%)
+Current split (val): 12800 to 16478
+Using pre-selected top 7 neurons from HDF5 file.
+Full dataset shape: (3678, 7)
+Data statistics - Mean: 0.205, Std: 0.247
+val 3655
+Loaded preprocessed data: (18309, 7)
+Original neurons: 11393, current: 7
+Data range: -0.032 to 1.362
+Temporal split - Total time: 18309
+Train: 0 to 12816 (70.0%)
+Val: 12816 to 16478 (20.0%)
+Test: 16478 to 18309 (10.0%)
+Current split (test): 16462 to 18309
+Using pre-selected top 7 neurons from HDF5 file.
+Full dataset shape: (1847, 7)
+Data statistics - Mean: 0.205, Std: 0.250
+test 1824
+Epoch: 1 cost time: 30.108722925186157
+Epoch: 1, Steps: 1599 | Train Loss: 0.0604877 Vali Loss: 0.0658895 Test Loss: 0.0676195
+Validation loss decreased (inf --> 0.065889).  Saving model ...
+Updating learning rate to 0.0001
+Epoch: 2 cost time: 20.76661729812622
+Epoch: 2, Steps: 1599 | Train Loss: 0.0556227 Vali Loss: 0.0693605 Test Loss: 0.0710647
+EarlyStopping counter: 1 out of 3
+Updating learning rate to 5e-05
+Epoch: 3 cost time: 21.084423065185547
+Epoch: 3, Steps: 1599 | Train Loss: 0.0547671 Vali Loss: 0.0675374 Test Loss: 0.0688658
+EarlyStopping counter: 2 out of 3
+Updating learning rate to 2.5e-05
+Epoch: 4 cost time: 20.797329425811768
+Epoch: 4, Steps: 1599 | Train Loss: 0.0543571 Vali Loss: 0.0646190 Test Loss: 0.0655435
+Validation loss decreased (0.065889 --> 0.064619).  Saving model ...
+Updating learning rate to 1.25e-05
+Epoch: 5 cost time: 21.06626057624817
+Epoch: 5, Steps: 1599 | Train Loss: 0.0540596 Vali Loss: 0.0630355 Test Loss: 0.0639240
+Validation loss decreased (0.064619 --> 0.063036).  Saving model ...
+Updating learning rate to 6.25e-06
+Epoch: 6 cost time: 20.663792610168457
+Epoch: 6, Steps: 1599 | Train Loss: 0.0539403 Vali Loss: 0.0632677 Test Loss: 0.0640960
+EarlyStopping counter: 1 out of 3
+Updating learning rate to 3.125e-06
+Epoch: 7 cost time: 21.24674415588379
+Epoch: 7, Steps: 1599 | Train Loss: 0.0538607 Vali Loss: 0.0636444 Test Loss: 0.0645107
+EarlyStopping counter: 2 out of 3
+Updating learning rate to 1.5625e-06
+Epoch: 8 cost time: 20.11537456512451
+Epoch: 8, Steps: 1599 | Train Loss: 0.0538217 Vali Loss: 0.0639504 Test Loss: 0.0648268
+EarlyStopping counter: 3 out of 3
+Early stopping
+>>>>>>>testing : POCO_16_8_POCO_Activity_ftM_sl16_ll8_pl8_dm512_nh8_el2_dl1_df2048_fc1_ebtimeF_dtTrue_Exp_0<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+Loaded preprocessed data: (18309, 7)
+Original neurons: 11393, current: 7
+Data range: -0.032 to 1.362
+Temporal split - Total time: 18309
+Train: 0 to 12816 (70.0%)
+Val: 12816 to 16478 (20.0%)
+Test: 16478 to 18309 (10.0%)
+Current split (test): 16462 to 18309
+Using pre-selected top 7 neurons from HDF5 file.
+Full dataset shape: (1847, 7)
+Data statistics - Mean: 0.205, Std: 0.250
+test 1824
+mse:0.015090234577655792, mae:0.06392394751310349

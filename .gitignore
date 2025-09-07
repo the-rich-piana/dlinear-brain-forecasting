@@ -2,8 +2,6 @@
 *.h5
 *.pth
 *.pdf
-CLAUDE.md
 *.pyc
 .DS_Store
 /test_results
-/logs

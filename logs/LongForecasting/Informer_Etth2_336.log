@@ -1,0 +1,23 @@
+Args in experiment:
+Namespace(is_training=1, train_only=False, model_id='ETTh2_96_336', model='Informer', data='ETTh2', root_path='./dataset/', data_path='ETTh2.csv', features='M', target='OT', freq='h', checkpoints='./checkpoints/', seq_len=96, label_len=48, pred_len=336, individual=False, embed_type=0, enc_in=7, dec_in=7, c_out=7, d_model=512, n_heads=8, e_layers=2, d_layers=1, d_ff=2048, moving_avg=25, factor=3, distil=True, dropout=0.05, embed='timeF', activation='gelu', output_attention=False, do_predict=False, num_workers=10, itr=1, train_epochs=10, batch_size=32, patience=3, learning_rate=0.0001, des='Exp', loss='mse', lradj='type1', use_amp=False, use_gpu=True, gpu=0, use_multi_gpu=False, devices='0,1,2,3', test_flop=False)
+Use GPU: cuda:0
+>>>>>>>start training : ETTh2_96_336_Informer_ETTh2_ftM_sl96_ll48_pl336_dm512_nh8_el2_dl1_df2048_fc3_ebtimeF_dtTrue_Exp_0>>>>>>>>>>>>>>>>>>>>>>>>>>
+train 8209
+val 2545
+test 2545
+	iters: 100, epoch: 1 | loss: 0.5898945
+	speed: 0.1405s/iter; left time: 345.7494s
+	iters: 200, epoch: 1 | loss: 0.4294796
+	speed: 0.0992s/iter; left time: 234.1883s
+Epoch: 1 cost time: 26.173776149749756
+Epoch: 1, Steps: 256 | Train Loss: 0.4322688 Vali Loss: 1.3890162 Test Loss: 5.3799872
+Validation loss decreased (inf --> 1.389016).  Saving model ...
+Updating learning rate to 0.0001
+	iters: 100, epoch: 2 | loss: 0.2762495
+	speed: 0.2437s/iter; left time: 537.3925s
+	iters: 200, epoch: 2 | loss: 0.2980870
+	speed: 0.1185s/iter; left time: 249.4141s
+Epoch: 2 cost time: 28.600918292999268
+Epoch: 2, Steps: 256 | Train Loss: 0.3063777 Vali Loss: 1.1296412 Test Loss: 5.5425310
+Validation loss decreased (1.389016 --> 1.129641).  Saving model ...
+Updating learning rate to 5e-05

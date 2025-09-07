@@ -1,0 +1,77 @@
+Args in experiment:
+Namespace(is_training=1, train_only=False, model_id='POCO_48_16', model='POCO', data='ActivityBehavioral', root_path='/cs/student/projects1/aibh/2024/gcosta/mpci_data/', data_path='session_5ea6bb9b-6163-4e8a-816b-efe7002666b0_7000_passive.h5', features='M', target='OT', freq='h', checkpoints='./checkpoints/', seq_len=48, label_len=16, pred_len=16, individual=False, embed_type=0, enc_in=7000, dec_in=7, c_out=7000, d_model=512, n_heads=8, e_layers=2, d_layers=1, d_ff=2048, moving_avg=25, factor=1, distil=True, dropout=0.05, embed='timeF', activation='gelu', output_attention=False, do_predict=False, num_workers=5, itr=1, train_epochs=10, batch_size=8, patience=1, learning_rate=0.0001, des='Exp', experiment_name='ActivityLongBehavioral7000N', loss='mae', lradj='type1', use_amp=False, use_gpu=True, gpu=0, use_multi_gpu=False, devices='0,1,2,3', test_flop=False, feature_idx=69)
+Use GPU: cuda:0
+>>>>>>>start training : POCO_48_16_POCO_ActivityBehavioral_ftM_sl48_ll16_pl16_dm512_nh8_el2_dl1_df2048_fc1_ebtimeF_dtTrue_Exp_0>>>>>>>>>>>>>>>>>>>>>>>>>>
+Loaded preprocessed data: (22074, 7000)
+Original neurons: 11393, current: 7000
+Data range: -0.250 to 1.500
+=== BEHAVIORAL SPLIT ANALYSIS ===
+Total recording: 22074 timesteps (4513.4 seconds)
+Active period: 0 to 18309 (3665.3 seconds)
+Passive period: 18309 to 22074 (848.1 seconds)
+Active/Passive ratio: 81.2% / 18.8%
+Train split within active: 0 to 14647
+Val split within active: 14647 to 18309
+=== TRAIN SPLIT DATA ===
+Split range: timesteps 0 to 14647
+Split data shape: (14647, 7000)
+Data statistics - Mean: 0.316, Std: 0.187
+Available sequences: 14584
+train 14584
+Loaded preprocessed data: (22074, 7000)
+Original neurons: 11393, current: 7000
+Data range: -0.250 to 1.500
+=== VALIDATION SPLIT DATA ===
+Split range: timesteps 14647 to 18309
+Split data shape: (3662, 7000)
+Data statistics - Mean: 0.316, Std: 0.189
+Available sequences: 3599
+val 3599
+Loaded preprocessed data: (22074, 7000)
+Original neurons: 11393, current: 7000
+Data range: -0.250 to 1.500
+=== TEST (PASSIVE) SPLIT DATA ===
+Split range: timesteps 18309 to 22074
+Split data shape: (3765, 7000)
+Data statistics - Mean: 0.343, Std: 0.216
+Available sequences: 3702
+test 3702
+Epoch: 1 cost time: 295.7865068912506
+Epoch: 1, Steps: 1823 | Train Loss: 0.1101233 Vali Loss: 0.1093495 Test Loss: 0.1240515
+Validation loss decreased (inf --> 0.109349).  Saving model ...
+Updating learning rate to 0.0001
+Epoch: 2 cost time: 236.25842094421387
+Epoch: 2, Steps: 1823 | Train Loss: 0.1077040 Vali Loss: 0.1092239 Test Loss: 0.1242536
+Validation loss decreased (0.109349 --> 0.109224).  Saving model ...
+Updating learning rate to 5e-05
+Epoch: 3 cost time: 195.3191041946411
+Epoch: 3, Steps: 1823 | Train Loss: 0.1075098 Vali Loss: 0.1092105 Test Loss: 0.1243371
+Validation loss decreased (0.109224 --> 0.109210).  Saving model ...
+Updating learning rate to 2.5e-05
+Epoch: 4 cost time: 197.4190616607666
+Epoch: 4, Steps: 1823 | Train Loss: 0.1074429 Vali Loss: 0.1090549 Test Loss: 0.1243054
+Validation loss decreased (0.109210 --> 0.109055).  Saving model ...
+Updating learning rate to 1.25e-05
+Epoch: 5 cost time: 194.47025680541992
+Epoch: 5, Steps: 1823 | Train Loss: 0.1074047 Vali Loss: 0.1090491 Test Loss: 0.1242922
+Validation loss decreased (0.109055 --> 0.109049).  Saving model ...
+Updating learning rate to 6.25e-06
+Epoch: 6 cost time: 197.203218460083
+Epoch: 6, Steps: 1823 | Train Loss: 0.1073808 Vali Loss: 0.1090049 Test Loss: 0.1241986
+Validation loss decreased (0.109049 --> 0.109005).  Saving model ...
+Updating learning rate to 3.125e-06
+Epoch: 7 cost time: 194.2669813632965
+Epoch: 7, Steps: 1823 | Train Loss: 0.1073680 Vali Loss: 0.1090102 Test Loss: 0.1242202
+EarlyStopping counter: 1 out of 1
+Early stopping
+>>>>>>>testing : POCO_48_16_POCO_ActivityBehavioral_ftM_sl48_ll16_pl16_dm512_nh8_el2_dl1_df2048_fc1_ebtimeF_dtTrue_Exp_0<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+Loaded preprocessed data: (22074, 7000)
+Original neurons: 11393, current: 7000
+Data range: -0.250 to 1.500
+=== TEST (PASSIVE) SPLIT DATA ===
+Split range: timesteps 18309 to 22074
+Split data shape: (3765, 7000)
+Data statistics - Mean: 0.343, Std: 0.216
+Available sequences: 3702
+test 3702
+mse:0.03233429044485092, mae:0.1242065504193306
