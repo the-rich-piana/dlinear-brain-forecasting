@@ -1,0 +1,78 @@
+Args in experiment:
+Namespace(is_training=1, train_only=False, model_id='DLinear_48_16', model='DLinear', data='Activity', root_path='/cs/student/projects1/aibh/2024/gcosta/mpci_data/', data_path='session_5ea6bb9b-6163-4e8a-816b-efe7002666b0_11392.h5', features='M', target='OT', freq='h', checkpoints='./checkpoints/', seq_len=48, label_len=16, pred_len=16, individual=False, embed_type=0, enc_in=11392, dec_in=7, c_out=11392, d_model=512, n_heads=8, e_layers=2, d_layers=1, d_ff=2048, moving_avg=25, factor=1, distil=True, dropout=0.05, embed='timeF', activation='gelu', output_attention=False, do_predict=False, num_workers=5, itr=1, train_epochs=10, batch_size=8, patience=3, learning_rate=0.0001, des='Exp', experiment_name='ActivityLongActive11392N', loss='mae', lradj='type1', use_amp=False, use_gpu=True, gpu=0, use_multi_gpu=False, devices='0,1,2,3', test_flop=False, feature_idx=69)
+Use GPU: cuda:0
+>>>>>>>start training : DLinear_48_16_DLinear_Activity_ftM_sl48_ll16_pl16_dm512_nh8_el2_dl1_df2048_fc1_ebtimeF_dtTrue_Exp_0>>>>>>>>>>>>>>>>>>>>>>>>>>
+Loaded preprocessed data: (18309, 11392)
+Original neurons: 11393, current: 11392
+Data range: -0.250 to 1.500
+Temporal split - Total time: 18309
+Train: 0 to 12816 (70.0%)
+Val: 12816 to 16478 (20.0%)
+Test: 16478 to 18309 (10.0%)
+Current split (train): 0 to 12816
+Using pre-selected top 11392 neurons from HDF5 file.
+Full dataset shape: (12816, 11392)
+Data statistics - Mean: 0.342, Std: 0.198
+train 12753
+Loaded preprocessed data: (18309, 11392)
+Original neurons: 11393, current: 11392
+Data range: -0.250 to 1.500
+Temporal split - Total time: 18309
+Train: 0 to 12816 (70.0%)
+Val: 12816 to 16478 (20.0%)
+Test: 16478 to 18309 (10.0%)
+Current split (val): 12768 to 16478
+Using pre-selected top 11392 neurons from HDF5 file.
+Full dataset shape: (3710, 11392)
+Data statistics - Mean: 0.349, Std: 0.200
+val 3647
+Loaded preprocessed data: (18309, 11392)
+Original neurons: 11393, current: 11392
+Data range: -0.250 to 1.500
+Temporal split - Total time: 18309
+Train: 0 to 12816 (70.0%)
+Val: 12816 to 16478 (20.0%)
+Test: 16478 to 18309 (10.0%)
+Current split (test): 16430 to 18309
+Using pre-selected top 11392 neurons from HDF5 file.
+Full dataset shape: (1879, 11392)
+Data statistics - Mean: 0.318, Std: 0.194
+test 1816
+Epoch: 1 cost time: 25.094214916229248
+Epoch: 1, Steps: 1594 | Train Loss: 0.1444949 Vali Loss: 0.1253197 Test Loss: 0.1191674
+Validation loss decreased (inf --> 0.125320).  Saving model ...
+Updating learning rate to 0.0001
+Epoch: 2 cost time: 29.367913007736206
+Epoch: 2, Steps: 1594 | Train Loss: 0.1218722 Vali Loss: 0.1238242 Test Loss: 0.1175564
+Validation loss decreased (0.125320 --> 0.123824).  Saving model ...
+Updating learning rate to 5e-05
+Epoch: 3 cost time: 26.614068508148193
+Epoch: 3, Steps: 1594 | Train Loss: 0.1214418 Vali Loss: 0.1237766 Test Loss: 0.1174946
+Validation loss decreased (0.123824 --> 0.123777).  Saving model ...
+Updating learning rate to 2.5e-05
+Epoch: 4 cost time: 29.298015356063843
+Epoch: 4, Steps: 1594 | Train Loss: 0.1214311 Vali Loss: 0.1237833 Test Loss: 0.1175046
+EarlyStopping counter: 1 out of 3
+Updating learning rate to 1.25e-05
+Epoch: 5 cost time: 30.079627513885498
+Epoch: 5, Steps: 1594 | Train Loss: 0.1214295 Vali Loss: 0.1237863 Test Loss: 0.1174866
+EarlyStopping counter: 2 out of 3
+Updating learning rate to 6.25e-06
+Epoch: 6 cost time: 27.333526849746704
+Epoch: 6, Steps: 1594 | Train Loss: 0.1214279 Vali Loss: 0.1237830 Test Loss: 0.1174927
+EarlyStopping counter: 3 out of 3
+Early stopping
+>>>>>>>testing : DLinear_48_16_DLinear_Activity_ftM_sl48_ll16_pl16_dm512_nh8_el2_dl1_df2048_fc1_ebtimeF_dtTrue_Exp_0<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+Loaded preprocessed data: (18309, 11392)
+Original neurons: 11393, current: 11392
+Data range: -0.250 to 1.500
+Temporal split - Total time: 18309
+Train: 0 to 12816 (70.0%)
+Val: 12816 to 16478 (20.0%)
+Test: 16478 to 18309 (10.0%)
+Current split (test): 16430 to 18309
+Using pre-selected top 11392 neurons from HDF5 file.
+Full dataset shape: (1879, 11392)
+Data statistics - Mean: 0.318, Std: 0.194
+test 1816
+mse:0.02614581398665905, mae:0.11749410629272461

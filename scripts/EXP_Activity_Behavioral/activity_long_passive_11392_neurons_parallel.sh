@@ -1,4 +1,4 @@
-#  sh scripts/EXP_Activity_Behavioral/activity_long_behavioral_7000_neurons_parallel_pseudo.sh
+#  sh scripts/EXP_Activity_Behavioral/activity_long_passive_11392_neurons_parallel.sh
 # Behavorial split and how it effects model performance on unseen behavioral data.
 
 # Signal handler for Ctrl+C
@@ -14,15 +14,15 @@ if [ ! -d "./logs" ]; then
 fi
 
 # Single dataset configuration
-experiment_name="ActivityLongBehavioral7000NPseudo"
-data_path="session_5ea6bb9b-6163-4e8a-816b-efe7002666b0_7000_pseudo_passive.h5"
-neuron_count=7000
+experiment_name="ActivityLongPassive11392N"
+data_path="session_5ea6bb9b-6163-4e8a-816b-efe7002666b0_11392_passive.h5"
+neuron_count=11392
 enc_in=$neuron_count
 c_out=$neuron_count
 
 batch_size=8
-pred_len=48
-seq_len=32
+pred_len=16
+seq_len=48
 label_len=16
 root_path=/cs/student/projects1/aibh/2024/gcosta/mpci_data/
 
@@ -228,23 +228,31 @@ echo "Pair 4 completed: Informer and Transformer models."
 
 echo "All experiments completed!"
 
-
+# (venv) gcosta@mandarin-l ~/mpci-transformer$ cd utils && python output_session.py --session_id 5ea6bb9b-6163-4e8a-816b-efe7002666b0 --num_neurons 11392 --include_passive True
+# 3.10.14 (main, May  6 2024, 19:42:50) [GCC 11.2.0]
+# Preprocessing session
+# Loading session from ONE
 # ================================================================================
 # CALCIUM IMAGING PREPROCESSING PIPELINE
 # ================================================================================
 
-# 1. Loading fluorescence data...
-# MEAN: 18.702224731445312
-#    Raw Pseudo shape: (22074, 11393)
-#    Raw Pseudo range: 0.0 to 5658.2
+# 1. Loading ΔF/F data...
+# MEAN: 13.615189552307129
+#    Raw ΔF/F shape: (22074, 11393)
+#    Raw ΔF/F range: -4594.4 to 19492.6
 
 # 1.5. Keeping entire time series (including passive period)...
 #    Keeping full duration: 4513.4s
 #    Final shape: (22074, 11393)
 
-# 3. Selecting first 7000 neurons...
-# Selected neurons mean: 19.238101959228516
-#    Selected first 7000 neurons from 7000 total neurons
+# 2. Applying robust normalization...
+#    Normalized range: -0.250 to 1.500
+#    Original mean: 13.615, std: 147.484
+#    Normalized mean: 0.324, std: 0.195
+
+# 3. Selecting first 11392 neurons...
+# Selected neurons mean: 0.3240256905555725
+#    Selected first 11392 neurons from 11393 total neurons
 #    Selection method: first N neurons
 
 # 5. Calculating aligned wheel velocity...
@@ -258,9 +266,8 @@ echo "All experiments completed!"
 
 # 7. Quality assessment...
 
-# 6. Saving processed data to /cs/student/projects1/aibh/2024/gcosta/mpci_data/session_5ea6bb9b-6163-4e8a-816b-efe7002666b0_7000_pseudo_passive.h5
-#    Saved (22074, 7000) activity matrix
+# 6. Saving processed data to /cs/student/projects1/aibh/2024/gcosta/mpci_data/session_5ea6bb9b-6163-4e8a-816b-efe7002666b0_11392_passive.h5
+#    Saved (22074, 11392) activity matrix
 #    Saved (22074, 11) covariate matrix
-#    File size: 190.08 MB
-# Preprocessed Session 5ea6bb9b-6163-4e8a-816b-efe7002666b0 pseudo
-# (venv) gcosta@bufflehead-l utils$ 
+#    File size: 857.22 MB
+# Preprocessed Session 5ea6bb9b-6163-4e8a-816b-efe7002666b0

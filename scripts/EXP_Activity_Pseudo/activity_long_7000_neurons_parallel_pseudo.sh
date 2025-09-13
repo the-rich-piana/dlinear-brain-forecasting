@@ -1,4 +1,4 @@
-#  sh scripts/EXP_Activity_Behavioral/activity_long_behavioral_7000_neurons_parallel_zscore.sh
+#  sh scripts/EXP_Activity_Pseudo/activity_long_7000_neurons_parallel_pseudo.sh
 # Behavorial split and how it effects model performance on unseen behavioral data.
 
 # Signal handler for Ctrl+C
@@ -14,8 +14,8 @@ if [ ! -d "./logs" ]; then
 fi
 
 # Single dataset configuration
-experiment_name="ActivityLongBehavioral7000NZScored"
-data_path="session_5ea6bb9b-6163-4e8a-816b-efe7002666b0_7000_fluor_zscore_passive.h5"
+experiment_name="ActivityLong7000NPseudo"
+data_path="session_5ea6bb9b-6163-4e8a-816b-efe7002666b0_7000_pseudo.h5"
 neuron_count=7000
 enc_in=$neuron_count
 c_out=$neuron_count
@@ -39,7 +39,7 @@ echo "Running Pair 1: Naive and Mean models..."
 python -u run_stat.py \
   --is_training 1 \
   --model Naive \
-  --data ActivityBehavioral \
+  --data Activity \
   --root_path $root_path \
   --data_path $data_path \
   --model_id Naive_$seq_len'_'$pred_len \
@@ -55,7 +55,7 @@ python -u run_stat.py \
 python -u run_stat.py \
   --is_training 1 \
   --model Mean \
-  --data ActivityBehavioral \
+  --data Activity \
   --root_path $root_path \
   --data_path $data_path \
   --model_id Mean_$seq_len'_'$pred_len \
@@ -77,7 +77,7 @@ echo "Running Pair 2: TSMixer and POCO models..."
 python -u run_longExp.py \
   --is_training 1 \
   --model TSMixer \
-  --data ActivityBehavioral \
+  --data Activity \
   --root_path $root_path \
   --data_path $data_path \
   --model_id TSMixer_$seq_len'_'$pred_len \
@@ -100,7 +100,7 @@ python -u run_longExp.py \
 python -u run_longExp.py \
   --is_training 1 \
   --model POCO \
-  --data ActivityBehavioral \
+  --data Activity \
   --root_path $root_path \
   --data_path $data_path \
   --model_id POCO_$seq_len'_'$pred_len \
@@ -129,7 +129,7 @@ echo "Running Pair 3: Linear and DLinear models..."
 python -u run_longExp.py \
   --is_training 1 \
   --model Linear \
-  --data ActivityBehavioral \
+  --data Activity \
   --root_path $root_path \
   --data_path $data_path \
   --model_id Linear_$seq_len'_'$pred_len \
@@ -152,7 +152,7 @@ python -u run_longExp.py \
 python -u run_longExp.py \
   --is_training 1 \
   --model DLinear \
-  --data ActivityBehavioral \
+  --data Activity \
   --root_path $root_path \
   --data_path $data_path \
   --model_id DLinear_$seq_len'_'$pred_len \
@@ -181,7 +181,7 @@ echo "Running Pair 4: Informer and Transformer models..."
 python -u run_longExp.py \
   --is_training 1 \
   --model Informer \
-  --data ActivityBehavioral \
+  --data Activity \
   --root_path $root_path \
   --data_path $data_path \
   --model_id Informer_$seq_len'_'$pred_len \
@@ -204,7 +204,7 @@ python -u run_longExp.py \
 python -u run_longExp.py \
   --is_training 1 \
   --model Transformer \
-  --data ActivityBehavioral \
+  --data Activity \
   --root_path $root_path \
   --data_path $data_path \
   --model_id Transformer_$seq_len'_'$pred_len \
@@ -229,45 +229,40 @@ echo "Pair 4 completed: Informer and Transformer models."
 echo "All experiments completed!"
 
 
-# Preprocessing details:
+# Preprocessing session
 # Loading session from ONE
 # ================================================================================
 # CALCIUM IMAGING PREPROCESSING PIPELINE
 # ================================================================================
 
 # 1. Loading fluorescence data...
-# MEAN: 1783.88232421875
-#    Raw Fluor shape: (22074, 11393)
-#    Raw Fluor range: -737.0 to 27996.7
+# MEAN: 18.702224731445312
+#    Raw Pseudo shape: (22074, 11393)
+#    Raw Pseudo range: 0.0 to 5658.2
 
-# 1.5. Keeping entire time series (including passive period)...
-#    Keeping full duration: 4513.4s
-#    Final shape: (22074, 11393)
-
-# 2. Applying z-score normalization...
-#    Normalized range: -4.191 to 5.000
-#    Original mean: 1783.882, std: 1041.124
-#    Normalized mean: -0.006, std: 0.953
-#    Clipped values: 0.270%
+# 1.5. Truncating passive video period...
+#    Last stimOff at 3667.2s, truncating at index 18309
+#    Truncated shape: (18309, 11393)
+#    Duration: 4513.4s → 3665.1s (81.2% retained)
 
 # 3. Selecting first 7000 neurons...
-# Selected neurons mean: -0.006159242242574692
-#    Selected first 7000 neurons from 11393 total neurons
+# Selected neurons mean: 18.518352508544922
+#    Selected first 7000 neurons from 7000 total neurons
 #    Selection method: first N neurons
 
 # 5. Calculating aligned wheel velocity...
 #    Wheel velocity range: -2.500 to 2.500 rad/s
-#    Non-zero velocity samples: 18476/22074
+#    Non-zero velocity samples: 18190/18309
 
 # 6. Building covariate matrix...
-#    Covariate matrix shape: (22074, 11)
+#    Covariate matrix shape: (18309, 11)
 #    Features: 11 total
-#    Non-zero covariate samples: [18476  3347   316   359   672   666  1675  2096  2113  2493 13737]
+#    Non-zero covariate samples: [18190  3347   316   359   672   666  1675  2096  2113  2493 13737]
 
 # 7. Quality assessment...
 
-# 6. Saving processed data to /cs/student/projects1/aibh/2024/gcosta/mpci_data/session_5ea6bb9b-6163-4e8a-816b-efe7002666b0_7000_fluor_zscore_passive.h5
-#    Saved (22074, 7000) activity matrix
-#    Saved (22074, 11) covariate matrix
-#    File size: 546.30 MB
-# Preprocessed Session 5ea6bb9b-6163-4e8a-816b-efe7002666b0 using fluorescence + z-score normalization
+# 6. Saving processed data to /cs/student/projects1/aibh/2024/gcosta/mpci_data/session_5ea6bb9b-6163-4e8a-816b-efe7002666b0_7000_pseudo.h5
+#    Saved (18309, 7000) activity matrix
+#    Saved (18309, 11) covariate matrix
+#    File size: 158.31 MB
+# Preprocessed Session 5ea6bb9b-6163-4e8a-816b-efe7002666b0 pseudo

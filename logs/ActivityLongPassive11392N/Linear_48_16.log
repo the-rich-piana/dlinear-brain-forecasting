@@ -1,0 +1,89 @@
+Args in experiment:
+Namespace(is_training=1, train_only=False, model_id='Linear_48_16', model='Linear', data='ActivityBehavioral', root_path='/cs/student/projects1/aibh/2024/gcosta/mpci_data/', data_path='session_5ea6bb9b-6163-4e8a-816b-efe7002666b0_11392_passive.h5', features='M', target='OT', freq='h', checkpoints='./checkpoints/', seq_len=48, label_len=16, pred_len=16, individual=False, embed_type=0, enc_in=11392, dec_in=7, c_out=11392, d_model=512, n_heads=8, e_layers=2, d_layers=1, d_ff=2048, moving_avg=25, factor=1, distil=True, dropout=0.05, embed='timeF', activation='gelu', output_attention=False, do_predict=False, num_workers=5, itr=1, train_epochs=10, batch_size=8, patience=3, learning_rate=0.0001, des='Exp', experiment_name='ActivityLongPassive11392N', loss='mae', lradj='type1', use_amp=False, use_gpu=True, gpu=0, use_multi_gpu=False, devices='0,1,2,3', test_flop=False, feature_idx=69)
+Use GPU: cuda:0
+>>>>>>>start training : Linear_48_16_Linear_ActivityBehavioral_ftM_sl48_ll16_pl16_dm512_nh8_el2_dl1_df2048_fc1_ebtimeF_dtTrue_Exp_0>>>>>>>>>>>>>>>>>>>>>>>>>>
+Loaded preprocessed data: (22074, 11392)
+Original neurons: 11393, current: 11392
+Data range: -0.250 to 1.500
+=== BEHAVIORAL SPLIT ANALYSIS ===
+Total recording: 22074 timesteps (4513.4 seconds)
+Active period: 0 to 18309 (3665.3 seconds)
+Passive period: 18309 to 22074 (848.1 seconds)
+Active/Passive ratio: 81.2% / 18.8%
+Train split within active: 0 to 14647
+Val split within active: 14647 to 18309
+=== TRAIN SPLIT DATA ===
+Split range: timesteps 0 to 14647
+Split data shape: (14647, 11392)
+Data statistics - Mean: 0.321, Std: 0.191
+Available sequences: 14584
+train 14584
+Loaded preprocessed data: (22074, 11392)
+Original neurons: 11393, current: 11392
+Data range: -0.250 to 1.500
+=== VALIDATION SPLIT DATA ===
+Split range: timesteps 14647 to 18309
+Split data shape: (3662, 11392)
+Data statistics - Mean: 0.321, Std: 0.193
+Available sequences: 3599
+val 3599
+Loaded preprocessed data: (22074, 11392)
+Original neurons: 11393, current: 11392
+Data range: -0.250 to 1.500
+=== TEST (PASSIVE) SPLIT DATA ===
+Split range: timesteps 18309 to 22074
+Split data shape: (3765, 11392)
+Data statistics - Mean: 0.340, Std: 0.212
+Available sequences: 3702
+test 3702
+Epoch: 1 cost time: 28.137473344802856
+Epoch: 1, Steps: 1823 | Train Loss: 0.1396226 Vali Loss: 0.1263183 Test Loss: 0.1374153
+Validation loss decreased (inf --> 0.126318).  Saving model ...
+Updating learning rate to 0.0001
+Epoch: 2 cost time: 28.650937795639038
+Epoch: 2, Steps: 1823 | Train Loss: 0.1201956 Vali Loss: 0.1180727 Test Loss: 0.1284096
+Validation loss decreased (0.126318 --> 0.118073).  Saving model ...
+Updating learning rate to 5e-05
+Epoch: 3 cost time: 28.872839212417603
+Epoch: 3, Steps: 1823 | Train Loss: 0.1155149 Vali Loss: 0.1159480 Test Loss: 0.1260792
+Validation loss decreased (0.118073 --> 0.115948).  Saving model ...
+Updating learning rate to 2.5e-05
+Epoch: 4 cost time: 31.10395073890686
+Epoch: 4, Steps: 1823 | Train Loss: 0.1142365 Vali Loss: 0.1153384 Test Loss: 0.1254334
+Validation loss decreased (0.115948 --> 0.115338).  Saving model ...
+Updating learning rate to 1.25e-05
+Epoch: 5 cost time: 28.388312578201294
+Epoch: 5, Steps: 1823 | Train Loss: 0.1138761 Vali Loss: 0.1151704 Test Loss: 0.1252448
+Validation loss decreased (0.115338 --> 0.115170).  Saving model ...
+Updating learning rate to 6.25e-06
+Epoch: 6 cost time: 28.552805185317993
+Epoch: 6, Steps: 1823 | Train Loss: 0.1137675 Vali Loss: 0.1151177 Test Loss: 0.1251648
+Validation loss decreased (0.115170 --> 0.115118).  Saving model ...
+Updating learning rate to 3.125e-06
+Epoch: 7 cost time: 28.287182807922363
+Epoch: 7, Steps: 1823 | Train Loss: 0.1137281 Vali Loss: 0.1150825 Test Loss: 0.1251447
+Validation loss decreased (0.115118 --> 0.115082).  Saving model ...
+Updating learning rate to 1.5625e-06
+Epoch: 8 cost time: 28.763906240463257
+Epoch: 8, Steps: 1823 | Train Loss: 0.1137118 Vali Loss: 0.1150768 Test Loss: 0.1251291
+Validation loss decreased (0.115082 --> 0.115077).  Saving model ...
+Updating learning rate to 7.8125e-07
+Epoch: 9 cost time: 27.451226472854614
+Epoch: 9, Steps: 1823 | Train Loss: 0.1137043 Vali Loss: 0.1150809 Test Loss: 0.1251201
+EarlyStopping counter: 1 out of 3
+Updating learning rate to 3.90625e-07
+Epoch: 10 cost time: 20.766482830047607
+Epoch: 10, Steps: 1823 | Train Loss: 0.1137008 Vali Loss: 0.1150743 Test Loss: 0.1251211
+Validation loss decreased (0.115077 --> 0.115074).  Saving model ...
+Updating learning rate to 1.953125e-07
+>>>>>>>testing : Linear_48_16_Linear_ActivityBehavioral_ftM_sl48_ll16_pl16_dm512_nh8_el2_dl1_df2048_fc1_ebtimeF_dtTrue_Exp_0<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+Loaded preprocessed data: (22074, 11392)
+Original neurons: 11393, current: 11392
+Data range: -0.250 to 1.500
+=== TEST (PASSIVE) SPLIT DATA ===
+Split range: timesteps 18309 to 22074
+Split data shape: (3765, 11392)
+Data statistics - Mean: 0.340, Std: 0.212
+Available sequences: 3702
+test 3702
+mse:0.031168706715106964, mae:0.12512452900409698

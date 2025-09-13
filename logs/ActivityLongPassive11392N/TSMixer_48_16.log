@@ -1,0 +1,69 @@
+Args in experiment:
+Namespace(is_training=1, train_only=False, model_id='TSMixer_48_16', model='TSMixer', data='ActivityBehavioral', root_path='/cs/student/projects1/aibh/2024/gcosta/mpci_data/', data_path='session_5ea6bb9b-6163-4e8a-816b-efe7002666b0_11392_passive.h5', features='M', target='OT', freq='h', checkpoints='./checkpoints/', seq_len=48, label_len=16, pred_len=16, individual=False, embed_type=0, enc_in=11392, dec_in=7, c_out=11392, d_model=512, n_heads=8, e_layers=2, d_layers=1, d_ff=2048, moving_avg=25, factor=1, distil=True, dropout=0.05, embed='timeF', activation='gelu', output_attention=False, do_predict=False, num_workers=5, itr=1, train_epochs=10, batch_size=8, patience=3, learning_rate=0.0001, des='Exp', experiment_name='ActivityLongPassive11392N', loss='mae', lradj='type1', use_amp=False, use_gpu=True, gpu=0, use_multi_gpu=False, devices='0,1,2,3', test_flop=False, feature_idx=69)
+Use GPU: cuda:0
+>>>>>>>start training : TSMixer_48_16_TSMixer_ActivityBehavioral_ftM_sl48_ll16_pl16_dm512_nh8_el2_dl1_df2048_fc1_ebtimeF_dtTrue_Exp_0>>>>>>>>>>>>>>>>>>>>>>>>>>
+Loaded preprocessed data: (22074, 11392)
+Original neurons: 11393, current: 11392
+Data range: -0.250 to 1.500
+=== BEHAVIORAL SPLIT ANALYSIS ===
+Total recording: 22074 timesteps (4513.4 seconds)
+Active period: 0 to 18309 (3665.3 seconds)
+Passive period: 18309 to 22074 (848.1 seconds)
+Active/Passive ratio: 81.2% / 18.8%
+Train split within active: 0 to 14647
+Val split within active: 14647 to 18309
+=== TRAIN SPLIT DATA ===
+Split range: timesteps 0 to 14647
+Split data shape: (14647, 11392)
+Data statistics - Mean: 0.321, Std: 0.191
+Available sequences: 14584
+train 14584
+Loaded preprocessed data: (22074, 11392)
+Original neurons: 11393, current: 11392
+Data range: -0.250 to 1.500
+=== VALIDATION SPLIT DATA ===
+Split range: timesteps 14647 to 18309
+Split data shape: (3662, 11392)
+Data statistics - Mean: 0.321, Std: 0.193
+Available sequences: 3599
+val 3599
+Loaded preprocessed data: (22074, 11392)
+Original neurons: 11393, current: 11392
+Data range: -0.250 to 1.500
+=== TEST (PASSIVE) SPLIT DATA ===
+Split range: timesteps 18309 to 22074
+Split data shape: (3765, 11392)
+Data statistics - Mean: 0.340, Std: 0.212
+Available sequences: 3702
+test 3702
+Epoch: 1 cost time: 142.64757680892944
+Epoch: 1, Steps: 1823 | Train Loss: 0.1159450 Vali Loss: 0.1133733 Test Loss: 0.1229802
+Validation loss decreased (inf --> 0.113373).  Saving model ...
+Updating learning rate to 0.0001
+Epoch: 2 cost time: 141.84512281417847
+Epoch: 2, Steps: 1823 | Train Loss: 0.1108365 Vali Loss: 0.1127700 Test Loss: 0.1224787
+Validation loss decreased (0.113373 --> 0.112770).  Saving model ...
+Updating learning rate to 5e-05
+Epoch: 3 cost time: 142.07535004615784
+Epoch: 3, Steps: 1823 | Train Loss: 0.1096513 Vali Loss: 0.1128549 Test Loss: 0.1226070
+EarlyStopping counter: 1 out of 3
+Updating learning rate to 2.5e-05
+Epoch: 4 cost time: 91.1767647266388
+Epoch: 4, Steps: 1823 | Train Loss: 0.1089937 Vali Loss: 0.1130354 Test Loss: 0.1228703
+EarlyStopping counter: 2 out of 3
+Updating learning rate to 1.25e-05
+Epoch: 5 cost time: 135.04399633407593
+Epoch: 5, Steps: 1823 | Train Loss: 0.1086447 Vali Loss: 0.1131481 Test Loss: 0.1230256
+EarlyStopping counter: 3 out of 3
+Early stopping
+>>>>>>>testing : TSMixer_48_16_TSMixer_ActivityBehavioral_ftM_sl48_ll16_pl16_dm512_nh8_el2_dl1_df2048_fc1_ebtimeF_dtTrue_Exp_0<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+Loaded preprocessed data: (22074, 11392)
+Original neurons: 11393, current: 11392
+Data range: -0.250 to 1.500
+=== TEST (PASSIVE) SPLIT DATA ===
+Split range: timesteps 18309 to 22074
+Split data shape: (3765, 11392)
+Data statistics - Mean: 0.340, Std: 0.212
+Available sequences: 3702
+test 3702
+mse:0.03058505803346634, mae:0.1224842295050621

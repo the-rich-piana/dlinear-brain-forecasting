@@ -1,0 +1,14 @@
+\begin{table}[h!]
+\centering
+\caption{Prediction Score Comparison: Active Task vs Passive Task}
+\label{tab:prediction_score_comparison}
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+\multirow{2}{*}{Dataset} & {Naive} & \multicolumn{2}{c|}{DLinear} & \multicolumn{2}{c|}{Linear} & \multicolumn{2}{c|}{POCO} & \multicolumn{2}{c|}{TSMixer} & \multicolumn{2}{c|}{Informer} & \multicolumn{2}{c|}{Transformer} \\
+ & MAE & MAE & PredScore & MAE & PredScore & MAE & PredScore & MAE & PredScore & MAE & PredScore & MAE & PredScore \\
+\hline
+Active Task & 0.155 & 0.117 & 0.410 & 0.118 & 0.406 & \textbf{0.114} & \textbf{0.428} & 0.116 & 0.422 & 0.119 & 0.371 & 0.119 & 0.373 \\
+Passive Task & 0.163 & 0.125 & 0.390 & 0.125 & 0.389 & \textbf{0.122} & 0.396 & 0.122 & \textbf{0.401} & 0.132 & 0.289 & 0.132 & 0.291 \\
+\hline
+\end{tabular}
+\end{table}

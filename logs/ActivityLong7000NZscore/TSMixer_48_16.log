@@ -1,0 +1,78 @@
+Args in experiment:
+Namespace(is_training=1, train_only=False, model_id='TSMixer_48_16', model='TSMixer', data='Activity', root_path='/cs/student/projects1/aibh/2024/gcosta/mpci_data/', data_path='session_5ea6bb9b-6163-4e8a-816b-efe7002666b0_7000_zscore.h5', features='M', target='OT', freq='h', checkpoints='./checkpoints/', seq_len=48, label_len=16, pred_len=16, individual=False, embed_type=0, enc_in=7000, dec_in=7, c_out=7000, d_model=512, n_heads=8, e_layers=2, d_layers=1, d_ff=2048, moving_avg=25, factor=1, distil=True, dropout=0.05, embed='timeF', activation='gelu', output_attention=False, do_predict=False, num_workers=5, itr=1, train_epochs=10, batch_size=8, patience=3, learning_rate=0.0001, des='Exp', experiment_name='ActivityLong7000NZscore', loss='mae', lradj='type1', use_amp=False, use_gpu=True, gpu=0, use_multi_gpu=False, devices='0,1,2,3', test_flop=False, feature_idx=69)
+Use GPU: cuda:0
+>>>>>>>start training : TSMixer_48_16_TSMixer_Activity_ftM_sl48_ll16_pl16_dm512_nh8_el2_dl1_df2048_fc1_ebtimeF_dtTrue_Exp_0>>>>>>>>>>>>>>>>>>>>>>>>>>
+Loaded preprocessed data: (18309, 7000)
+Original neurons: 11393, current: 7000
+Data range: -4.026 to 5.000
+Temporal split - Total time: 18309
+Train: 0 to 12816 (70.0%)
+Val: 12816 to 16478 (20.0%)
+Test: 16478 to 18309 (10.0%)
+Current split (train): 0 to 12816
+Using pre-selected top 7000 neurons from HDF5 file.
+Full dataset shape: (12816, 7000)
+Data statistics - Mean: 0.006, Std: 0.961
+train 12753
+Loaded preprocessed data: (18309, 7000)
+Original neurons: 11393, current: 7000
+Data range: -4.026 to 5.000
+Temporal split - Total time: 18309
+Train: 0 to 12816 (70.0%)
+Val: 12816 to 16478 (20.0%)
+Test: 16478 to 18309 (10.0%)
+Current split (val): 12768 to 16478
+Using pre-selected top 7000 neurons from HDF5 file.
+Full dataset shape: (3710, 7000)
+Data statistics - Mean: 0.129, Std: 0.937
+val 3647
+Loaded preprocessed data: (18309, 7000)
+Original neurons: 11393, current: 7000
+Data range: -4.026 to 5.000
+Temporal split - Total time: 18309
+Train: 0 to 12816 (70.0%)
+Val: 12816 to 16478 (20.0%)
+Test: 16478 to 18309 (10.0%)
+Current split (test): 16430 to 18309
+Using pre-selected top 7000 neurons from HDF5 file.
+Full dataset shape: (1879, 7000)
+Data statistics - Mean: -0.367, Std: 0.885
+test 1816
+Epoch: 1 cost time: 51.439876556396484
+Epoch: 1, Steps: 1594 | Train Loss: 0.6499418 Vali Loss: 0.6362148 Test Loss: 0.6047879
+Validation loss decreased (inf --> 0.636215).  Saving model ...
+Updating learning rate to 0.0001
+Epoch: 2 cost time: 51.45196032524109
+Epoch: 2, Steps: 1594 | Train Loss: 0.6061467 Vali Loss: 0.6335658 Test Loss: 0.6016379
+Validation loss decreased (0.636215 --> 0.633566).  Saving model ...
+Updating learning rate to 5e-05
+Epoch: 3 cost time: 42.17513418197632
+Epoch: 3, Steps: 1594 | Train Loss: 0.5932045 Vali Loss: 0.6334134 Test Loss: 0.6017646
+Validation loss decreased (0.633566 --> 0.633413).  Saving model ...
+Updating learning rate to 2.5e-05
+Epoch: 4 cost time: 51.41702461242676
+Epoch: 4, Steps: 1594 | Train Loss: 0.5871681 Vali Loss: 0.6336825 Test Loss: 0.6022117
+EarlyStopping counter: 1 out of 3
+Updating learning rate to 1.25e-05
+Epoch: 5 cost time: 51.449671506881714
+Epoch: 5, Steps: 1594 | Train Loss: 0.5842305 Vali Loss: 0.6338859 Test Loss: 0.6023471
+EarlyStopping counter: 2 out of 3
+Updating learning rate to 6.25e-06
+Epoch: 6 cost time: 37.616652727127075
+Epoch: 6, Steps: 1594 | Train Loss: 0.5827408 Vali Loss: 0.6343054 Test Loss: 0.6028284
+EarlyStopping counter: 3 out of 3
+Early stopping
+>>>>>>>testing : TSMixer_48_16_TSMixer_Activity_ftM_sl48_ll16_pl16_dm512_nh8_el2_dl1_df2048_fc1_ebtimeF_dtTrue_Exp_0<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+Loaded preprocessed data: (18309, 7000)
+Original neurons: 11393, current: 7000
+Data range: -4.026 to 5.000
+Temporal split - Total time: 18309
+Train: 0 to 12816 (70.0%)
+Val: 12816 to 16478 (20.0%)
+Test: 16478 to 18309 (10.0%)
+Current split (test): 16430 to 18309
+Using pre-selected top 7000 neurons from HDF5 file.
+Full dataset shape: (1879, 7000)
+Data statistics - Mean: -0.367, Std: 0.885
+test 1816
+mse:0.6761338710784912, mae:0.6017630696296692

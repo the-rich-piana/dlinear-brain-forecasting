@@ -1,0 +1,14 @@
+Args in experiment:
+Namespace(is_training=1, train_only=False, embed='timeF', model_id='Naive_48_16', model='Naive', data='ActivityBehavioral', root_path='/cs/student/projects1/aibh/2024/gcosta/mpci_data/', data_path='session_5ea6bb9b-6163-4e8a-816b-efe7002666b0_11392_passive.h5', features='M', target='OT', checkpoints='./checkpoints/', sample=1, freq='h', seq_len=48, label_len=16, pred_len=16, num_workers=10, itr=1, batch_size=8, des='Exp', experiment_name='ActivityLongPassive11392N', use_gpu=False, gpu=0, use_multi_gpu=False, devices='0,1,2,3', test_flop=False)
+Use CPU
+>>>>>>>testing : Naive_48_16_Naive_ActivityBehavioral_ftM_sl48_pl16_Exp<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+Loaded preprocessed data: (22074, 11392)
+Original neurons: 11393, current: 11392
+Data range: -0.250 to 1.500
+=== TEST (PASSIVE) SPLIT DATA ===
+Split range: timesteps 18309 to 22074
+Split data shape: (3765, 11392)
+Data statistics - Mean: 0.340, Std: 0.212
+Available sequences: 3702
+test 3702
+mse:0.05102057382464409, mae:0.16337168216705322, rse:1.0624618530273438, corr:[]

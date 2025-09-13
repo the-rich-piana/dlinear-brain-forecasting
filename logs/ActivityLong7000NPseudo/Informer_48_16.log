@@ -1,0 +1,74 @@
+Args in experiment:
+Namespace(is_training=1, train_only=False, model_id='Informer_48_16', model='Informer', data='Activity', root_path='/cs/student/projects1/aibh/2024/gcosta/mpci_data/', data_path='session_5ea6bb9b-6163-4e8a-816b-efe7002666b0_7000_pseudo.h5', features='M', target='OT', freq='m', checkpoints='./checkpoints/', seq_len=48, label_len=16, pred_len=16, individual=False, embed_type=0, enc_in=7000, dec_in=7000, c_out=7000, d_model=512, n_heads=8, e_layers=2, d_layers=1, d_ff=2048, moving_avg=25, factor=1, distil=True, dropout=0.05, embed='timeF', activation='gelu', output_attention=False, do_predict=False, num_workers=10, itr=1, train_epochs=10, batch_size=8, patience=3, learning_rate=0.0001, des='Exp', experiment_name='ActivityLong7000NPseudo', loss='mae', lradj='type1', use_amp=False, use_gpu=True, gpu=0, use_multi_gpu=False, devices='0,1,2,3', test_flop=False, feature_idx=69)
+Use GPU: cuda:0
+>>>>>>>start training : Informer_48_16_Informer_Activity_ftM_sl48_ll16_pl16_dm512_nh8_el2_dl1_df2048_fc1_ebtimeF_dtTrue_Exp_0>>>>>>>>>>>>>>>>>>>>>>>>>>
+Loaded preprocessed data: (18309, 7000)
+Original neurons: 11393, current: 7000
+Data range: 0.000 to 4520.005
+Temporal split - Total time: 18309
+Train: 0 to 12816 (70.0%)
+Val: 12816 to 16478 (20.0%)
+Test: 16478 to 18309 (10.0%)
+Current split (train): 0 to 12816
+Using pre-selected top 7000 neurons from HDF5 file.
+Full dataset shape: (12816, 7000)
+Data statistics - Mean: 18.304, Std: 64.521
+train 12753
+Loaded preprocessed data: (18309, 7000)
+Original neurons: 11393, current: 7000
+Data range: 0.000 to 4520.005
+Temporal split - Total time: 18309
+Train: 0 to 12816 (70.0%)
+Val: 12816 to 16478 (20.0%)
+Test: 16478 to 18309 (10.0%)
+Current split (val): 12768 to 16478
+Using pre-selected top 7000 neurons from HDF5 file.
+Full dataset shape: (3710, 7000)
+Data statistics - Mean: 19.277, Std: 68.899
+val 3647
+Loaded preprocessed data: (18309, 7000)
+Original neurons: 11393, current: 7000
+Data range: 0.000 to 4520.005
+Temporal split - Total time: 18309
+Train: 0 to 12816 (70.0%)
+Val: 12816 to 16478 (20.0%)
+Test: 16478 to 18309 (10.0%)
+Current split (test): 16430 to 18309
+Using pre-selected top 7000 neurons from HDF5 file.
+Full dataset shape: (1879, 7000)
+Data statistics - Mean: 18.369, Std: 68.956
+test 1816
+Epoch: 1 cost time: 66.9618935585022
+Epoch: 1, Steps: 1594 | Train Loss: 17.5513150 Vali Loss: 18.5127602 Test Loss: 17.6827183
+Validation loss decreased (inf --> 18.512760).  Saving model ...
+Updating learning rate to 0.0001
+Epoch: 2 cost time: 74.09107375144958
+Epoch: 2, Steps: 1594 | Train Loss: 17.2658780 Vali Loss: 18.5094528 Test Loss: 17.7090740
+Validation loss decreased (18.512760 --> 18.509453).  Saving model ...
+Updating learning rate to 5e-05
+Epoch: 3 cost time: 69.9214141368866
+Epoch: 3, Steps: 1594 | Train Loss: 17.0810931 Vali Loss: 18.5333881 Test Loss: 17.7312489
+EarlyStopping counter: 1 out of 3
+Updating learning rate to 2.5e-05
+Epoch: 4 cost time: 66.68210005760193
+Epoch: 4, Steps: 1594 | Train Loss: 16.9931871 Vali Loss: 18.5412769 Test Loss: 17.7533188
+EarlyStopping counter: 2 out of 3
+Updating learning rate to 1.25e-05
+Epoch: 5 cost time: 60.28470015525818
+Epoch: 5, Steps: 1594 | Train Loss: 16.9492912 Vali Loss: 18.5488453 Test Loss: 17.7645378
+EarlyStopping counter: 3 out of 3
+Early stopping
+>>>>>>>testing : Informer_48_16_Informer_Activity_ftM_sl48_ll16_pl16_dm512_nh8_el2_dl1_df2048_fc1_ebtimeF_dtTrue_Exp_0<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+Loaded preprocessed data: (18309, 7000)
+Original neurons: 11393, current: 7000
+Data range: 0.000 to 4520.005
+Temporal split - Total time: 18309
+Train: 0 to 12816 (70.0%)
+Val: 12816 to 16478 (20.0%)
+Test: 16478 to 18309 (10.0%)
+Current split (test): 16430 to 18309
+Using pre-selected top 7000 neurons from HDF5 file.
+Full dataset shape: (1879, 7000)
+Data statistics - Mean: 18.369, Std: 68.956
+test 1816
+mse:4769.6318359375, mae:17.70882225036621

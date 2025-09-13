@@ -1,0 +1,15 @@
+\begin{table}[h!]
+\centering
+\caption{Prediction Score Comparison: Delta F/F vs Pseudo vs ZScore}
+\label{tab:prediction_score_comparison}
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+\multirow{2}{*}{Dataset} & {Naive} & \multicolumn{2}{c|}{DLinear} & \multicolumn{2}{c|}{Linear} & \multicolumn{2}{c|}{POCO} & \multicolumn{2}{c|}{TSMixer} & \multicolumn{2}{c|}{Informer} & \multicolumn{2}{c|}{Transformer} \\
+ & MAE & MAE & PredScore & MAE & PredScore & MAE & PredScore & MAE & PredScore & MAE & PredScore & MAE & PredScore \\
+\hline
+Delta F/F & 0.156 & 0.118 & 0.412 & 0.119 & 0.408 & \textbf{0.115} & \textbf{0.431} & 0.116 & 0.425 & 0.119 & 0.383 & 0.118 & 0.388 \\
+Pseudo & 20.955 & 15.469 & 0.305 & 16.075 & 0.281 & \textbf{14.426} & 0.355 & 15.174 & \textbf{0.360} & 17.709 & 0.100 & 17.671 & 0.110 \\
+ZScore & 0.789 & 0.603 & 0.403 & 0.603 & 0.402 & \textbf{0.591} & \textbf{0.404} & 0.602 & 0.392 & 0.669 & 0.220 & 0.640 & 0.292 \\
+\hline
+\end{tabular}
+\end{table}
