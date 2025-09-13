@@ -36,16 +36,16 @@ Split data shape: (3765, 11392)
 Data statistics - Mean: 0.340, Std: 0.212
 Available sequences: 3702
 test 3702
-Epoch: 1 cost time: 603.2204339504242
-Epoch: 1, Steps: 1823 | Train Loss: 0.1126361 Vali Loss: 0.1117755 Test Loss: 0.1221514
+Epoch: 1 cost time: 149.12807774543762
+Epoch: 1, Steps: 1823 | Train Loss: 0.1126361 Vali Loss: 0.1117747 Test Loss: 0.1221509
 Validation loss decreased (inf --> 0.111775).  Saving model ...
 Updating learning rate to 0.0001
-Epoch: 2 cost time: 375.10896253585815
-Epoch: 2, Steps: 1823 | Train Loss: 0.1100363 Vali Loss: 0.1113795 Test Loss: 0.1221868
-Validation loss decreased (0.111775 --> 0.111380).  Saving model ...
+Epoch: 2 cost time: 149.48567175865173
+Epoch: 2, Steps: 1823 | Train Loss: 0.1100361 Vali Loss: 0.1113793 Test Loss: 0.1221860
+Validation loss decreased (0.111775 --> 0.111379).  Saving model ...
 Updating learning rate to 5e-05
-Epoch: 3 cost time: 295.24432826042175
-Epoch: 3, Steps: 1823 | Train Loss: 0.1098406 Vali Loss: 0.1114647 Test Loss: 0.1224056
+Epoch: 3 cost time: 149.49590396881104
+Epoch: 3, Steps: 1823 | Train Loss: 0.1098403 Vali Loss: 0.1114647 Test Loss: 0.1224057
 EarlyStopping counter: 1 out of 1
 Early stopping
 >>>>>>>testing : POCO_48_16_POCO_ActivityBehavioral_ftM_sl48_ll16_pl16_dm512_nh8_el2_dl1_df2048_fc1_ebtimeF_dtTrue_Exp_0<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -58,4 +58,4 @@ Split data shape: (3765, 11392)
 Data statistics - Mean: 0.340, Std: 0.212
 Available sequences: 3702
 test 3702
-mse:0.030798068270087242, mae:0.12219121307134628
+mse:0.030797651037573814, mae:0.12219041585922241

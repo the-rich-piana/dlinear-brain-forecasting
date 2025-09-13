@@ -26,14 +26,28 @@ def load_region_labels(csv_path, max_neurons=7000):
     # Take only first 7000 neurons (matching your training data)
     df = df.head(max_neurons)
     
-    # Get unique regions and assign integer IDs
-    unique_regions = sorted(df['region_label'].unique())
+    # Group regions into broader categories
+    def group_regions(region_name):
+        if region_name.startswith('RSP'):
+            return 'RSP'
+        elif region_name.startswith('SSp'):
+            return 'SSP'
+        elif region_name.startswith('VIS'):
+            return 'VIS'
+        else:
+            return region_name
+    
+    # Apply grouping
+    df['grouped_region'] = df['region_label'].apply(group_regions)
+    
+    # Get unique grouped regions and assign integer IDs
+    unique_regions = sorted(df['grouped_region'].unique())
     region_to_id = {region: i for i, region in enumerate(unique_regions)}
     
     # Create region ID array
-    region_ids = df['region_label'].map(region_to_id).values
+    region_ids = df['grouped_region'].map(region_to_id).values
     
-    print(f"Found {len(unique_regions)} brain regions:")
+    print(f"Found {len(unique_regions)} brain region groups:")
     for i, region in enumerate(unique_regions):
         count = (region_ids == i).sum()
         print(f"  {region}: {count} neurons")
@@ -79,18 +93,34 @@ def load_poco_embeddings(checkpoint_path):
     
     return unit_embeddings
 
+def detect_outliers(embeddings, threshold=3.0):
+    """Detect outliers in embeddings using z-score method."""
+    # Compute z-scores for each dimension
+    mean = np.mean(embeddings, axis=0)
+    std = np.std(embeddings, axis=0)
+    z_scores = np.abs((embeddings - mean) / std)
+    
+    # Find outliers (neurons with z-score > threshold in any dimension)
+    outlier_mask = np.any(z_scores > threshold, axis=1)
+    
+    n_outliers = outlier_mask.sum()
+    n_total = len(embeddings)
+    
+    print(f"Detected {n_outliers} outliers out of {n_total} neurons ({n_outliers/n_total*100:.1f}%)")
+    
+    return ~outlier_mask  # Return mask for non-outliers
+
 def create_color_palette(n_regions):
     """Create a distinct color palette for brain regions."""
-    if n_regions <= 10:
+    if n_regions == 3:
+        # Use distinct colors for the 3 main brain region groups
+        return ['#1f77b4', '#ff7f0e', '#2ca02c']  # Blue, Orange, Green
+    elif n_regions <= 10:
         # Use matplotlib default colors
         return [f'C{i}' for i in range(n_regions)]
-    elif n_regions <= 20:
-        # Use tab20 colormap
-        cmap = plt.cm.hsv
-        return [cmap(i) for i in np.linspace(0, 1, n_regions)]
     else:
-        # Use hsv colormap for many regions
-        cmap = plt.cm.hsv
+        # Use qualitative colormap for better distinction
+        cmap = plt.cm.Set3
         return [cmap(i) for i in np.linspace(0, 1, n_regions)]
 
 def visualize_embeddings_by_region(embeddings, region_ids, region_names, method='PCA', save_path=None):
@@ -110,7 +140,7 @@ def visualize_embeddings_by_region(embeddings, region_ids, region_names, method=
         mask = region_ids == i
         if mask.sum() > 0:
             ax1.scatter(reduced[mask, 0], reduced[mask, 1], 
-                       c=[colors[i]], label=region, s=10, alpha=0.6)
+                       c=[colors[i]], label=region, s=10, alpha=0.5)
     
     ax1.set_title(f'Unit Embeddings by Brain Region ({method})')
     ax1.set_xlabel(f'{method} Dimension 1')
@@ -210,9 +240,9 @@ def analyze_regional_embedding_structure(embeddings, region_ids, region_names):
 def main():
     # Configuration
     #PASSIVE:
-    # checkpoint_path = "/cs/student/msc/aibh/2024/gcosta/DLinear/checkpoints/ActivityLongPassive11392N/POCO_48_16_POCO_ActivityBehavioral_ftM_sl48_ll16_pl16_dm512_nh8_el2_dl1_df2048_fc1_ebtimeF_dtTrue_Exp_0/checkpoint.pth"
+    checkpoint_path = "/cs/student/msc/aibh/2024/gcosta/DLinear/checkpoints/ActivityLongPassive11392N/POCO_48_16_POCO_ActivityBehavioral_ftM_sl48_ll16_pl16_dm512_nh8_el2_dl1_df2048_fc1_ebtimeF_dtTrue_Exp_0/checkpoint.pth"
     #ACTIVE:
-    checkpoint_path = "/cs/student/msc/aibh/2024/gcosta/DLinear/checkpoints/ActivityLongActive11392N/POCO_48_16_POCO_Activity_ftM_sl48_ll16_pl16_dm512_nh8_el2_dl1_df2048_fc1_ebtimeF_dtTrue_Exp_0/checkpoint.pth"
+    # checkpoint_path = "/cs/student/msc/aibh/2024/gcosta/DLinear/checkpoints/ActivityLongActive11392N/POCO_48_16_POCO_Activity_ftM_sl48_ll16_pl16_dm512_nh8_el2_dl1_df2048_fc1_ebtimeF_dtTrue_Exp_0/checkpoint.pth"
     region_csv_path = "/cs/student/msc/aibh/2024/gcosta/DLinear/Experiment_Results/Exp_2/regions_5ea6bb9b-6163-4e8a-816b-efe7002666b0_validation.csv"
     output_dir = "/cs/student/msc/aibh/2024/gcosta/DLinear/Experiment_Results/figures"
     
@@ -232,16 +262,28 @@ def main():
         embeddings = embeddings[:min_size]
         region_ids = region_ids[:min_size]
     
-    # Analyze embedding structure by region
-    analyze_regional_embedding_structure(embeddings, region_ids, region_names)
+    # Remove outliers
+    print("\nFiltering outliers...")
+    non_outlier_mask = detect_outliers(embeddings, threshold=3.0)
+    embeddings_filtered = embeddings[non_outlier_mask]
+    region_ids_filtered = region_ids[non_outlier_mask]
     
-    # Create visualizations
+    print(f"After filtering: {len(embeddings_filtered)} neurons remaining")
+    print("Neurons per region after filtering:")
+    for i, region in enumerate(region_names):
+        count = (region_ids_filtered == i).sum()
+        print(f"  {region}: {count} neurons")
+    
+    # Analyze embedding structure by region (with filtered data)
+    analyze_regional_embedding_structure(embeddings_filtered, region_ids_filtered, region_names)
+    
+    # Create visualizations (using filtered data)
     methods = ['PCA', 'UMAP']  # Skip TSNE for speed with 7000 neurons
     
     for method in methods:
         print(f"\nCreating {method} visualization...")
-        save_path = os.path.join(output_dir, f"embeddings_by_region_{method.lower()}.png")
-        visualize_embeddings_by_region(embeddings, region_ids, region_names, method, save_path)
+        save_path = os.path.join(output_dir, f"embeddings_by_region_{method.lower()}_filtered.jpeg")
+        visualize_embeddings_by_region(embeddings_filtered, region_ids_filtered, region_names, method, save_path)
     
     print(f"\nVisualization complete! Check {output_dir}/ for results.")
 

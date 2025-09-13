@@ -16,7 +16,7 @@ fi
 # Single dataset configuration
 experiment_name="ActivityEmbedding"
 data_path="session_5ea6bb9b-6163-4e8a-816b-efe7002666b0_11392_passive.h5"
-neuron_count=11392
+neuron_count=100
 enc_in=$neuron_count
 c_out=$neuron_count
 

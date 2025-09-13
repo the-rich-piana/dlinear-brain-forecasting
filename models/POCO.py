@@ -1015,8 +1015,12 @@ class Model(nn.Module):
         # Package as list for POCO (single session)
         x_list = [x_poco]
         
+        # Generate consistent unit indices for proper neuron-to-embedding mapping
+        unit_indices = torch.arange(num_features, device=x_enc.device)  # [0, 1, 2, ..., num_features-1]
+        unit_indices = unit_indices.unsqueeze(0).repeat(batch_size, 1).reshape(-1)  # Replicate across batch
+        
         # Forward through POCO
-        outputs = self.poco(x_list)
+        outputs = self.poco(x_list, unit_indices=unit_indices)
         
         # outputs is list of [pred_len, B, D] tensors
         # Convert back to framework format: [B, pred_len, D]

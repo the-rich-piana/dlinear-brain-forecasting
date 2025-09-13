@@ -33,69 +33,69 @@ fi
 
 echo "Starting parallel training experiments..."
 
-# Pair 1: Run Naive and Mean models in parallel
-echo "Running Pair 1: Naive and Mean models..."
+# # Pair 1: Run Naive and Mean models in parallel
+# echo "Running Pair 1: Naive and Mean models..."
 
-python -u run_stat.py \
-  --is_training 1 \
-  --model Naive \
-  --data ActivityBehavioral \
-  --root_path $root_path \
-  --data_path $data_path \
-  --model_id Naive_$seq_len'_'$pred_len \
-  --features M \
-  --label_len $label_len \
-  --seq_len $seq_len \
-  --pred_len $pred_len \
-  --des 'Exp' \
-  --experiment_name $experiment_name \
-  --batch_size $batch_size \
-  --itr 1  | tee logs/$experiment_name/Naive'_'$seq_len'_'$pred_len.log &
+# python -u run_stat.py \
+#   --is_training 1 \
+#   --model Naive \
+#   --data ActivityBehavioral \
+#   --root_path $root_path \
+#   --data_path $data_path \
+#   --model_id Naive_$seq_len'_'$pred_len \
+#   --features M \
+#   --label_len $label_len \
+#   --seq_len $seq_len \
+#   --pred_len $pred_len \
+#   --des 'Exp' \
+#   --experiment_name $experiment_name \
+#   --batch_size $batch_size \
+#   --itr 1  | tee logs/$experiment_name/Naive'_'$seq_len'_'$pred_len.log &
 
-python -u run_stat.py \
-  --is_training 1 \
-  --model Mean \
-  --data ActivityBehavioral \
-  --root_path $root_path \
-  --data_path $data_path \
-  --model_id Mean_$seq_len'_'$pred_len \
-  --features M \
-  --label_len $label_len \
-  --seq_len $seq_len \
-  --pred_len $pred_len \
-  --des 'Exp' \
-  --experiment_name $experiment_name \
-  --batch_size $batch_size \
-  --itr 1  | tee logs/$experiment_name/Mean'_'$seq_len'_'$pred_len.log &
+# python -u run_stat.py \
+#   --is_training 1 \
+#   --model Mean \
+#   --data ActivityBehavioral \
+#   --root_path $root_path \
+#   --data_path $data_path \
+#   --model_id Mean_$seq_len'_'$pred_len \
+#   --features M \
+#   --label_len $label_len \
+#   --seq_len $seq_len \
+#   --pred_len $pred_len \
+#   --des 'Exp' \
+#   --experiment_name $experiment_name \
+#   --batch_size $batch_size \
+#   --itr 1  | tee logs/$experiment_name/Mean'_'$seq_len'_'$pred_len.log &
 
-wait
-echo "Pair 1 completed: Naive and Mean models."
+# wait
+# echo "Pair 1 completed: Naive and Mean models."
 
 # Pair 2: Run TSMixer and POCO models in parallel
 echo "Running Pair 2: TSMixer and POCO models..."
 
-python -u run_longExp.py \
-  --is_training 1 \
-  --model TSMixer \
-  --data ActivityBehavioral \
-  --root_path $root_path \
-  --data_path $data_path \
-  --model_id TSMixer_$seq_len'_'$pred_len \
-  --features M \
-  --label_len $label_len \
-  --seq_len $seq_len \
-  --pred_len $pred_len \
-  --enc_in $enc_in \
-  --c_out $c_out \
-  --loss mae \
-  --des 'Exp' \
-  --experiment_name $experiment_name \
-  --num_workers 5 \
-  --train_epochs 10 \
-  --patience 3 \
-  --batch_size $batch_size \
-  --feature_idx 69 \
-  --itr 1  | tee logs/$experiment_name/TSMixer'_'$seq_len'_'$pred_len.log &
+# python -u run_longExp.py \
+#   --is_training 1 \
+#   --model TSMixer \
+#   --data ActivityBehavioral \
+#   --root_path $root_path \
+#   --data_path $data_path \
+#   --model_id TSMixer_$seq_len'_'$pred_len \
+#   --features M \
+#   --label_len $label_len \
+#   --seq_len $seq_len \
+#   --pred_len $pred_len \
+#   --enc_in $enc_in \
+#   --c_out $c_out \
+#   --loss mae \
+#   --des 'Exp' \
+#   --experiment_name $experiment_name \
+#   --num_workers 5 \
+#   --train_epochs 10 \
+#   --patience 3 \
+#   --batch_size $batch_size \
+#   --feature_idx 69 \
+#   --itr 1  | tee logs/$experiment_name/TSMixer'_'$seq_len'_'$pred_len.log &
 
 python -u run_longExp.py \
   --is_training 1 \
@@ -123,108 +123,108 @@ python -u run_longExp.py \
 wait
 echo "Pair 2 completed: TSMixer and POCO models."
 
-# Pair 3: Run Linear and DLinear models in parallel
-echo "Running Pair 3: Linear and DLinear models..."
+# # Pair 3: Run Linear and DLinear models in parallel
+# echo "Running Pair 3: Linear and DLinear models..."
 
-python -u run_longExp.py \
-  --is_training 1 \
-  --model Linear \
-  --data ActivityBehavioral \
-  --root_path $root_path \
-  --data_path $data_path \
-  --model_id Linear_$seq_len'_'$pred_len \
-  --features M \
-  --label_len $label_len \
-  --seq_len $seq_len \
-  --pred_len $pred_len \
-  --enc_in $enc_in \
-  --c_out $c_out \
-  --loss mae \
-  --des 'Exp' \
-  --experiment_name $experiment_name \
-  --num_workers 5 \
-  --train_epochs 10 \
-  --patience 3 \
-  --batch_size $batch_size \
-  --feature_idx 69 \
-  --itr 1  | tee logs/$experiment_name/Linear'_'$seq_len'_'$pred_len.log &
+# python -u run_longExp.py \
+#   --is_training 1 \
+#   --model Linear \
+#   --data ActivityBehavioral \
+#   --root_path $root_path \
+#   --data_path $data_path \
+#   --model_id Linear_$seq_len'_'$pred_len \
+#   --features M \
+#   --label_len $label_len \
+#   --seq_len $seq_len \
+#   --pred_len $pred_len \
+#   --enc_in $enc_in \
+#   --c_out $c_out \
+#   --loss mae \
+#   --des 'Exp' \
+#   --experiment_name $experiment_name \
+#   --num_workers 5 \
+#   --train_epochs 10 \
+#   --patience 3 \
+#   --batch_size $batch_size \
+#   --feature_idx 69 \
+#   --itr 1  | tee logs/$experiment_name/Linear'_'$seq_len'_'$pred_len.log &
 
-python -u run_longExp.py \
-  --is_training 1 \
-  --model DLinear \
-  --data ActivityBehavioral \
-  --root_path $root_path \
-  --data_path $data_path \
-  --model_id DLinear_$seq_len'_'$pred_len \
-  --features M \
-  --label_len $label_len \
-  --seq_len $seq_len \
-  --pred_len $pred_len \
-  --enc_in $enc_in \
-  --c_out $c_out \
-  --loss mae \
-  --des 'Exp' \
-  --experiment_name $experiment_name \
-  --num_workers 5 \
-  --train_epochs 10 \
-  --patience 3 \
-  --batch_size $batch_size \
-  --feature_idx 69 \
-  --itr 1  | tee logs/$experiment_name/DLinear'_'$seq_len'_'$pred_len.log &
+# python -u run_longExp.py \
+#   --is_training 1 \
+#   --model DLinear \
+#   --data ActivityBehavioral \
+#   --root_path $root_path \
+#   --data_path $data_path \
+#   --model_id DLinear_$seq_len'_'$pred_len \
+#   --features M \
+#   --label_len $label_len \
+#   --seq_len $seq_len \
+#   --pred_len $pred_len \
+#   --enc_in $enc_in \
+#   --c_out $c_out \
+#   --loss mae \
+#   --des 'Exp' \
+#   --experiment_name $experiment_name \
+#   --num_workers 5 \
+#   --train_epochs 10 \
+#   --patience 3 \
+#   --batch_size $batch_size \
+#   --feature_idx 69 \
+#   --itr 1  | tee logs/$experiment_name/DLinear'_'$seq_len'_'$pred_len.log &
 
-wait
-echo "Pair 3 completed: Linear and DLinear models."
+# wait
+# echo "Pair 3 completed: Linear and DLinear models."
 
-# Pair 4: Run Informer and Transformer models in parallel
-echo "Running Pair 4: Informer and Transformer models..."
+# # Pair 4: Run Informer and Transformer models in parallel
+# echo "Running Pair 4: Informer and Transformer models..."
 
-python -u run_longExp.py \
-  --is_training 1 \
-  --model Informer \
-  --data ActivityBehavioral \
-  --root_path $root_path \
-  --data_path $data_path \
-  --model_id Informer_$seq_len'_'$pred_len \
-  --features M \
-  --label_len $label_len \
-  --seq_len $seq_len \
-  --pred_len $pred_len \
-  --enc_in $enc_in \
-  --dec_in $enc_in \
-  --c_out $c_out \
-  --loss mae \
-  --des 'Exp' \
-  --experiment_name $experiment_name \
-  --train_epochs 10 \
-  --batch_size $batch_size \
-  --freq m \
-  --feature_idx 69 \
-  --itr 1  | tee logs/$experiment_name/Informer'_'$seq_len'_'$pred_len.log &
+# python -u run_longExp.py \
+#   --is_training 1 \
+#   --model Informer \
+#   --data ActivityBehavioral \
+#   --root_path $root_path \
+#   --data_path $data_path \
+#   --model_id Informer_$seq_len'_'$pred_len \
+#   --features M \
+#   --label_len $label_len \
+#   --seq_len $seq_len \
+#   --pred_len $pred_len \
+#   --enc_in $enc_in \
+#   --dec_in $enc_in \
+#   --c_out $c_out \
+#   --loss mae \
+#   --des 'Exp' \
+#   --experiment_name $experiment_name \
+#   --train_epochs 10 \
+#   --batch_size $batch_size \
+#   --freq m \
+#   --feature_idx 69 \
+#   --itr 1  | tee logs/$experiment_name/Informer'_'$seq_len'_'$pred_len.log &
 
-python -u run_longExp.py \
-  --is_training 1 \
-  --model Transformer \
-  --data ActivityBehavioral \
-  --root_path $root_path \
-  --data_path $data_path \
-  --model_id Transformer_$seq_len'_'$pred_len \
-  --features M \
-  --label_len $label_len \
-  --seq_len $seq_len \
-  --pred_len $pred_len \
-  --enc_in $enc_in \
-  --dec_in $enc_in \
-  --c_out $c_out \
-  --freq m \
-  --loss mae \
-  --des 'Exp' \
-  --experiment_name $experiment_name \
-  --batch_size $batch_size \
-  --feature_idx 69 \
-  --itr 1  | tee logs/$experiment_name/Transformer'_'$seq_len'_'$pred_len.log &
+# python -u run_longExp.py \
+#   --is_training 1 \
+#   --model Transformer \
+#   --data ActivityBehavioral \
+#   --root_path $root_path \
+#   --data_path $data_path \
+#   --model_id Transformer_$seq_len'_'$pred_len \
+#   --features M \
+#   --label_len $label_len \
+#   --seq_len $seq_len \
+#   --pred_len $pred_len \
+#   --enc_in $enc_in \
+#   --dec_in $enc_in \
+#   --c_out $c_out \
+#   --freq m \
+#   --loss mae \
+#   --des 'Exp' \
+#   --experiment_name $experiment_name \
+#   --batch_size $batch_size \
+#   --feature_idx 69 \
+#   --itr 1  | tee logs/$experiment_name/Transformer'_'$seq_len'_'$pred_len.log &
 
-wait
-echo "Pair 4 completed: Informer and Transformer models."
+# wait
+# echo "Pair 4 completed: Informer and Transformer models."
 
 echo "All experiments completed!"
 
